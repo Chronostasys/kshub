@@ -25,6 +25,20 @@ namespace LoveCraft.Kshub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerDocument(config =>
+            {
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.TermsOfService = "None";
+                    document.Info.Contact = new NSwag.OpenApiContact { };
+                    document.Info.License = new NSwag.OpenApiLicense
+                    {
+                        Name = "No lisence, all rights reserved",
+                        Url = string.Empty
+                    };
+                };
+            });
             services.AddControllers();
         }
 
@@ -35,13 +49,13 @@ namespace LoveCraft.Kshub
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseSwaggerUi3();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

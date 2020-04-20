@@ -14,9 +14,9 @@
 <script lang="ts">
 import "bulma/css/bulma.css";
 import { Component, Prop, Vue, Watch}  from 'vue-property-decorator';
-import { UserDTO } from "../../DTO/Account/UserDTO";
+import { UserDTO } from "../../DTO/Account";
 import UserItem from "../UserItem/UserItem.vue";
-import Axios from "axios";
+import Axios from 'axios'
 
 @Component({
     component: {
@@ -28,7 +28,7 @@ export default class User extends Vue{
     @Prop() src!: string;
     @Prop() number!: number;
 
-    private columnStyle: string = "is-full";
+    private columnStyle = "is-full";
     private userInformation: UserDTO[] = [];
 
     private created(){
@@ -65,7 +65,7 @@ export default class User extends Vue{
             Axios.get(this.src).then(function(response){
                 if (response.data.length) {
                     that.usersInformation = response.data;
-                    let itemComponent = that.$refs.userItemComponent as any;
+                    const itemComponent = that.$refs.userItemComponent as any;
                     that.$nextTick(function(){
                         for (let i = 0; i < itemComponent.length; i++) {
                             itemComponent[i].refresh();

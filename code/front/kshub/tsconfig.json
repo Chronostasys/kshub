@@ -2,9 +2,10 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "strict": true,
+    "strict": false,
     "jsx": "preserve",
     "importHelpers": true,
+    "allowJs": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "esModuleInterop": true,
@@ -33,7 +34,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "./src/assets/js/*.js"
   ],
   "exclude": [
     "node_modules"

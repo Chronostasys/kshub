@@ -10,7 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
+using LoveCraft.Kshub.Models;
+using AutoMapper;
+using Microsoft.Extensions.Options;
+using LoveCraft.Kshub.Dto;
+using LoveCraft.Kshub.Services;
 namespace LoveCraft.Kshub
 {
     public class Startup
@@ -40,6 +44,21 @@ namespace LoveCraft.Kshub
                 };
             });
             services.AddControllers();
+            IConfiguration config;
+            config = Configuration.GetSection(nameof(MongoDbSettings));
+            services.Configure<MongoDbSettings>(config);
+
+            //不加下面的两行第三行会报错如下：
+            //Unable to resolve service for type 'LoveCraft.Kshub.Models.IDatabaseSettings' 
+            //while attempting to activate 'LoveCraft.Kshub.Services.KshubService'.
+            services.AddSingleton<IDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+            services.AddSingleton<KshubService>();
+
+
+            services.AddAutoMapper(config=> {
+                config.CreateMap<KshubUser, KshubUserDetailDto>();
+            },typeof(KshubUser),typeof(KshubUserDetailDto));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,11 +70,20 @@ namespace LoveCraft.Kshub
             }
             
             app.UseHttpsRedirection();
-
+            //不加openApi的服务Swagger就用不了
+            app.UseOpenApi(config =>
+            {
+                config.PostProcess = (doc, rec) =>
+                {
+                    doc.Schemes.Clear();
+                    doc.Schemes.Add(NSwag.OpenApiSchema.Https);
+                    rec.Scheme = "https";
+                };
+            });
             app.UseRouting();
 
             app.UseAuthorization();
-            app.UseSwaggerUi3();
+            app.UseSwaggerUi3(confif=> { });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

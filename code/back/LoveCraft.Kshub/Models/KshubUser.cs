@@ -13,7 +13,7 @@ namespace LoveCraft.Kshub.Models
         public string Introduction { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public string Role { get; set; }
+        public List<string> Role { get; set; }
         public string SearchAbleString { get; set; }
     }
 }

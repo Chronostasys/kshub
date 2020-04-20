@@ -5,13 +5,25 @@ using System.Threading.Tasks;
 using LoveCraft.Kshub.Models;
 using HashLibrary;
 using EzPasswordValidator.Validators;
+using System.Linq;
+using MongoDB.Driver;
 namespace LoveCraft.Kshub.Services
 {
     //继承DbQuery就不需要在里面声明个成员了（继承方便啊，在里面搞个DbQuery对象就有点蠢了。
+    
     public class KshubUserServices:DbQueryServices<KshubUser>
     {
         public KshubUserServices(IDatabaseSettings settings)
             :base(settings,settings.ConnectionString){ }
+        /// <summary>
+        /// return a user spcified by id or return a default value. 
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
+        public async ValueTask<KshubUser> FindUserAsync(string studentId)
+        {
+            return await (await collection.FindAsync(f => f.StudentId == studentId)).FirstOrDefaultAsync();
+        }
         /// <summary>
         /// 学号姓名学校与数据库中匹配返回true
         /// </summary>
@@ -28,6 +40,10 @@ namespace LoveCraft.Kshub.Services
             //try-catch结构更好还是if-else更好？
             if(await CheckUserExistenceAsync(user))
             {
+                if((await FindUserAsync(user.StudentId)) != null)
+                {
+                    throw new Exception("This Id has been register already!");
+                }
                 var validater = new PasswordValidator();
                 //validater.SetLengthBounds(8, 20);
                 //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Letters);
@@ -42,9 +58,11 @@ namespace LoveCraft.Kshub.Services
             }
             else
             {
-                throw new Exception();
+                throw new Exception($"You don't belong to {user.SchoolName}!");
             }
             return user;
         }
+
+        
     }
 }

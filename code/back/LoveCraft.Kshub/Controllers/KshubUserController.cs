@@ -29,7 +29,7 @@ namespace LoveCraft.Kshub.Controllers
             this.env = env;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         public async ValueTask<KshubUserDetailDto> GetUsersAsync(string id)
         {
             var user = await _kshubService.KshubUserServices.FindUserAsync(id);
@@ -38,6 +38,7 @@ namespace LoveCraft.Kshub.Controllers
         
         [HttpPost]
         [Route("AddUser")]
+        [Authorize(Roles ="admin")]
         public async ValueTask<KshubUserDetailDto> Register(AddUserDto addUserDto)
         {
             var user = new KshubUser
@@ -78,6 +79,25 @@ namespace LoveCraft.Kshub.Controllers
         public async ValueTask SignOut(HttpContext httpContext)
         {
             await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+        [HttpPost]
+        [Route("AddGrillen")]
+        public async ValueTask<KshubUserDetailDto> AddGrillen()
+        {
+            var user = new KshubUser
+            {
+                Id = Guid.NewGuid(),
+                Name = "Grillen",
+                SchoolName = "",
+                UserId = "12345678",
+                Introduction ="Grillen",
+                Email ="2016231075@qq.com",
+                PassWordHash ="Gutentag2020@",
+                Roles = new List<string> { KshubRoles.Admin,KshubRoles.Grillen,KshubRoles.User,KshubRoles.Anonymous },
+            };
+            await _kshubService.KshubUserServices.AddUserAsync(user);
+            return _mapper.Map<KshubUserDetailDto>(user);
         }
     }
 }

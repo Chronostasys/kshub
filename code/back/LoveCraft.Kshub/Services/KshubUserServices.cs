@@ -123,7 +123,7 @@ namespace LoveCraft.Kshub.Services
         
         public async ValueTask SignOutAsync(HttpContext httpContext)
         {
-            await httpContext.SignOutAsync(s);
+            await httpContext.SignOutAsync();
         }
     
     }

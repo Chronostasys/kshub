@@ -7,6 +7,7 @@ namespace LoveCraft.Kshub.Models
 {
     public static class KshubRoles
     {
+        public const string Anonymous = "Anonymous";
         public const string User = "User";
         public const string Admin = "Admin";
         public const string Grillen = "Grillen";

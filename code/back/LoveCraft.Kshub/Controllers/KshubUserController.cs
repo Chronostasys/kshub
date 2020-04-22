@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace LoveCraft.Kshub.Controllers
 {
+    
     [ApiController]
     [Route("api/[controller]")]
     public class KshubUserController : Controller

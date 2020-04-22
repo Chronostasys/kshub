@@ -58,6 +58,7 @@ namespace LoveCraft.Kshub
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
             services.AddSingleton<KshubService>();
+            services.AddTransient<IEmailSender, EmailSender>();
 
 
             services.AddAutoMapper(config=> {

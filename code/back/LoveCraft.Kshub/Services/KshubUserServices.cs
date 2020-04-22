@@ -90,6 +90,7 @@ namespace LoveCraft.Kshub.Services
                 }
                 if (auth)
                 {
+                    //这里设置了AuthenticationProperties的
                     var authProperties = new AuthenticationProperties
                     {
                         IsPersistent = rememberMe
@@ -97,8 +98,8 @@ namespace LoveCraft.Kshub.Services
 
                     var claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.NameIdentifier, u.UserId),
-                    new Claim(ClaimTypes.Name, u.Name),
+                    new Claim(ClaimTypes.Name, u.UserId),
+                    //new Claim(ClaimTypes.Name, u.Name),
                 };
                     for (int i = 0; i < u.Roles.Count; i++)
                     {
@@ -119,5 +120,11 @@ namespace LoveCraft.Kshub.Services
             }
 
         }
+        
+        public async ValueTask SignOutAsync(HttpContext httpContext)
+        {
+            await httpContext.SignOutAsync(s);
+        }
+    
     }
 }

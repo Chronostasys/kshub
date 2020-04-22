@@ -10,6 +10,9 @@ using Microsoft.Extensions.Hosting;
 using LoveCraft.Kshub.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace LoveCraft.Kshub.Controllers
 {
     [ApiController]
@@ -70,6 +73,11 @@ namespace LoveCraft.Kshub.Controllers
                 await _kshubService.KshubUserServices.LogInAsync(user, HttpContext,rememberMe);
             }
             return _mapper.Map<KshubUserDetailDto>(user);
+        }
+
+        public async ValueTask SignOut(HttpContext httpContext)
+        {
+            await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }
 }

@@ -76,6 +76,8 @@ namespace LoveCraft.Kshub.Controllers
             return _mapper.Map<KshubUserDetailDto>(user);
         }
 
+        [HttpPost]
+        [Route("Signout")]
         public async ValueTask SignOut(HttpContext httpContext)
         {
             await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

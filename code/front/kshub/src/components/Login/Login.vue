@@ -104,7 +104,7 @@ import Axios from 'axios';
     }
 })
 export default class Login extends Vue {
-    isReg=true;
+    isReg=false;
     isShowErrorMessage=false;
     errorMessage='';
     confirmPassword='';
@@ -162,6 +162,6 @@ export default class Login extends Vue {
     max-width: 500px;
 }
 .isforgivable{
-    background-color:aliceblue;
+    background-color:white;
 }
 </style>

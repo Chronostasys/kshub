@@ -1,9 +1,9 @@
 <template>
   <div class="container is-fluid">
     <div class="notification">
-    <NewProject :modalCssClass="cssClass" @close="close"/>
+    <Login :modalCssClass="cssClass" @close="close"/>
     <div class="login">
-      <img alt="Vue logo" src="../assets/EVA.png">
+      <img alt="EVA logo" src="../assets/EVA.png">
     </div>
     <button class="button is-black" @click="login">Login</button>
   </div>

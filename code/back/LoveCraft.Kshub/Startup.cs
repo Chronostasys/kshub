@@ -15,6 +15,8 @@ using AutoMapper;
 using Microsoft.Extensions.Options;
 using LoveCraft.Kshub.Dto;
 using LoveCraft.Kshub.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace LoveCraft.Kshub
 {
     public class Startup
@@ -43,6 +45,8 @@ namespace LoveCraft.Kshub
                     };
                 };
             });
+            services.AddAuthentication();
+            services.AddAuthorization();
             services.AddControllers();
             IConfiguration config;
             config = Configuration.GetSection(nameof(MongoDbSettings));
@@ -54,11 +58,18 @@ namespace LoveCraft.Kshub
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
             services.AddSingleton<KshubService>();
+            services.AddTransient<IEmailSender, EmailSender>();
 
 
             services.AddAutoMapper(config=> {
                 config.CreateMap<KshubUser, KshubUserDetailDto>();
-            },typeof(KshubUser),typeof(KshubUserDetailDto));
+                config.CreateMap<LogInDto, KshubUser>();
+            },typeof(KshubUser),typeof(KshubUserDetailDto),typeof(LogInDto));
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(op =>
+                {
+                    op.Events.OnRedirectToAccessDenied += (o) => throw new Exception("UnAuthorized!");
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,8 +91,9 @@ namespace LoveCraft.Kshub
                     rec.Scheme = "https";
                 };
             });
+            app.UseAuthentication();
             app.UseRouting();
-
+            
             app.UseAuthorization();
             app.UseSwaggerUi3(confif=> { });
             app.UseEndpoints(endpoints =>

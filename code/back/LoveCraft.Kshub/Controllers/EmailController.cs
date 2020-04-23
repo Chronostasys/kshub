@@ -28,8 +28,11 @@ namespace LoveCraft.Kshub.Controllers
             {
                 ExpectSendTime = DateTime.UtcNow,
                 Receivers = new List<string>(),
+                RazorTemplate = "Index.cshtml",
+                Subject="test",
+                Sender="sample@limfx.pro"
             };
-            e.Receivers.Add("2016231075@qq.com");
+            e.Receivers.Add("liboxiu@dreamofalice.club");
             await emailSender.QueueEmailAsync(e);
         }
     }

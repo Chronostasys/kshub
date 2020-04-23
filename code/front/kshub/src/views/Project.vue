@@ -1,6 +1,12 @@
 <template>
   <div class="container is-fluid">
-    <label>Hello World!</label>
+    <div class="notification">
+    <NewProject :modalCssClass="cssClass" @close="close"/>
+    <div class="home">
+      <img alt="Vue logo" src="../assets/aqua.jpg">
+    </div>
+    <button class="button is-black" @click="newProj">new project</button>
+  </div>
   </div>
 </template>
 

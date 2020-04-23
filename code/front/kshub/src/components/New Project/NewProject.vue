@@ -2,7 +2,7 @@
     <div :class="modalCssClass">
         <div class=" max-500px modal-card">
             <div class=" modal-card-head has-icons-right level m0 is-gapless is-marginless">
-                <label class=" level-item level-left"> New Project</label>
+                <label class=" level-item level-left" id="Proj"> New Project</label>
                 <span class=" level-item level-right clickable icon has-text-right"
                     title="关闭"
                     @click="close">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label has-text-left">所属项目</label>
+                    <label class="label has-text-left">所属课程</label>
                         <div class="control">
                             <div class="select">
                                 <select>

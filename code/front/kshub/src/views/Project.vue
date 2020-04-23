@@ -6,6 +6,7 @@
       <img alt="Vue logo" src="../assets/aqua.jpg">
     </div>
     <button class="button is-black" @click="newProj">new project</button>
+    <button class="button is-black">my project</button>
   </div>
   </div>
 </template>

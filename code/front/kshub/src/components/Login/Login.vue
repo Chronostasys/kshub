@@ -162,6 +162,6 @@ export default class Login extends Vue {
     max-width: 500px;
 }
 .isforgivable{
-    background-color:coral;
+    background-color:aliceblue;
 }
 </style>

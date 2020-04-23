@@ -1,7 +1,7 @@
 <template>
     <div :class="modalCssClass">
         <div class=" max-500px modal-card">
-            <div class=" modal-card-head has-icons-right level m0 is-gapless is-marginless">
+            <div class=" modal-card-head has-icons-right level is-mobile m0 is-gapless is-marginless">
                 <label class=" level-item level-left"> New Project</label>
                 <span class=" level-item level-right clickable icon has-text-right"
                     title="关闭"

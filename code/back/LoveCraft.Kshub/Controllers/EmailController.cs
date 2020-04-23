@@ -8,21 +8,29 @@ using SendGrid.Helpers.Mail;
 using Microsoft.Extensions.Configuration;
 using LoveCraft.Kshub.Services;
 using LoveCraft.Kshub.Models;
+using LimFx.Business.Services;
 
 namespace LoveCraft.Kshub.Controllers
 {
-    [Route("api/[controller]")]
-    public class EmailSenderController : Controller
+    [Route("[controller]")]
+    [ApiController]
+    public class EmailController : ControllerBase
     {
-        private readonly IEmailSender _emailSender;
-        public EmailSenderController(IEmailSender emailSender)
+        EmailSender<SampleEmail> emailSender;
+        public EmailController(EmailSender<SampleEmail> emailSender)
         {
-            _emailSender = emailSender;
+            this.emailSender = emailSender;
         }
-        [HttpPost]
-        public async ValueTask SendEmailAsync(string email)
+        [HttpPost("send")]
+        public async ValueTask SendEmailAsync()
         {
-            await _emailSender.SendEmailAsync(email, "主题aaa", "单邮件测试");
+            var e = new SampleEmail()
+            {
+                ExpectSendTime = DateTime.UtcNow,
+                Receivers = new List<string>(),
+            };
+            e.Receivers.Add("2016231075@qq.com");
+            await emailSender.QueueEmailAsync(e);
         }
     }
 }

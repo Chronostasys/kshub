@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using LoveCraft.Kshub.Dto;
 using LoveCraft.Kshub.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using LimFx.Business.Services;
 
 namespace LoveCraft.Kshub
 {
@@ -58,8 +59,19 @@ namespace LoveCraft.Kshub
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
             services.AddSingleton<KshubService>();
-            services.AddTransient<IEmailSender, EmailSender>();
-
+            services.AddEmailSenderService<SampleEmail>(op =>
+            {
+                op.DatabaseName = "KshubDb";
+                op.ConnectionString = "mongodb://localhost:27017";
+                op.EmailCollectionName = "email";
+                op.Interval = 5000;
+                op.MaxEmailThreads = 5;
+                op.SenderName = "Sample";
+                op.SmtpHost = "email-smtp.ap-south-1.amazonaws.com";
+                op.SmtpSender="AKIAV5CPNJ6423VOJYOR";
+                op.SmtpPassword= "BKvwJYiv8SLtc+j2Cf4VW4j/0RSAV3T0td8XB2DSGqC9";
+                op.TemplateDir = "../Index.cshtml";
+            });
 
             services.AddAutoMapper(config=> {
                 config.CreateMap<KshubUser, KshubUserDetailDto>();

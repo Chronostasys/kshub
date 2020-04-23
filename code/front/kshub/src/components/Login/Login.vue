@@ -153,6 +153,7 @@ export default class Login extends Vue {
   }
 }
 </script>
+
 <style>
 .clickable{
     cursor: pointer;

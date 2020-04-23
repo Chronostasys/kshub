@@ -70,7 +70,7 @@ namespace LoveCraft.Kshub
                 op.SmtpHost = "email-smtp.ap-south-1.amazonaws.com";
                 op.SmtpSender="AKIAV5CPNJ6423VOJYOR";
                 op.SmtpPassword= "BKvwJYiv8SLtc+j2Cf4VW4j/0RSAV3T0td8XB2DSGqC9";
-                op.TemplateDir = "../Index.cshtml";
+                op.TemplateDir = "Index.cshtml";
             });
 
             services.AddAutoMapper(config=> {

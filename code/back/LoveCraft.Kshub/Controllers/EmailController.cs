@@ -21,15 +21,18 @@ namespace LoveCraft.Kshub.Controllers
         {
             this.emailSender = emailSender;
         }
-        [HttpPost("send")]
-        public async ValueTask SendEmailAsync()
+        [HttpPost("SendEmail")]
+        public async ValueTask SendEmailAsync(string email)
         {
             var e = new SampleEmail()
             {
                 ExpectSendTime = DateTime.UtcNow,
                 Receivers = new List<string>(),
+                Sender="sample@limfx.pro",
+                Subject="test",
+                RazorTemplate="Index.cshtml"
             };
-            e.Receivers.Add("2016231075@qq.com");
+            e.Receivers.Add(email);
             await emailSender.QueueEmailAsync(e);
         }
     }

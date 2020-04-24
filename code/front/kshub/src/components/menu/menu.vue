@@ -61,14 +61,14 @@
         </div>
     </div>
     </nav>
-    <div class="beside">
+</div>
 </template>
 
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
-import Login from '../components/Login/Login.vue'
-import NewProject from '../components/New Project/NewProject'
+import Login from '@/components/Login/Login.vue'
+import NewProject from '@/components/New Project/NewProject'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 

@@ -9,11 +9,11 @@
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator"
-import menu from '../src/components/menu/menu';
+import Menu from '../src/components/Menu/Menu';
 
 @Component({
   components:{
-    menu
+    Menu
   }
 })
 

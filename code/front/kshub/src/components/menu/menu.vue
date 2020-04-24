@@ -2,7 +2,7 @@
 <div>
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" href="">
+            <a class="navbar-item" href="/">
                 <img src="https://cdn.jsdelivr.net/gh/vmlite/s/bulma/images/bulma-logo.png" width="112" height="28">
             </a>
 
@@ -15,11 +15,11 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item">
+                <a class="navbar-item" @click="jumpHome">
                     Home
                 </a>
 
-                <a class="navbar-item">
+                <a class="navbar-item"  @click="jumpAbout">
                     About
                 </a>
 
@@ -29,7 +29,7 @@
                     </a>
 
                     <div class="navbar-dropdown">
-                        <a class="navbar-item">
+                        <a class="navbar-item" @click="jumpMyCourse">
                             My Course
                         </a>
                         <NewProject :modalCssClass="cssClass" @close="close"/>
@@ -85,6 +85,15 @@ export default class Menu extends Vue {
   }
   close(){
     this.cssClass = 'modal';
+  }
+  jumpHome(){
+      this.$router.push("/");
+  }
+  jumpAbout(){
+      this.$router.push("/About");
+  }
+  jumpMyCourse(){
+      this.$router.push("/MyProject");
   }
 }
 

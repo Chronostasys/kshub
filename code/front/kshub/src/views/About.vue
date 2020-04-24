@@ -1,4 +1,5 @@
 <template>
+<div>
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="">
@@ -60,6 +61,9 @@
     </div>
   </div>
 </nav>
+<div class="beside">
+</div>
+</div>
 </template>
 
 <script>

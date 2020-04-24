@@ -2,7 +2,7 @@
     <div :class="modalCssClass">
         <div class=" max-500px modal-card">
             <div class=" modal-card-head has-icons-right level is-mobile m0 is-gapless is-marginless">
-                <label class=" level-item level-left" id="Proj"> New Project</label>
+                <label class=" level-item level-left"> New course</label>
                 <span class=" level-item level-right clickable icon has-text-right"
                     title="关闭"
                     @click="close">
@@ -11,7 +11,7 @@
             </div>
             <div class=" modal-card-body">
                 <div class="field">
-                    <label class="label">项目名称</label>
+                    <label class="label">课程名称</label>
                     <div class="control">
                         <input class="input" type="text" placeholder="项目名">
                     </div>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label has-text-left">所属课程</label>
+                    <label class="label has-text-left">所属课题组</label>
                         <div class="control">
                             <div class="select">
                                 <select>
@@ -54,7 +54,7 @@
             <div class=" modal-card-foot">
                 <div class="field is-grouped">
                     <div class="control">
-                        <button class="button is-link">发布</button>
+                        <button class="button is-link">创建</button>
                     </div>
                     <div class="control">
                         <button class="button is-link is-light" @click="close">取消

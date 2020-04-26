@@ -16,7 +16,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="is-active">
+                    <a href="#" class="">
                     <span class="icon"><i class="fa fa-table"></i></span> My course 2
                     </a>
                         <a href="#">

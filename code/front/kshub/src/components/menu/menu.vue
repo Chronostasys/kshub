@@ -36,12 +36,9 @@
                         <a class="navbar-item" @click="newProj">
                             New Course
                         </a>
-                        <a class="navbar-item">
-                            Contact
-                        </a>
                         <hr class="navbar-divider">
                         <a class="navbar-item">
-                            Report an issue
+                            Something else
                         </a>
                     </div>
                 </div>

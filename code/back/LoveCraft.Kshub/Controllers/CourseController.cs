@@ -14,23 +14,23 @@ namespace LoveCraft.Kshub.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CourseController:Controller
+    public class CourseController : Controller
     {
         private readonly KshubService _kshubService;
         readonly IMapper _mapper;
         IHostEnvironment env;
-        public CourseController(KshubService kshubService,IMapper mapper,IHostEnvironment hostEnvironment)
+        public CourseController(KshubService kshubService, IMapper mapper, IHostEnvironment hostEnvironment)
         {
             _kshubService = kshubService;
             _mapper = mapper;
             env = hostEnvironment;
         }
-        
+
         [HttpGet]
         [Route("GetCourse")]
         public async ValueTask<CourseDetailDto> GetCourseAsync(int courseId)
         {
-            var co=await _kshubService.CourseServices.FindCourseAsync(courseId);
+            var co = await _kshubService.CourseServices.FindCourseAsync(courseId);
             return _mapper.Map<CourseDetailDto>(co);
         }
 
@@ -40,7 +40,7 @@ namespace LoveCraft.Kshub.Controllers
         {
             var cos = await _kshubService.CourseServices.FindCourseAsync(name);
             List<CourseDetailDto> listdto = new List<CourseDetailDto>();
-            foreach(var item in cos)
+            foreach (var item in cos)
             {
                 listdto.Add(_mapper.Map<CourseDetailDto>(item));
             }
@@ -49,7 +49,7 @@ namespace LoveCraft.Kshub.Controllers
 
         [HttpPost]
         [Route("AddCourse")]
-        [Authorize(Roles =KshubRoles.Admin)]
+        [Authorize(Roles = KshubRoles.Admin)]
         public async ValueTask<CourseDetailDto> AddCourse(AddCourseDto addCourseDto)
         {
             Course course = new Course
@@ -62,4 +62,5 @@ namespace LoveCraft.Kshub.Controllers
             await _kshubService.CourseServices.AddCourseAsync(course);
             return _mapper.Map<CourseDetailDto>(course);
         }
+    }
 }

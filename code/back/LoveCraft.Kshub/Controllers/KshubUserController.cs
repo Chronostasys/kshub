@@ -39,7 +39,7 @@ namespace LoveCraft.Kshub.Controllers
         
         [HttpPost]
         [Route("AddUser")]
-        [Authorize(Roles ="admin")]
+        //[Authorize(Roles ="admin")]
         public async ValueTask<KshubUserDetailDto> Register(AddUserDto addUserDto)
         {
             var user = new KshubUser

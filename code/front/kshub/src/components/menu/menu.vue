@@ -1,5 +1,7 @@
 <template>
 <div>
+    <Login :modalCssClass="loginClass"
+        @close="closeLogin"></Login>
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
@@ -49,7 +51,7 @@
                         <a class="button is-primary">
                             <strong>Sign up</strong>
                         </a>
-                        <a class="button is-light">
+                        <a class="button is-light" @click="login">
                             Log in
                         </a>
                     </div>
@@ -71,12 +73,20 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component({
   components:{
-    NewProject
+    NewProject,
+    Login
   }
 })
 
 export default class Menu extends Vue {
   cssClass = 'modal';
+  loginClass = 'modal'
+  login(){
+    this.loginClass = 'modal is-active';
+  }
+  closeLogin(){
+    this.loginClass = 'modal';
+  }
   newProj(){
     this.cssClass = 'modal is-active';
   }

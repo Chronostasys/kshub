@@ -6,7 +6,7 @@
                 <span class=" clickable  icon is-right" 
                     title="关闭"
                     @click="close">
-                    <i class="fa fa-user-circle-o"></i>
+                    <i class="fa fa-close"></i>
                 </span>
             </div>
             <div class="isforgivable modal-card-body">
@@ -33,7 +33,7 @@
                             :placeholder="'请输入邮箱'" 
                             class=" input"
                             @click="removeError"
-                            v-model="userdata.email"
+                            v-model="userdata.studentId"
                         />
                     </p>
                 </div>
@@ -109,19 +109,23 @@ export default class Login extends Vue {
     errorMessage='';
     confirmPassword='';
     userdata:any={
-            id: "",
-            email: "",
-            rememberme: false,
-            password: "",
-        };
-    modalCssClass="is-active modal";
+        name: "string",
+        studentId: null,
+        schoolName: "string",
+        introduction: "string",
+        email: "string",
+        role: null
+    };
+    @Prop()
+    modalCssClass='modal';
     close(){
-        this.modalCssClass = 'modal';
+        this.$emit('close');
     }
     login(){
-        Axios.post('/api/User/LogIn',this.userdata).then((params)=>{
+        Axios.post('api/kshubuser/login',this.userdata).then((params)=>{
             var id = params.data.id;
             this.userdata.id=id;
+            console.log(params.data);
         }).catch((err)=>{
             console.log(err);
             alert(err);

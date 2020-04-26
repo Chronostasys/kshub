@@ -77,8 +77,8 @@ namespace LoveCraft.Kshub
                 config.CreateMap<KshubUser, KshubUserDetailDto>();
                 config.CreateMap<LogInDto, KshubUser>();
                 config.CreateMap<Course, CourseDetailDto>();
-            },typeof(KshubUser),typeof(KshubUserDetailDto),typeof(LogInDto),typeof(Course)
-            ,typeof(CourseDetailDto));
+            }, typeof(KshubUser), typeof(KshubUserDetailDto), typeof(LogInDto), typeof(Course)
+            , typeof(CourseDetailDto));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(op =>
                 {
@@ -99,12 +99,12 @@ namespace LoveCraft.Kshub
             //不加openApi的服务Swagger就用不了
             app.UseOpenApi(config =>
             {
-                config.PostProcess = (doc, rec) =>
-                {
-                    doc.Schemes.Clear();
-                    doc.Schemes.Add(NSwag.OpenApiSchema.Https);
-                    rec.Scheme = "https";
-                };
+                //config.PostProcess = (doc, rec) =>
+                //{
+                //    doc.Schemes.Clear();
+                //    doc.Schemes.Add(NSwag.OpenApiSchema.Https);
+                //    rec.Scheme = "https";
+                //};
             });
             app.UseAuthentication();
             app.UseRouting();

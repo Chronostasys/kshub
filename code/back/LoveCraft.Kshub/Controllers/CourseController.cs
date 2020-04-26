@@ -7,6 +7,9 @@ using AutoMapper;
 using Microsoft.Extensions.Hosting;
 using LoveCraft.Kshub.Services;
 using LoveCraft.Kshub.Dto;
+using Microsoft.AspNetCore.Authorization;
+using LoveCraft.Kshub.Models;
+
 namespace LoveCraft.Kshub.Controllers
 {
     [ApiController]
@@ -43,5 +46,20 @@ namespace LoveCraft.Kshub.Controllers
             }
             return listdto;
         }
-    }
+
+        [HttpPost]
+        [Route("AddCourse")]
+        [Authorize(Roles =KshubRoles.Admin)]
+        public async ValueTask<CourseDetailDto> AddCourse(AddCourseDto addCourseDto)
+        {
+            Course course = new Course
+            {
+                CourseId = addCourseDto.CourseId,
+                Id = Guid.NewGuid(),
+                Description = addCourseDto.Description,
+                Name = addCourseDto.Name
+            };
+            await _kshubService.CourseServices.AddCourseAsync(course);
+            return _mapper.Map<CourseDetailDto>(course);
+        }
 }

@@ -10,6 +10,11 @@ namespace LoveCraft.Kshub.Dto
         public int CourseId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-
+    }
+    public class AddCourseDto
+    {
+        public int CourseId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

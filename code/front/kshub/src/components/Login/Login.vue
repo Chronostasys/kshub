@@ -114,6 +114,7 @@ export default class Login extends Vue {
             rememberme: false,
             password: "",
         };
+    @Prop()
     modalCssClass="is-active modal";
     close(){
         this.modalCssClass = 'modal';

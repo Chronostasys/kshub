@@ -5,7 +5,7 @@
     <div class="login">
       <img alt="EVA logo" src="../assets/EVA.png">
     </div>
-    <button class="button is-black" @click="login">Login</button>
+    <button class="button is-black" @click="login">login</button>
   </div>
   </div>
 </template>
@@ -25,6 +25,11 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 export default class Home extends Vue {
   cssClass = 'modal';
+  heightlight = 'modal';
+  change(){
+    this.cssClass = 'modal is-active';
+  }
+
   login(){
     this.cssClass = 'modal is-active';
   }

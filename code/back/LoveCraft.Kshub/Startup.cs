@@ -76,7 +76,9 @@ namespace LoveCraft.Kshub
             services.AddAutoMapper(config=> {
                 config.CreateMap<KshubUser, KshubUserDetailDto>();
                 config.CreateMap<LogInDto, KshubUser>();
-            },typeof(KshubUser),typeof(KshubUserDetailDto),typeof(LogInDto));
+                config.CreateMap<Course, CourseDetailDto>();
+            },typeof(KshubUser),typeof(KshubUserDetailDto),typeof(LogInDto),typeof(Course)
+            ,typeof(CourseDetailDto));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(op =>
                 {

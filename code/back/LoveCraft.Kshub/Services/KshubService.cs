@@ -12,12 +12,14 @@ namespace LoveCraft.Kshub.Services
     public class KshubService
     {
         public KshubUserServices KshubUserServices { get; }
+        public CourseServices CourseServices { get; }
         public KshubService(IDatabaseSettings databaseSettings,IHostEnvironment env,IMapper mapper)
         {
             BsonSerializer.RegisterIdGenerator(typeof(Guid), GuidGenerator.Instance);
             try
             {
                 KshubUserServices = new KshubUserServices(databaseSettings);
+                CourseServices = new CourseServices(databaseSettings);
                 this.env = env;
             }
             catch (Exception e)

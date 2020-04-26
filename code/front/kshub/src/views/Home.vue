@@ -1,5 +1,6 @@
 <template>
   <div class="container is-fluid">
+    <AlertWindow></AlertWindow>
     <label>Hello World!</label>
   </div>
 </template>
@@ -10,10 +11,13 @@ import HelloWorld from '@/components/HelloWorld.vue'
 import Login from '../components/Login/Login.vue'
 import NewProject from '../components/New Project/NewProject'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Editor,AlertWindow } from '@limfx/vue-components';
 
 @Component({
   components:{
-    NewProject
+    NewProject,
+    Editor,
+    AlertWindow
   }
 })
 

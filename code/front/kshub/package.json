@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@limfx/vue-components": "^0.1.5",
     "@types/axios": "^0.14.0",
     "axios": "^0.19.2",
     "bulma": "^0.8.2",

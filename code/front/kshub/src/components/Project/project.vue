@@ -17,6 +17,7 @@
                     @click="close">
                     <i class=" fa fa-close"></i>
                 </span>
+                <Editor></Editor>
             </div>
             <div class=" modal-card-body">
                 <div class="field">
@@ -115,10 +116,12 @@ import HelloWorld from '@/components/HelloWorld.vue'
 import "bulma/css/bulma.css";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import Axios from 'axios';
+import { Editor } from '@limfx/vue-components'
 
 @Component({
     components:{
-        HelloWorld
+        HelloWorld,
+        Editor
     }
 })
 export default class Login extends Vue {
@@ -130,6 +133,7 @@ export default class Login extends Vue {
     @Prop()
     modalCssClass:string;
     close(){
+        
         this.$emit('close')
     }
     login(){

@@ -91,6 +91,7 @@ namespace LoveCraft.Kshub
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStaticFiles();
             
             app.UseHttpsRedirection();
             //不加openApi的服务Swagger就用不了
@@ -111,6 +112,7 @@ namespace LoveCraft.Kshub
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }

@@ -339,3 +339,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 limfxinfo.json
+/code/back/LoveCraft.Kshub/wwwroot

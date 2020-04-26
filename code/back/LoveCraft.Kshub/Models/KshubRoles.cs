@@ -12,4 +12,10 @@ namespace LoveCraft.Kshub.Models
         public const string Admin = "Admin";
         public const string Grillen = "Grillen";
     }
+    public static class CourseRoles
+    {
+        public const string User = "CourseUser";
+        public const string Admin = "CourseAdmin";
+
+    }
 }

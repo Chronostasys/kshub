@@ -5,7 +5,7 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
-                <img src="https://cdn.jsdelivr.net/gh/vmlite/s/bulma/images/bulma-logo.png" width="112" height="28">
+                <img src="@/assets/lovecraft.png">
             </a>
 
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -15,7 +15,7 @@
             </a>
         </div>
 
-        <div id="navbarBasicExample" class="navbar-menu">
+        <div id="navbarBasicExample" class="navbar-menu is-mobile">
             <div class="navbar-start">
                 <a class="navbar-item" @click="jumpHome">
                     Home
@@ -48,10 +48,7 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-primary">
-                            <strong>Sign up</strong>
-                        </a>
-                        <a class="button is-light" @click="login">
+                        <a class="button is-link" @click="login">
                             Log in
                         </a>
                     </div>
@@ -111,5 +108,8 @@ export default class Menu extends Vue {
     position: absolute;
     width: 24px;
     height: 48px;
+}
+img{
+    clip: 0px 112px 50px 0px;
 }
 </style>

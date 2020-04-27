@@ -103,13 +103,19 @@ export default class Menu extends Vue {
 
 </script>
 
+
+<style scoped>
+/* 并不想让这个样式全局起作用 */
+img{
+    width: 128px;
+    object-fit: cover;
+}
+</style>
+
 <style>
 .fix{
     position: absolute;
     width: 24px;
     height: 48px;
-}
-img{
-    clip: 0px 112px 50px 0px;
 }
 </style>

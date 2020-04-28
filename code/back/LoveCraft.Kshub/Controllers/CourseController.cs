@@ -48,9 +48,27 @@ namespace LoveCraft.Kshub.Controllers
         }
 
         [HttpPost]
+        [Route("Update")]
+        public async ValueTask<CourseDetailDto> UpdateCourseAsync(Guid courseId,CourseDto courseDto)
+        {
+            var user = await _kshubService.KshubUserServices.FindUserAsync(User.Identity.Name);
+            var p=await _kshubService.UserInCourseService.GetInfoAsync(courseId, user.Id);
+            var cor = await _kshubService.CourseServices.FindCourseAsync(courseId);
+
+            if (p.Roles.Contains(CourseRoles.Owner))
+            {
+                cor.CourseId = courseDto.CourseId;
+                cor.Name = courseDto.Name;
+                cor.Description = courseDto.Description;
+            }
+            cor= await _kshubService.CourseServices.UpdateCourseAsync(cor);
+
+            return _mapper.Map<CourseDetailDto>(cor);
+        }
+        [HttpPost]
         [Route("AddCourse")]
         [Authorize(Roles = KshubRoles.Admin)]
-        public async ValueTask<CourseDetailDto> AddCourseAsync(AddCourseDto addCourseDto,string userId)
+        public async ValueTask<CourseDetailDto> AddCourseAsync(CourseDto addCourseDto,string userId)
         {
             Course course = new Course
             {
@@ -102,5 +120,7 @@ namespace LoveCraft.Kshub.Controllers
             await _kshubService.UserInCourseService.AddUserInCourseAsync(course.Id,user.Id);
             return _mapper.Map<KshubUserDetailDto>(user);
         }
+
+        
     }
 }

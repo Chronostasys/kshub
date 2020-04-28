@@ -23,6 +23,14 @@ namespace LoveCraft.Kshub.Services
             var co = await (await collection.FindAsync(item => item.Id==guid)).FirstOrDefaultAsync();
             return co;
         }
+        public async ValueTask<Course> UpdateAsync(Course course)
+        {
+            await UpDateAsync(course.Id, Builders<Course>.Update
+                .Set(t => t.Name, course.Name)
+                .Set(t => t.CourseId, course.CourseId)
+                .Set(t => t.Description, course.Description));
+            return course;
+        }
         public async ValueTask<List<Course>> FindCourseAsync(string name)
         {
             var cos =(await collection.FindAsync(item => item.Name == name)).ToList();

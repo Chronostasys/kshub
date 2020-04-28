@@ -1,6 +1,19 @@
 <template>
-  <div class="container is-fluid">
-    <label>Hello World!</label>
+  <div>
+    <html>
+    <body>
+      <section class="main-content columns is-fullheight absolute">
+        <aside class="fix column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile">
+          <div>Hello World</div>
+        </aside>
+      </section>
+      <section class="container column is-10 is-fullheight-with-navbar">
+        <br/>
+        <br/>
+        <div>Bye~</div>
+      </section>
+    </body>
+    </html>
   </div>
 </template>
 

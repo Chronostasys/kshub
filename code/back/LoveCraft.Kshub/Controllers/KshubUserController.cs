@@ -63,8 +63,6 @@ namespace LoveCraft.Kshub.Controllers
         public async ValueTask<KshubUserDetailDto> LogIn(LogInDto logInDto,bool rememberMe)
         {
             var user = await _kshubService.KshubUserServices.FindUserAsync(logInDto.StudentId);
-
-            //var password = _kshubService.KshubUserServices.HashPasswordWithSalt(logInDto.Password);
             if (user == null)
             {
                 throw new Exception("Username or Password is wrong.");

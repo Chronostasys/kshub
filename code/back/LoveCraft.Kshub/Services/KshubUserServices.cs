@@ -30,6 +30,11 @@ namespace LoveCraft.Kshub.Services
             var user =await (await collection.FindAsync(f => f.UserId == userId)).FirstOrDefaultAsync();
             return user;
         }
+        public async ValueTask<KshubUser> FindUserAsync(Guid userId)
+        {
+            var user = await (await collection.FindAsync(f => f.Id == userId)).FirstOrDefaultAsync();
+            return user;
+        }
         public string HashPasswordWithSalt(string password)
         {
             var pwhash = HashLibrary.HashedPassword.New(password);

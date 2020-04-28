@@ -50,7 +50,7 @@ namespace LoveCraft.Kshub.Controllers
         [HttpPost]
         [Route("AddCourse")]
         [Authorize(Roles = KshubRoles.Admin)]
-        public async ValueTask<CourseDetailDto> AddCourse(AddCourseDto addCourseDto,string userId)
+        public async ValueTask<CourseDetailDto> AddCourseAsync(AddCourseDto addCourseDto,string userId)
         {
             Course course = new Course
             {
@@ -65,6 +65,32 @@ namespace LoveCraft.Kshub.Controllers
             return _mapper.Map<CourseDetailDto>(course);
         }
 
-
+        [HttpPost]
+        [Route("AddCourseAdmin")]
+        public async ValueTask<KshubUserDetailDto> AddAdminAsync(Guid courseId,Guid addAdminId)
+        {
+            var owner= await _kshubService.KshubUserServices.FindUserAsync(HttpContext.User.Identity.Name);
+            var user = await _kshubService.KshubUserServices.FindUserAsync(addAdminId);
+            var curinfo =await _kshubService.UserInCourseService.GetInfoAsync(courseId, owner.Id);
+            var addinfo = await _kshubService.UserInCourseService.GetInfoAsync(courseId, addAdminId);
+            //当前用户不是对应course的owner或者当前用户不是该course的成员
+            if (curinfo==null||!curinfo.Roles.Contains(CourseRoles.Owner))
+            {
+                throw new Exception("You have no access to add a admin!");
+            }
+            else
+            {
+                if (addinfo == null)
+                {
+                    await _kshubService.UserInCourseService.AddAdminInCouseAsync(courseId, addAdminId);
+                }
+                else
+                {
+                    addinfo.Roles.Add(CourseRoles.Admin);
+                    await _kshubService.UserInCourseService.UpdateAsync(addinfo);
+                }
+                return _mapper.Map<KshubUserDetailDto>(user);
+            }
+        }
     }
 }

@@ -92,5 +92,15 @@ namespace LoveCraft.Kshub.Controllers
                 return _mapper.Map<KshubUserDetailDto>(user);
             }
         }
+
+        [HttpPost]
+        [Route("AddUser")]
+        public async ValueTask<KshubUserDetailDto> AddUserAsync(int courseId,string userId)
+        {
+            var course = await _kshubService.CourseServices.FindCourseAsync(courseId);
+            var user = await _kshubService.KshubUserServices.FindUserAsync(userId);
+            await _kshubService.UserInCourseService.AddUserInCourseAsync(course.Id,user.Id);
+            return _mapper.Map<KshubUserDetailDto>(user);
+        }
     }
 }

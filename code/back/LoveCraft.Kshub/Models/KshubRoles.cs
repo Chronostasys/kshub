@@ -16,6 +16,6 @@ namespace LoveCraft.Kshub.Models
     {
         public const string User = "CourseUser";
         public const string Admin = "CourseAdmin";
-
+        public const string Owner = "CourseOwner";
     }
 }

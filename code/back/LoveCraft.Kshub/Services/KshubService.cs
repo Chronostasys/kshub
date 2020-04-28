@@ -13,6 +13,7 @@ namespace LoveCraft.Kshub.Services
     {
         public KshubUserServices KshubUserServices { get; }
         public CourseServices CourseServices { get; }
+        public UserInCourseService UserInCourseService { get; }
         public KshubService(IDatabaseSettings databaseSettings,IHostEnvironment env,IMapper mapper)
         {
             BsonSerializer.RegisterIdGenerator(typeof(Guid), GuidGenerator.Instance);
@@ -20,6 +21,7 @@ namespace LoveCraft.Kshub.Services
             {
                 KshubUserServices = new KshubUserServices(databaseSettings);
                 CourseServices = new CourseServices(databaseSettings);
+                UserInCourseService = new UserInCourseService(databaseSettings);
                 this.env = env;
             }
             catch (Exception e)

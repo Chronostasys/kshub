@@ -103,7 +103,7 @@ namespace LoveCraft.Kshub.Services
 
                     var claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.Name, u.UserId),
+                    new Claim(ClaimTypes.Name, u.Id.ToString()),
                     //new Claim(ClaimTypes.Name, u.Name),
                 };
                     for (int i = 0; i < u.Roles.Count; i++)

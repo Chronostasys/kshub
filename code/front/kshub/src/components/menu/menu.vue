@@ -1,5 +1,6 @@
 <template>
 <div>
+  <NewProject :modalCssClass="cssClass" @close="close"/>
     <Login :modalCssClass="loginClass"
         @close="closeLogin"></Login>
     <nav class="navbar is-white" role="navigation" aria-label="main navigation">
@@ -24,7 +25,6 @@
                 <a class="navbar-item"  @click="jumpAbout">
                     About
                 </a>
-
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                     Course
@@ -34,7 +34,6 @@
                         <a class="navbar-item" @click="jumpMyCourse">
                             My Course
                         </a>
-                        <NewProject :modalCssClass="cssClass" @close="close"/>
                         <a class="navbar-item" @click="newProj">
                             New Course
                         </a>
@@ -59,11 +58,11 @@
 </div>
 </template>
 
-<script>
+<script lang="ts">
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 import Login from '@/components/Login/Login.vue'
-import NewProject from '@/components/New Project/NewProject'
+import NewProject from '@/components/New Project/NewProject.vue'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 
@@ -76,6 +75,8 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 })
 
 export default class Menu extends Vue {
+  @Prop()
+  userInfo!:any;
   cssClass = 'modal';
   loginClass = 'modal'
   login(){

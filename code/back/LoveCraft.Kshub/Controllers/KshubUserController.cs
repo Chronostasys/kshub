@@ -62,24 +62,37 @@ namespace LoveCraft.Kshub.Controllers
         [Route("LogIn")]
         public async ValueTask<KshubUserDetailDto> LogIn(LogInDto logInDto,bool rememberMe)
         {
-            var user = await _kshubService.KshubUserServices.FindUserAsync(logInDto.StudentId);
-            if (user == null)
+            if (!User.Identity.IsAuthenticated)
             {
-                throw new Exception("Username or Password is wrong.");
+                return _mapper.Map<KshubUserDetailDto>(await _kshubService.KshubUserServices.SignInAsAnonymous(HttpContext));
+            }
+            else if (string.IsNullOrWhiteSpace(logInDto.StudentId))
+            {
+                return await _kshubService.KshubUserServices.FindFirstAsync(u => u.UserId == logInDto.StudentId,
+                    u => _mapper.Map<KshubUserDetailDto>(u));
             }
             else
             {
-                user.PassWordHash = logInDto.Password;
-                await _kshubService.KshubUserServices.LogInAsync(user, HttpContext,rememberMe);
+                var user = await _kshubService.KshubUserServices.FindUserAsync(logInDto.StudentId);
+                if (user == null)
+                {
+                    throw new Exception("Username or Password is wrong.");
+                }
+                else
+                {
+                    user.PassWordHash = logInDto.Password;
+                    await _kshubService.KshubUserServices.LogInAsync(user, HttpContext, rememberMe);
+                }
+                return _mapper.Map<KshubUserDetailDto>(user);
             }
-            return _mapper.Map<KshubUserDetailDto>(user);
         }
 
         [HttpPost]
         [Route("Signout")]
-        public async ValueTask SignOut(HttpContext httpContext)
+        public async ValueTask<KshubUserDetailDto> SignOut()
         {
-            await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return _mapper.Map<KshubUserDetailDto>(await _kshubService.KshubUserServices.SignInAsAnonymous(HttpContext));
         }
 
         [HttpPost]

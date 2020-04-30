@@ -15,6 +15,9 @@ using AutoMapper;
 using Microsoft.Extensions.Options;
 using LoveCraft.Kshub.Dto;
 using LoveCraft.Kshub.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using LimFx.Business.Services;
+
 namespace LoveCraft.Kshub
 {
     public class Startup
@@ -43,6 +46,8 @@ namespace LoveCraft.Kshub
                     };
                 };
             });
+            services.AddAuthentication();
+            services.AddAuthorization();
             services.AddControllers();
             IConfiguration config;
             config = Configuration.GetSection(nameof(MongoDbSettings));
@@ -54,11 +59,31 @@ namespace LoveCraft.Kshub
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
             services.AddSingleton<KshubService>();
-
+            services.AddEmailSenderService<SampleEmail>(op =>
+            {
+                op.DatabaseName = "KshubDb";
+                op.ConnectionString = "mongodb://localhost:27017";
+                op.EmailCollectionName = "email";
+                op.Interval = 5000;
+                op.MaxEmailThreads = 5;
+                op.SenderName = "Sample";
+                op.SmtpHost = "email-smtp.ap-south-1.amazonaws.com";
+                op.SmtpSender="AKIAV5CPNJ6423VOJYOR";
+                op.SmtpPassword= "BKvwJYiv8SLtc+j2Cf4VW4j/0RSAV3T0td8XB2DSGqC9";
+                op.TemplateDir = "Index.cshtml";
+            });
 
             services.AddAutoMapper(config=> {
                 config.CreateMap<KshubUser, KshubUserDetailDto>();
-            },typeof(KshubUser),typeof(KshubUserDetailDto));
+                config.CreateMap<LogInDto, KshubUser>();
+                config.CreateMap<Course, CourseDetailDto>();
+            }, typeof(KshubUser), typeof(KshubUserDetailDto), typeof(LogInDto), typeof(Course)
+            , typeof(CourseDetailDto));
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(op =>
+                {
+                    op.Events.OnRedirectToAccessDenied += (o) => throw new Exception("UnAuthorized!");
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,25 +93,28 @@ namespace LoveCraft.Kshub
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStaticFiles();
             
             app.UseHttpsRedirection();
             //不加openApi的服务Swagger就用不了
             app.UseOpenApi(config =>
             {
-                config.PostProcess = (doc, rec) =>
-                {
-                    doc.Schemes.Clear();
-                    doc.Schemes.Add(NSwag.OpenApiSchema.Https);
-                    rec.Scheme = "https";
-                };
+                //config.PostProcess = (doc, rec) =>
+                //{
+                //    doc.Schemes.Clear();
+                //    doc.Schemes.Add(NSwag.OpenApiSchema.Https);
+                //    rec.Scheme = "https";
+                //};
             });
+            app.UseAuthentication();
             app.UseRouting();
-
+            
             app.UseAuthorization();
             app.UseSwaggerUi3(confif=> { });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }

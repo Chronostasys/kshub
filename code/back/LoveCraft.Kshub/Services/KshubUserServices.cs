@@ -5,24 +5,40 @@ using System.Threading.Tasks;
 using LoveCraft.Kshub.Models;
 using HashLibrary;
 using EzPasswordValidator.Validators;
-using System.Linq;
 using MongoDB.Driver;
+using LimFx.Business.Services;
+using LimFx.Business.Models;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace LoveCraft.Kshub.Services
 {
-    //继承DbQuery就不需要在里面声明个成员了（继承方便啊，在里面搞个DbQuery对象就有点蠢了。
-    
-    public class KshubUserServices:DbQueryServices<KshubUser>
+
+    public class KshubUserServices/*<TUser>*/ : UserService<KshubUser>
     {
         public KshubUserServices(IDatabaseSettings settings)
-            :base(settings,settings.ConnectionString){ }
+            : base(settings, settings.ConnectionString) { }
         /// <summary>
         /// return a user spcified by id or return a default value. 
         /// </summary>
-        /// <param name="studentId"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        public async ValueTask<KshubUser> FindUserAsync(string studentId)
+        public async ValueTask<KshubUser> FindUserAsync(string userId)
         {
-            return await (await collection.FindAsync(f => f.StudentId == studentId)).FirstOrDefaultAsync();
+            var user =await (await collection.FindAsync(f => f.UserId == userId)).FirstOrDefaultAsync();
+            return user;
+        }
+        public async ValueTask<KshubUser> FindUserAsync(Guid userId)
+        {
+            var user = await (await collection.FindAsync(f => f.Id == userId)).FirstOrDefaultAsync();
+            return user;
+        }
+        public string HashPasswordWithSalt(string password)
+        {
+            var pwhash = HashLibrary.HashedPassword.New(password);
+            return pwhash.Hash + pwhash.Salt;
         }
         /// <summary>
         /// 学号姓名学校与数据库中匹配返回true
@@ -38,9 +54,9 @@ namespace LoveCraft.Kshub.Services
         public async ValueTask<KshubUser> AddUserAsync(KshubUser user)
         {
             //try-catch结构更好还是if-else更好？
-            if(await CheckUserExistenceAsync(user))
+            if (await CheckUserExistenceAsync(user))
             {
-                if((await FindUserAsync(user.StudentId)) != null)
+                if ((await FindUserAsync(user.UserId)) != null)
                 {
                     throw new Exception("This Id has been register already!");
                 }
@@ -48,12 +64,11 @@ namespace LoveCraft.Kshub.Services
                 //validater.SetLengthBounds(8, 20);
                 //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Letters);
                 //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Numbers);
-                if (!validater.Validate(user.Password))
+                if (!validater.Validate(user.PassWordHash))
                 {
                     throw new Exception("Password is not strong enough!");
                 }
-                var pwhash = HashLibrary.HashedPassword.New(user.Password);
-                user.Password = pwhash.Hash + pwhash.Salt;
+                user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
                 await AddAsync(user);
             }
             else
@@ -62,7 +77,59 @@ namespace LoveCraft.Kshub.Services
             }
             return user;
         }
+        public async ValueTask<bool> LogInAsync(KshubUser user, HttpContext httpContext, bool rememberMe = true, bool validPassword = true)
+        {
+            {
+                var u = await FindUserAsync(user.UserId);
+                if (u == null)
+                {
+                    throw new Exception("Cannot find this Id");
+                }
+                bool auth = true;
+                if (validPassword)
+                {
+                    var hash = u.PassWordHash.Substring(0, 32);
+                    var salt = u.PassWordHash.Substring(32);
+                    var h = new HashedPassword(hash, salt);
+                    auth = h.Check(user.PassWordHash);
+                }
+                if (auth)
+                {
+                    //这里设置了AuthenticationProperties的
+                    var authProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = rememberMe
+                    };
 
+                    var claims = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.Name, u.Id.ToString()),
+                    //new Claim(ClaimTypes.Name, u.Name),
+                };
+                    for (int i = 0; i < u.Roles.Count; i++)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, u.Roles[i]));
+                    }
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var c = new ClaimsPrincipal();
+
+                    await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity), authProperties);
+                    return true;
+                }
+                else
+                {
+
+                    throw new Exception("Password and email do not match!");
+                }
+            }
+
+        }
         
+        public async ValueTask SignOutAsync(HttpContext httpContext)
+        {
+            await httpContext.SignOutAsync();
+        }
+    
     }
 }

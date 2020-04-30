@@ -1,14 +1,48 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/Project">Project</router-link>|
-      <router-link to="/login">Login</router-link>
-    </div>
-    <router-view/>
+    <Menu :userInfo="userInfo"/>
+    <router-view
+      :userInfo="userInfo"
+    />
   </div>
 </template>
+
+<script lang="ts">
+// @ is an alias to /src
+import HelloWorld from '@/components/HelloWorld.vue'
+import { Component, Prop, Vue, Watch } from "vue-property-decorator"
+import Menu from '@/components/Menu/Menu.vue';
+import Axios from 'axios';
+import STRINGS from '@/common/STRINGS'
+import { UserInfo } from '@/common/STRINGS'
+
+
+@Component({
+  components:{
+    Menu
+  }
+})
+
+export default class Home extends Vue {
+  cssClass = 'modal';
+  userInfo:any={};
+  created(){
+    Axios.post(STRINGS.loginApi,{}).then(res=>{
+      this.userInfo = res.data;
+    })
+  }
+  
+  newProj(){
+    this.cssClass = 'modal is-active';
+  }
+  close(){
+    this.cssClass = 'modal';
+  }
+  jumpHome(){
+    this.$router.push("/");
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
@@ -32,3 +66,4 @@
   }
 }
 </style>
+

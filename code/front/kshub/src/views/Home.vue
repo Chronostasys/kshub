@@ -1,7 +1,62 @@
 <template>
-  <div class="container is-fluid">
-    <label>Hello World!</label>
+<div>
+  <div class="tile is-ancestor">
+    <div class="tile is-vertical is-4">
+      <div class="tile is-vertical">
+      <article class="tile is-child box">
+        <p class="title">Middle box</p>
+        <p class="subtitle">With an image</p>
+        <figure class="image is-4by3">
+          <img src="https://bulma.zcopy.site/images/placeholders/640x480.png">
+        </figure>
+      </article>
+      <article class="tile is-child box">
+        <p class="title">Middle box</p>
+        <p class="subtitle">With an image</p>
+        <figure class="image is-4by3">
+          <img src="https://bulma.zcopy.site/images/placeholders/640x480.png">
+        </figure>
+      </article>
+      </div>
+    </div>
+    <div class="tile is-vertical is-4">
+      <div class="tile is-vertical">
+      <article class="tile is-child box">
+        <p class="title">Middle box</p>
+        <p class="subtitle">With an image</p>
+        <figure class="image is-4by3">
+          <img src="https://bulma.zcopy.site/images/placeholders/640x480.png">
+        </figure>
+      </article>
+      <article class="tile is-child box">
+        <p class="title">Middle box</p>
+        <p class="subtitle">With an image</p>
+        <figure class="image is-4by3">
+          <img src="https://bulma.zcopy.site/images/placeholders/640x480.png">
+        </figure>
+      </article>
+      </div>
+    </div>
+    <div class="tile is-vertical is-4">
+      <div class="tile is-vertical">
+      <article class="tile is-child box">
+        <p class="title">Middle box</p>
+        <p class="subtitle">With an image</p>
+        <figure class="image is-4by3">
+          <img src="https://bulma.zcopy.site/images/placeholders/640x480.png">
+        </figure>
+      </article>
+      <article class="tile is-child box">
+        <p class="title">Middle box</p>
+        <p class="subtitle">With an image</p>
+        <figure class="image is-4by3">
+          <img src="https://bulma.zcopy.site/images/placeholders/640x480.png">
+        </figure>
+      </article>
+      </div>
+    </div>
   </div>
+</div>
 </template>
 
 <script>

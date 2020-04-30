@@ -34,7 +34,7 @@
                     </a>
                 </li>
                 </ul>
-            </aside>
+          </aside>
 
             <section class="container column is-10 is-fullheight-with-navbar">
                 <br/>

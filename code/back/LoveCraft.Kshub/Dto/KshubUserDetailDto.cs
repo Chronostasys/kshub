@@ -8,7 +8,7 @@ namespace LoveCraft.Kshub.Dto
     public class KshubUserDetailDto
     {
         public string Name { get; set; }
-        public string StudentId { get; set; }
+        public string UserId { get; set; }
         public string SchoolName { get; set; }
         public string Introduction { get; set; }
         public string Email { get; set; }
@@ -17,7 +17,7 @@ namespace LoveCraft.Kshub.Dto
     public class AddUserDto
     {
         public string Name { get; set; }
-        public string StudentId { get; set; }
+        public string UserId { get; set; }
         public string Password { get; set; }
         public string SchoolName { get; set; }
         public string Introduction { get; set; }
@@ -25,7 +25,7 @@ namespace LoveCraft.Kshub.Dto
     }
     public class LogInDto
     {
-        public string StudentId { get; set; }
+        public string UserId { get; set; }
         public string Password { get; set; }
     }
 }

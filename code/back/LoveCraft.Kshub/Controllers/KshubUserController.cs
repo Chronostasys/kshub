@@ -47,7 +47,7 @@ namespace LoveCraft.Kshub.Controllers
                 Id = Guid.NewGuid(),
                 Name = addUserDto.Name,
                 SchoolName = addUserDto.SchoolName,
-                UserId = addUserDto.StudentId,
+                UserId = addUserDto.UserId,
                 Introduction = addUserDto.Introduction,
                 Email = addUserDto.Email,
                 PassWordHash = addUserDto.Password,
@@ -66,14 +66,22 @@ namespace LoveCraft.Kshub.Controllers
             {
                 return _mapper.Map<KshubUserDetailDto>(await _kshubService.KshubUserServices.SignInAsAnonymous(HttpContext));
             }
-            else if (string.IsNullOrWhiteSpace(logInDto.StudentId))
+            //已经认证过了，dto传进来的UserId是空的，
+            else if (string.IsNullOrWhiteSpace(logInDto.UserId))
             {
-                return await _kshubService.KshubUserServices.FindFirstAsync(u => u.UserId == logInDto.StudentId,
-                    u => _mapper.Map<KshubUserDetailDto>(u));
+                try
+                {
+                    return await _kshubService.KshubUserServices.FindFirstAsync(u => User.Identity.Name == u.Id.ToString(),
+                        u => _mapper.Map<KshubUserDetailDto>(u));
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
             }
             else
             {
-                var user = await _kshubService.KshubUserServices.FindUserAsync(logInDto.StudentId);
+                var user = await _kshubService.KshubUserServices.FindUserAsync(logInDto.UserId);
                 if (user == null)
                 {
                     throw new Exception("Username or Password is wrong.");
@@ -89,7 +97,7 @@ namespace LoveCraft.Kshub.Controllers
 
         [HttpPost]
         [Route("Signout")]
-        public async ValueTask<KshubUserDetailDto> SignOut()
+        public async ValueTask<KshubUserDetailDto> SignOutAsync()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return _mapper.Map<KshubUserDetailDto>(await _kshubService.KshubUserServices.SignInAsAnonymous(HttpContext));

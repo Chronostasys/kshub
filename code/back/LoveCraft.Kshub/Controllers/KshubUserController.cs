@@ -39,7 +39,6 @@ namespace LoveCraft.Kshub.Controllers
         
         [HttpPost]
         [Route("AddUser")]
-        //[Authorize(Roles ="admin")]
         public async ValueTask<KshubUserDetailDto> Register(AddUserDto addUserDto)
         {
             var user = new KshubUser
@@ -112,14 +111,71 @@ namespace LoveCraft.Kshub.Controllers
                 Id = Guid.NewGuid(),
                 Name = "Grillen",
                 SchoolName = "",
-                UserId = "12345678",
                 Introduction ="Grillen",
                 Email ="2016231075@qq.com",
+
+                UserId = "12345678",
                 PassWordHash ="Gutentag2020@",
+
                 Roles = new List<string> { KshubRoles.Admin,KshubRoles.Grillen,KshubRoles.User,KshubRoles.Anonymous },
             };
             await _kshubService.KshubUserServices.AddUserAsync(user);
             return _mapper.Map<KshubUserDetailDto>(user);
+        }
+
+        [HttpPost]
+        [Route("FakeApi")]
+        public async ValueTask<List<KshubUserDetailDto>> AddFakeUser()
+        {
+            var users = new List<KshubUser>
+            {
+                new KshubUser
+                {
+                    Id=new Guid(),
+                    Name="Test",
+
+
+                    UserId = "100",
+
+                    Email = "100@test.com",
+                    PassWordHash ="test100",
+                    Roles =new List<string> { "User"},
+                },
+                new KshubUser
+                {
+                    Id=new Guid(),
+                    Name="Test1",
+                    UserId = "101",
+                    Email = "101@test.com",
+                    PassWordHash ="test101",
+                    Roles =new List<string> { "User"},
+                },
+                new KshubUser
+                {
+                    Id=new Guid(),
+                    Name="Test2",
+                    UserId = "102",
+                    Email = "100@test.com",
+                    PassWordHash ="test100",
+                    Roles =new List<string> { "User"},
+                },
+                new KshubUser
+                {
+                    Id=new Guid(),
+                    Name="Test3",
+                    UserId = "103",
+
+                    Email = "103@test.com",
+                    PassWordHash ="test103",
+                    Roles =new List<string> { "User"},
+                }
+            };
+            var list = new List<KshubUserDetailDto>();
+            foreach(var item in users)
+            {
+                list.Add(_mapper.Map<KshubUserDetailDto>((await _kshubService.KshubUserServices.AddUserAsync(item)));
+            }
+            return list;            
         }
     }
 }

@@ -67,20 +67,28 @@ namespace LoveCraft.Kshub.Controllers
         }
         [HttpPost]
         [Route("AddCourse")]
-        [Authorize(Roles = KshubRoles.Admin)]
         public async ValueTask<CourseDetailDto> AddCourseAsync(CourseDto addCourseDto,string userId)
         {
-            Course course = new Course
+            var isAdmin = await _kshubService.KshubUserServices.FindFirstAsync(User.Identity.Name,u => u.Roles.Contains(KshubRoles.Admin));
+            if (isAdmin)
             {
-                CourseId = addCourseDto.CourseId,
-                Id = Guid.NewGuid(),
-                Description = addCourseDto.Description,
-                Name = addCourseDto.Name
-            };
-            await _kshubService.CourseServices.AddCourseAsync(course);
-            var user=await _kshubService.KshubUserServices.FindUserAsync(userId);
-            await _kshubService.UserInCourseService.AddOwnerInCouseAsync(course.Id, user.Id);
-            return _mapper.Map<CourseDetailDto>(course);
+                Course course = new Course
+                {
+                    CourseId = addCourseDto.CourseId,
+                    Id = Guid.NewGuid(),
+                    Description = addCourseDto.Description,
+                    Name = addCourseDto.Name
+                };
+                await _kshubService.CourseServices.AddCourseAsync(course);
+                var user = await _kshubService.KshubUserServices.FindUserAsync(userId);
+                await _kshubService.UserInCourseService.AddOwnerInCouseAsync(course.Id, user.Id);
+                return _mapper.Map<CourseDetailDto>(course);
+
+            }
+            else
+            {
+                throw new Exception("Only admin can add Course!");
+            }
         }
 
         [HttpPost]
@@ -92,7 +100,7 @@ namespace LoveCraft.Kshub.Controllers
             var curinfo =await _kshubService.UserInCourseService.GetInfoAsync(courseId, owner.Id);
             var addinfo = await _kshubService.UserInCourseService.GetInfoAsync(courseId, addAdminId);
             //当前用户不是对应course的owner或者当前用户不是该course的成员
-            if (curinfo==null||!curinfo.Roles.Contains(CourseRoles.Owner))
+            if (curinfo==null||!curinfo.Roles.Contains(CourseRoles.Owner))  
             {
                 throw new Exception("You have no access to add a admin!");
             }
@@ -120,7 +128,7 @@ namespace LoveCraft.Kshub.Controllers
             await _kshubService.UserInCourseService.AddUserInCourseAsync(course.Id,user.Id);
             return _mapper.Map<KshubUserDetailDto>(user);
         }
-
         
+
     }
 }

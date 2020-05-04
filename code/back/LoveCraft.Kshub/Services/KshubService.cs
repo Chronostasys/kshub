@@ -16,13 +16,13 @@ namespace LoveCraft.Kshub.Services
         public KshubUserServices KshubUserServices { get; }
         public CourseServices CourseServices { get; }
         public UserInCourseService UserInCourseService { get; }
-        public EmailSender<Email> EmailSender { get; }
-        public KshubService(IDatabaseSettings databaseSettings,IHostEnvironment env,IMapper mapper,EmailSender<Email> email)
+        public EmailService EmailService { get; }
+        public KshubService(IDatabaseSettings databaseSettings,IHostEnvironment env,IMapper mapper,EmailSender<SampleEmail> email)
         {
             BsonSerializer.RegisterIdGenerator(typeof(Guid), GuidGenerator.Instance);
             try
             {
-                EmailSender = email;
+                EmailService = new EmailService(email);
                 KshubUserServices = new KshubUserServices(databaseSettings);
                 CourseServices = new CourseServices(databaseSettings);
                 UserInCourseService = new UserInCourseService(databaseSettings);
@@ -32,7 +32,7 @@ namespace LoveCraft.Kshub.Services
             {
                 throw new Exception(e.Message);
             }
-
+           
         }
         IHostEnvironment env { get; }
 

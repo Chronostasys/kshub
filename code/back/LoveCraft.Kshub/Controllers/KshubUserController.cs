@@ -50,7 +50,8 @@ namespace LoveCraft.Kshub.Controllers
                 Introduction = addUserDto.Introduction,
                 Email = addUserDto.Email,
                 PassWordHash = addUserDto.Password,
-                Roles =new List<string> { "User"},
+                Roles = new List<string> { "User" },
+                IsEmailConfirmed = false
             };
             await _kshubService.KshubUserServices.AddUserAsync(user);
             return _mapper.Map<KshubUserDetailDto>(user);
@@ -84,6 +85,10 @@ namespace LoveCraft.Kshub.Controllers
                 if (user == null)
                 {
                     throw new Exception("Username or Password is wrong.");
+                }
+                else if (!user.IsEmailConfirmed)
+                {
+                    _kshubService.
                 }
                 else
                 {

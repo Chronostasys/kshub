@@ -110,7 +110,6 @@ namespace LoveCraft.Kshub.Services
                         claims.Add(new Claim(ClaimTypes.Role, u.Roles[i]));
                     }
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var c = new ClaimsPrincipal();
 
                     await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity), authProperties);

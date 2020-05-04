@@ -9,13 +9,26 @@ using Microsoft.Extensions.Configuration;
 using LoveCraft.Kshub.Services;
 using LoveCraft.Kshub.Models;
 using LimFx.Business.Services;
+using AutoMapper;
+using Microsoft.Extensions.Hosting;
 
 namespace LoveCraft.Kshub.Controllers
 {
+
     [Route("[controller]")]
     [ApiController]
     public class EmailController : ControllerBase
     {
+        private readonly KshubService _kshubService;
+        readonly IMapper _mapper;
+        IHostEnvironment env;
+        public EmailController(KshubService kshubService, IMapper mapper, IHostEnvironment env)
+        {
+            _kshubService = kshubService;
+            _mapper = mapper;
+            this.env = env;
+        }
+
         EmailSender<SampleEmail> emailSender;
         public EmailController(EmailSender<SampleEmail> emailSender)
         {

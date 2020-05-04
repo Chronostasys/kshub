@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using LimFx.Business.Models;
+using LimFx.Business.Services;
 using LoveCraft.Kshub.Models;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Bson.Serialization;
@@ -14,11 +16,13 @@ namespace LoveCraft.Kshub.Services
         public KshubUserServices KshubUserServices { get; }
         public CourseServices CourseServices { get; }
         public UserInCourseService UserInCourseService { get; }
-        public KshubService(IDatabaseSettings databaseSettings,IHostEnvironment env,IMapper mapper)
+        public EmailSender<Email> EmailSender { get; }
+        public KshubService(IDatabaseSettings databaseSettings,IHostEnvironment env,IMapper mapper,EmailSender<Email> email)
         {
             BsonSerializer.RegisterIdGenerator(typeof(Guid), GuidGenerator.Instance);
             try
             {
+                EmailSender = email;
                 KshubUserServices = new KshubUserServices(databaseSettings);
                 CourseServices = new CourseServices(databaseSettings);
                 UserInCourseService = new UserInCourseService(databaseSettings);

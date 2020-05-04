@@ -36,7 +36,7 @@ namespace LoveCraft.Kshub.Controllers
             var user = await _kshubService.KshubUserServices.FindUserAsync(id);
             return _mapper.Map<KshubUserDetailDto>(user);
         }
-        
+
         [HttpPost]
         [Route("AddUser")]
         public async ValueTask<KshubUserDetailDto> Register(AddUserDto addUserDto)
@@ -53,6 +53,11 @@ namespace LoveCraft.Kshub.Controllers
                 Roles = new List<string> { "User" },
                 IsEmailConfirmed = false
             };
+            var emailProperty = new EmailProperty()
+            {
+                Receivers = new List<string> { user.Email }
+            };
+            await _kshubService.EmailService.SendEmailAsync(emailProperty);
             await _kshubService.KshubUserServices.AddUserAsync(user);
             return _mapper.Map<KshubUserDetailDto>(user);
         }
@@ -88,7 +93,12 @@ namespace LoveCraft.Kshub.Controllers
                 }
                 else if (!user.IsEmailConfirmed)
                 {
-                    _kshubService.
+                    var emailProperty = new EmailProperty()
+                    {
+                        Receivers = new List<string> { user.Email }
+                    };
+                    await _kshubService.EmailService.SendEmailAsync(emailProperty);
+                    throw new Exception("Please verify your email!");
                 }
                 else
                 {
@@ -178,7 +188,7 @@ namespace LoveCraft.Kshub.Controllers
             var list = new List<KshubUserDetailDto>();
             foreach(var item in users)
             {
-                list.Add(_mapper.Map<KshubUserDetailDto>((await _kshubService.KshubUserServices.AddUserAsync(item)));
+                list.Add(_mapper.Map<KshubUserDetailDto>(await _kshubService.KshubUserServices.AddUserAsync(item)));
             }
             return list;            
         }

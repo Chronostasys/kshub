@@ -59,7 +59,7 @@ namespace LoveCraft.Kshub
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
             services.AddSingleton<KshubService>();
-            services.AddEmailSenderService<SampleEmail>(op =>
+            services.AddEmailSenderService<Email>(op =>
             {
                 op.DatabaseName = "KshubDb";
                 op.ConnectionString = "mongodb://localhost:27017";

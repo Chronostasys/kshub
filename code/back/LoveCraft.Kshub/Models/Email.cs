@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LoveCraft.Kshub.Models
 {
-    public class SampleEmail : Entity, IEmail, ISearchAble
+    public class Email : Entity, IEmail, ISearchAble
     {
         //发送者名称
         public string Sender { get; set; }
@@ -20,5 +20,16 @@ namespace LoveCraft.Kshub.Models
         public string SearchAbleString { get; set; }
         public string Requester { get; set; }
     }
-
+    public class EmailProperty : IEmailProperty
+    {
+        public List<string> Receivers { get; set; }
+        public string RazorTemplatePath { get; set; } = "Index.cshtml";
+        public string Subject { get; set; } = "default test";
+    }
+    public interface IEmailProperty
+    {
+        public List<string> Receivers { get; set; }
+        public string RazorTemplatePath { get; set; }
+        public string Subject { get; set; }
+    }
 }

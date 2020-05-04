@@ -15,23 +15,22 @@ namespace LoveCraft.Kshub.Services
 
     public class EmailService
     {
-        EmailSender<SampleEmail> emailSender;
-        public EmailService(EmailSender<SampleEmail> emailSender)
+        EmailSender<Email> emailSender;
+        public EmailService(EmailSender<Email> emailSender)
         {
             this.emailSender = emailSender;
         }
 
-        public async ValueTask SendEmailAsync(string email)
+        public async ValueTask SendEmailAsync(EmailProperty emailProperty)
         {
-            var e = new SampleEmail()
+            var e = new Email()
             {
                 ExpectSendTime = DateTime.UtcNow,
-                Receivers = new List<string>(),
                 Sender = "sample@limfx.pro",
-                Subject = "test",
-                RazorTemplate = "Index.cshtml"
+                Receivers = emailProperty.Receivers,
+                Subject = emailProperty.Subject,
+                RazorTemplate = emailProperty.RazorTemplatePath
             };
-            e.Receivers.Add(email);
             await emailSender.QueueEmailAsync(e);
         }
     }

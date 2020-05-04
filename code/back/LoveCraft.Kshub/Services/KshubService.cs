@@ -17,7 +17,7 @@ namespace LoveCraft.Kshub.Services
         public CourseServices CourseServices { get; }
         public UserInCourseService UserInCourseService { get; }
         public EmailService EmailService { get; }
-        public KshubService(IDatabaseSettings databaseSettings,IHostEnvironment env,IMapper mapper,EmailSender<SampleEmail> email)
+        public KshubService(IDatabaseSettings databaseSettings,IHostEnvironment env,IMapper mapper,EmailSender<Models.Email> email)
         {
             BsonSerializer.RegisterIdGenerator(typeof(Guid), GuidGenerator.Instance);
             try

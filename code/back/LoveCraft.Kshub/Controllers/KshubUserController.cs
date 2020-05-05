@@ -87,6 +87,11 @@ namespace LoveCraft.Kshub.Controllers
             else
             {
                 var user = await _kshubService.KshubUserServices.FindUserAsync(logInDto.UserId);
+
+                //==========================
+                //测试把IsEamcilConfirmed设为true
+                user.IsEmailConfirmed = true;
+                //======================
                 if (user == null)
                 {
                     throw new Exception("Username or Password is wrong.");

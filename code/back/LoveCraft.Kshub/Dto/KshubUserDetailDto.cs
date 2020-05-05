@@ -12,7 +12,7 @@ namespace LoveCraft.Kshub.Dto
         public string SchoolName { get; set; }
         public string Introduction { get; set; }
         public string Email { get; set; }
-        public string Role { get; set; }
+        public string Roles { get; set; }
     }
     public class AddUserDto
     {

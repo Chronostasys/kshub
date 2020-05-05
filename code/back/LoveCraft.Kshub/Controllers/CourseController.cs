@@ -9,6 +9,7 @@ using LoveCraft.Kshub.Services;
 using LoveCraft.Kshub.Dto;
 using Microsoft.AspNetCore.Authorization;
 using LoveCraft.Kshub.Models;
+using MongoDB.Driver;
 
 namespace LoveCraft.Kshub.Controllers
 {
@@ -57,7 +58,7 @@ namespace LoveCraft.Kshub.Controllers
 
             if (p.Roles.Contains(CourseRoles.Owner))
             {
-                cor.CourseId = courseDto.CourseId;
+                
                 cor.Name = courseDto.Name;
                 cor.Description = courseDto.Description;
             }
@@ -69,12 +70,16 @@ namespace LoveCraft.Kshub.Controllers
         [Route("AddCourse")]
         public async ValueTask<CourseDetailDto> AddCourseAsync(CourseDto addCourseDto,string userId)
         {
-            var isAdmin = await _kshubService.KshubUserServices.FindFirstAsync(User.Identity.Name,u => u.Roles.Contains(KshubRoles.Admin));
+            if (addCourseDto.Name.Equals("CourseIdRecord"))
+            {
+                throw new Exception("Unlegal Course Name!");
+            }
+            var isAdmin = await _kshubService.KshubUserServices.FindFirstAsync(t=>t.Id==Guid.Parse(User.Identity.Name), u => u.Roles.Contains(KshubRoles.Admin));
             if (isAdmin)
             {
                 Course course = new Course
                 {
-                    CourseId = addCourseDto.CourseId,
+                    CourseId =await _kshubService.CourseServices.GernerateCourseIdAsync(),
                     Id = Guid.NewGuid(),
                     Description = addCourseDto.Description,
                     Name = addCourseDto.Name

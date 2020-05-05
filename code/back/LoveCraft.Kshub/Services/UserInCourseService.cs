@@ -57,7 +57,7 @@ namespace LoveCraft.Kshub.Services
             {
                 CourseId = courseId,
                 UserId = userId,
-                Roles = { CourseRoles.User, CourseRoles.Admin,CourseRoles.Owner }
+                Roles =new List<string>{ CourseRoles.User, CourseRoles.Admin,CourseRoles.Owner }
             };
             await collection.InsertOneAsync(piece);
             return piece;

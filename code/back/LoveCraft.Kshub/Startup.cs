@@ -17,6 +17,7 @@ using LoveCraft.Kshub.Dto;
 using LoveCraft.Kshub.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using LimFx.Business.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace LoveCraft.Kshub
 {
@@ -52,7 +53,6 @@ namespace LoveCraft.Kshub
             IConfiguration config;
             config = Configuration.GetSection(nameof(MongoDbSettings));
             services.Configure<MongoDbSettings>(config);
-
             //不加下面的两行第三行会报错如下：
             //Unable to resolve service for type 'LoveCraft.Kshub.Models.IDatabaseSettings' 
             //while attempting to activate 'LoveCraft.Kshub.Services.KshubService'.

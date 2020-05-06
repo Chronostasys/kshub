@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using DocumentFormat.OpenXml.InkML;
 
 namespace LoveCraft.Kshub.Services
 {
@@ -77,52 +79,52 @@ namespace LoveCraft.Kshub.Services
             }
             return user;
         }
+
         public async ValueTask<bool> LogInAsync(KshubUser user, HttpContext httpContext, bool rememberMe = true, bool validPassword = true)
         {
+
+            var u = await FindUserAsync(user.UserId);
+            if (u == null)
             {
-                var u = await FindUserAsync(user.UserId);
-                if (u == null)
-                {
-                    throw new Exception("Cannot find this Id");
-                }
-                bool auth = true;
-                if (validPassword)
-                {
-                    var hash = u.PassWordHash.Substring(0, 32);
-                    var salt = u.PassWordHash.Substring(32);
-                    var h = new HashedPassword(hash, salt);
-                    auth = h.Check(user.PassWordHash);
-                }
-                if (auth)
-                {
-                    //这里设置了AuthenticationProperties的
-                    var authProperties = new AuthenticationProperties
-                    {
-                        IsPersistent = rememberMe
-                    };
-
-                    var claims = new List<Claim>()
-                {
-                    new Claim(ClaimTypes.Name, u.Id.ToString()),
-                };
-                    for (int i = 0; i < u.Roles.Count; i++)
-                    {
-                        claims.Add(new Claim(ClaimTypes.Role, u.Roles[i]));
-                    }
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity), authProperties);
-                    return true;
-                }
-                else
-                {
-
-                    throw new Exception("Password and email do not match!");
-                }
+                throw new Exception("Cannot find this Id");
             }
+            bool auth = true;
+            if (validPassword)
+            {
+                var hash = u.PassWordHash.Substring(0, 32);
+                var salt = u.PassWordHash.Substring(32);
+                var h = new HashedPassword(hash, salt);
+                auth = h.Check(user.PassWordHash);
+            }
+            if (auth)
+            {
+                //这里设置了AuthenticationProperties的
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = rememberMe
+                };
 
+                var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, u.Id.ToString()),
+            };
+                for (int i = 0; i < u.Roles.Count; i++)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, u.Roles[i]));
+                }
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity), authProperties);
+                return true;
+            }
+            else
+            {
+                throw new Exception("Password and email do not match!");
+            }
         }
+
+        
         
         public async ValueTask SignOutAsync(HttpContext httpContext)
         {

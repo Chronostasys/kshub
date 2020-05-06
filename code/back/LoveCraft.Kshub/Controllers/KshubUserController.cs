@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using DocumentFormat.OpenXml.InkML;
+using Microsoft.AspNetCore.Identity;
+using LimFx.Business.Services;
 
 namespace LoveCraft.Kshub.Controllers
 {
@@ -20,6 +23,7 @@ namespace LoveCraft.Kshub.Controllers
     [Route("api/[controller]")]
     public class KshubUserController : Controller
     {
+
         private readonly KshubService _kshubService;
         readonly IMapper _mapper;
         IHostEnvironment env;
@@ -38,7 +42,7 @@ namespace LoveCraft.Kshub.Controllers
         }
 
         [HttpPost]
-        [Route("AddUser")]
+        [Route("Register")]
         public async ValueTask<KshubUserDetailDto> Register(AddUserDto addUserDto)
         {
             var user = new KshubUser
@@ -53,20 +57,18 @@ namespace LoveCraft.Kshub.Controllers
                 Roles = new List<string> { "User" },
                 IsEmailConfirmed = false
             };
-            var emailProperty = new EmailProperty()
-            {
-                Receivers = new List<string> { user.Email }
-            };
-            await _kshubService.EmailService.SendEmailAsync(emailProperty);
+
             await _kshubService.KshubUserServices.AddUserAsync(user);
             return _mapper.Map<KshubUserDetailDto>(user);
         }
+        
         
         [AllowAnonymous]
         [HttpPost]
         [Route("LogIn")]
         public async ValueTask<KshubUserDetailDto> LogIn(LogInDto logInDto,bool rememberMe)
         {
+            
             if (!User.Identity.IsAuthenticated)
             {
                 return _mapper.Map<KshubUserDetailDto>(await _kshubService.KshubUserServices.SignInAsAnonymous(HttpContext));
@@ -89,8 +91,8 @@ namespace LoveCraft.Kshub.Controllers
                 var user = await _kshubService.KshubUserServices.FindUserAsync(logInDto.UserId);
 
                 //==========================
-                //测试把IsEamcilConfirmed设为true
-                user.IsEmailConfirmed = true;
+                //测试把IsEamcilConfirmed设为false检测发邮件
+                user.IsEmailConfirmed = false;
                 //======================
                 if (user == null)
                 {
@@ -98,10 +100,14 @@ namespace LoveCraft.Kshub.Controllers
                 }
                 else if (!user.IsEmailConfirmed)
                 {
+
                     var emailProperty = new EmailProperty()
                     {
-                        Receivers = new List<string> { user.Email }
-                    };
+                        RazorTemplatePath = "\\EmailTemplate\\EmailConfirm.cshtml",
+                        Subject = "Confirm Kshub Account's Email",
+                        Receivers = new List<string> { user.Email },
+                        Url= Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/{user.Id}")
+                };
                     await _kshubService.EmailService.SendEmailAsync(emailProperty);
                     throw new Exception("Please verify your email!");
                 }

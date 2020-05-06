@@ -1,0 +1,507 @@
+﻿{
+    "x-generator": "NSwag v13.4.2.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v11.0.0.0))",
+    "swagger": "2.0",
+    "info": {
+        "title": "My Title",
+        "termsOfService": "None",
+        "contact": {},
+        "license": {
+            "name": "No lisence, all rights reserved",
+            "url": ""
+        },
+        "version": "v1"
+    },
+    "host": "localhost:8010",
+    "schemes": [
+        "http"
+    ],
+    "produces": [
+        "text/plain",
+        "application/json",
+        "text/json"
+    ],
+    "paths": {
+        "/api/Course/GetCourse": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
+                "operationId": "Course_GetCourse",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "courseId",
+                        "in": "query",
+                        "format": "int32",
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/CourseDetailDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Course/GetCourses": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
+                "operationId": "Course_GetCourseAll",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "name",
+                        "in": "query",
+                        "x-nullable": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/CourseDetailDto"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Course/Update": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "operationId": "Course_UpdateCourse",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "courseId",
+                        "in": "query",
+                        "format": "guid",
+                        "x-nullable": false
+                    },
+                    {
+                        "name": "courseDto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CourseDto"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/CourseDetailDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Course/AddCourse": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "operationId": "Course_AddCourse",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "parameters": [
+                    {
+                        "name": "addCourseDto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CourseDto"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "type": "string",
+                        "name": "userId",
+                        "in": "query",
+                        "x-nullable": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/CourseDetailDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Course/AddCourseAdmin": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "operationId": "Course_AddAdmin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "courseId",
+                        "in": "query",
+                        "format": "guid",
+                        "x-nullable": false
+                    },
+                    {
+                        "type": "string",
+                        "name": "addAdminId",
+                        "in": "query",
+                        "format": "guid",
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/KshubUserDetailDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Course/AddUser": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "operationId": "Course_AddUser",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "courseId",
+                        "in": "query",
+                        "format": "int32",
+                        "x-nullable": false
+                    },
+                    {
+                        "type": "string",
+                        "name": "userId",
+                        "in": "query",
+                        "x-nullable": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/KshubUserDetailDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/KshubUser": {
+            "get": {
+                "tags": [
+                    "KshubUser"
+                ],
+                "operationId": "KshubUser_GetUsers",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "id",
+                        "in": "query",
+                        "x-nullable": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/KshubUserDetailDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/KshubUser/AddUser": {
+            "post": {
+                "tags": [
+                    "KshubUser"
+                ],
+                "operationId": "KshubUser_Register",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "parameters": [
+                    {
+                        "name": "addUserDto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/AddUserDto"
+                        },
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/KshubUserDetailDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/KshubUser/LogIn": {
+            "post": {
+                "tags": [
+                    "KshubUser"
+                ],
+                "operationId": "KshubUser_LogIn",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "parameters": [
+                    {
+                        "name": "logInDto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/LogInDto"
+                        },
+                        "x-nullable": false
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "rememberMe",
+                        "in": "query",
+                        "x-nullable": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/KshubUserDetailDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/KshubUser/Signout": {
+            "post": {
+                "tags": [
+                    "KshubUser"
+                ],
+                "operationId": "KshubUser_SignOut",
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/KshubUserDetailDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/KshubUser/AddGrillen": {
+            "post": {
+                "tags": [
+                    "KshubUser"
+                ],
+                "operationId": "KshubUser_AddGrillen",
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/KshubUserDetailDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/KshubUser/FakeApi": {
+            "post": {
+                "tags": [
+                    "KshubUser"
+                ],
+                "operationId": "KshubUser_AddFakeUser",
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/KshubUserDetailDto"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/WeatherForecast": {
+            "get": {
+                "tags": [
+                    "WeatherForecast"
+                ],
+                "operationId": "WeatherForecast_Get",
+                "responses": {
+                    "200": {
+                        "x-nullable": false,
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/WeatherForecast"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "CourseDetailDto": {
+            "type": "object",
+            "required": [
+                "courseId"
+            ],
+            "properties": {
+                "courseId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "CourseDto": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "KshubUserDetailDto": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                },
+                "schoolName": {
+                    "type": "string"
+                },
+                "introduction": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "string"
+                }
+            }
+        },
+        "AddUserDto": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "schoolName": {
+                    "type": "string"
+                },
+                "introduction": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "LogInDto": {
+            "type": "object",
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "WeatherForecast": {
+            "type": "object",
+            "required": [
+                "date",
+                "temperatureC",
+                "temperatureF"
+            ],
+            "properties": {
+                "date": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "temperatureC": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "temperatureF": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "summary": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

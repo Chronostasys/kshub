@@ -29,7 +29,9 @@ namespace LoveCraft.Kshub.Services
                 Sender = "sample@limfx.pro",
                 Receivers = emailProperty.Receivers,
                 Subject = emailProperty.Subject,
-                RazorTemplate = emailProperty.RazorTemplatePath
+                RazorTemplate = emailProperty.RazorTemplatePath,
+                Url=emailProperty.Url
+                
             };
             await emailSender.QueueEmailAsync(e);
         }

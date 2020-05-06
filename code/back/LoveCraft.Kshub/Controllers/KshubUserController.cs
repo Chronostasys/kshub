@@ -76,7 +76,7 @@ namespace LoveCraft.Kshub.Controllers
             {
                 try
                 {
-                    return await _kshubService.KshubUserServices.FindFirstAsync(u => User.Identity.Name == u.Id.ToString(),
+                    return await _kshubService.KshubUserServices.FindFirstAsync(u =>Guid.Parse(User.Identity.Name) == u.Id,
                         u => _mapper.Map<KshubUserDetailDto>(u));
                 }
                 catch (Exception e)

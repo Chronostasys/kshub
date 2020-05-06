@@ -23,6 +23,7 @@ namespace LoveCraft.Kshub
 {
     public class Startup
     {
+        public string password=null;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -33,6 +34,7 @@ namespace LoveCraft.Kshub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            password = Configuration["GrillenPassword"];
             services.AddSwaggerDocument(config =>
             {
                 config.PostProcess = document =>
@@ -53,12 +55,12 @@ namespace LoveCraft.Kshub
             IConfiguration config;
             config = Configuration.GetSection(nameof(MongoDbSettings));
             services.Configure<MongoDbSettings>(config);
-            //不加下面的两行第三行会报错如下：
-            //Unable to resolve service for type 'LoveCraft.Kshub.Models.IDatabaseSettings' 
-            //while attempting to activate 'LoveCraft.Kshub.Services.KshubService'.
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
             services.AddSingleton<KshubService>();
+            services.AddSecrertRecord<SecretRecord>(o =>
+                o.GrillenPassword = Configuration["GrillenPassword"]
+            );
             services.AddEmailSenderService<Email>(op =>
             {
                 op.DatabaseName = "KshubDb";
@@ -69,7 +71,7 @@ namespace LoveCraft.Kshub
                 op.SenderName = "Sample";
                 op.SmtpHost = "email-smtp.ap-south-1.amazonaws.com";
                 op.SmtpSender="AKIAV5CPNJ6423VOJYOR";
-                op.SmtpPassword= "BKvwJYiv8SLtc+j2Cf4VW4j/0RSAV3T0td8XB2DSGqC9";
+                op.SmtpPassword = Configuration["smtppassword"];
                 op.TemplateDir = "Index.cshtml";
             });
 

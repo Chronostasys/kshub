@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using DocumentFormat.OpenXml.InkML;
 using Microsoft.AspNetCore.Identity;
 using LimFx.Business.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace LoveCraft.Kshub.Controllers
 {
@@ -23,12 +24,13 @@ namespace LoveCraft.Kshub.Controllers
     [Route("api/[controller]")]
     public class KshubUserController : Controller
     {
-
+        private readonly SecretRecord _secretRecord;
         private readonly KshubService _kshubService;
         readonly IMapper _mapper;
         IHostEnvironment env;
-        public KshubUserController(KshubService kshubService, IMapper mapper, IHostEnvironment env)
+        public KshubUserController(KshubService kshubService, IMapper mapper, IHostEnvironment env,SecretRecord secretRecord)
         {
+            _secretRecord = secretRecord;
             _kshubService = kshubService;
             _mapper = mapper;
             this.env = env;
@@ -132,17 +134,18 @@ namespace LoveCraft.Kshub.Controllers
         [Route("AddGrillen")]
         public async ValueTask<KshubUserDetailDto> AddGrillen()
         {
+
             var user = new KshubUser
             {
                 Id = Guid.NewGuid(),
                 Name = "Grillen",
                 SchoolName = "",
-                Introduction ="Grillen",
-                Email ="2016231075@qq.com",
+                Introduction = "Grillen",
+                Email = "2016231075@qq.com",
 
                 UserId = "12345678",
-                PassWordHash ="Gutentag2020@",
-
+                PassWordHash = _secretRecord.GrillenPassword,
+                //"Gutentag2020@",
                 Roles = new List<string> { KshubRoles.Admin,KshubRoles.Grillen,KshubRoles.User,KshubRoles.Anonymous },
             };
             await _kshubService.KshubUserServices.AddUserAsync(user);

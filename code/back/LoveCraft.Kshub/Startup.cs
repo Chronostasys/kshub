@@ -71,7 +71,7 @@ namespace LoveCraft.Kshub
                 op.SenderName = "Sample";
                 op.SmtpHost = "email-smtp.ap-south-1.amazonaws.com";
                 op.SmtpSender="AKIAV5CPNJ6423VOJYOR";
-                op.SmtpPassword = Configuration["smtppassword"];
+                op.SmtpPassword = "BKvwJYiv8SLtc+j2Cf4VW4j/0RSAV3T0td8XB2DSGqC9"; //Configuration["smtppassword"];
                 op.TemplateDir = "Index.cshtml";
             });
 

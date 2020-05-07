@@ -1,38 +1,17 @@
 <template>
     <div>
-        <html>
-        <body>
-        <div id="app">
             
 
         <section class="main-content columns is-fullheight absolute">
         
             <aside class="fix column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile">
                 <p class="menu-label is-hidden-touch">My Course</p>
-                <ul class="menu-list" v-for="{item,index} in items":class="{'active':index==checkindex}">
-                <li>
-                    <a href="#" :class="highLight" @click="highlight()" :key="item1">
-                    <span class="icon"><i class="fa fa-table"></i></span> My course 1
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="" :key="item.2">
-                    <span class="icon"><i class="fa fa-table"></i></span> My course 2
-                    </a>
-                        <a href="#" :key="item.3">
-                        <span class="icon is-small"><i class="fa fa-table"></i></span> My course 3
-                        </a>
+                <ul >
+                  <li :key="item.id" class="menu-list" v-for="item in items">
+                      <a href="#" :class="item.ishighlight?'is-active':''" @click="()=>highlight(item)" :key="item1">
+                        <span class="icon"><i class="fa fa-table"></i></span>{{item.name}}
+                      </a>
                   </li>
-                  <li>
-                        <a href="#" :key="item.4">
-                        <span class="icon is-small"><i class="fa fa-table"></i></span> My course 4
-                        </a>
-                </li>
-                <li>
-                    <a href="#" class="" :key="item.5">
-                    <span class="icon"><i class="fa fa-table"></i></span> My course 5
-                    </a>
-                </li>
                 </ul>
           </aside>
 
@@ -43,9 +22,6 @@
             </section>
             
         </section>
-        </div>
-        </body>
-        </html>
     </div>
 </template>
 
@@ -66,6 +42,15 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 export default class Home extends Vue {
   cssClass = 'modal';
+  items = [{
+    id:1,
+    name:"zhouquan",
+    ishighlight:false
+  },{
+    id:2,
+    name:"zuoyue",
+    ishighlight:false
+  }];
   newProj(){
     this.cssClass = 'modal is-active';
   }
@@ -74,8 +59,12 @@ export default class Home extends Vue {
   }
   @Prop()
   highLight='highlight'
-  highlight(){
-    this.highLight='highlight is-active';
+  highlight(item:any){
+    for (let index = 0; index < this.items.length; index++) {
+      const element = this.items[index];
+      element.ishighlight=false;
+    }
+    item.ishighlight=true;
   }
 }
 

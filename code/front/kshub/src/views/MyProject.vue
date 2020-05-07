@@ -9,27 +9,27 @@
         
             <aside class="fix column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile">
                 <p class="menu-label is-hidden-touch">My Course</p>
-                <ul class="menu-list">
+                <ul class="menu-list" v-for="{item,index} in items":class="{'active':index==checkindex}">
                 <li>
-                    <a href="#" class="">
+                    <a href="#" :class="highLight" @click="highlight()" :key="item1">
                     <span class="icon"><i class="fa fa-table"></i></span> My course 1
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="">
+                    <a href="#" class="" :key="item.2">
                     <span class="icon"><i class="fa fa-table"></i></span> My course 2
                     </a>
-                        <a href="#">
+                        <a href="#" :key="item.3">
                         <span class="icon is-small"><i class="fa fa-table"></i></span> My course 3
                         </a>
-                    </li>
-                    <li>
-                        <a href="#">
+                  </li>
+                  <li>
+                        <a href="#" :key="item.4">
                         <span class="icon is-small"><i class="fa fa-table"></i></span> My course 4
                         </a>
                 </li>
                 <li>
-                    <a href="#" class="">
+                    <a href="#" class="" :key="item.5">
                     <span class="icon"><i class="fa fa-table"></i></span> My course 5
                     </a>
                 </li>
@@ -49,11 +49,11 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 import Login from '../components/Login/Login.vue'
-import NewProject from '../components/New Project/NewProject'
+import NewProject from '../components/New Project/NewProject.vue'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 
@@ -71,6 +71,11 @@ export default class Home extends Vue {
   }
   close(){
     this.cssClass = 'modal';
+  }
+  @Prop()
+  highLight='highlight'
+  highlight(){
+    this.highLight='highlight is-active';
   }
 }
 

@@ -13,24 +13,38 @@
                 <div v-if="isReg" class="field">
                     <p class="control has-icons-left ">
                         <span class="icon is-small is-left">
-                            <i class="fa fa-id-card"></i>
+                            <i class="fa fa-user"></i>
                         </span>
                         <input
-                            type="id" 
+                            type="name" 
                             placeholder="请输入用户名" 
-                            class=" input"
+                            class="input"
                             @click="removeError"
-                            v-model="userdata.id"
+                            v-model="userdata.name"
+                        />
+                    </p>
+                </div>
+                <div v-if="isReg" class="field">
+                    <p class="control has-icons-left ">
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                        <input
+                            type="email"
+                            placeholder="请输入邮箱" 
+                            class="input"
+                            @click="removeError"
+                            v-model="userdata.email"
                         />
                     </p>
                 </div>
                 <div class="field">
                     <p class="control has-icons-left ">
                         <span class="icon is-small is-left">
-                            <i class="fa fa-envelope"></i>
+                            <i class="fa fa-id-card"></i>
                         </span>
                         <input 
-                            :placeholder="'请输入邮箱'" 
+                            :placeholder="'请输入学号'" 
                             class=" input"
                             @click="removeError"
                             v-model="userdata.studentId"
@@ -109,11 +123,12 @@ export default class Login extends Vue {
     errorMessage='';
     confirmPassword='';
     userdata:any={
-        name: "string",
+        name: null,
         studentId: null,
+        password: null,
         schoolName: "string",
         introduction: "string",
-        email: "string",
+        email: null,
         role: null
     };
     @Prop()
@@ -122,9 +137,11 @@ export default class Login extends Vue {
         this.$emit('close');
     }
     login(){
-        Axios.post('api/kshubuser/login',this.userdata).then((params)=>{
-            var id = params.data.id;
-            this.userdata.id=id;
+        Axios.post('/api/kshubkuser/login',this.userdata).then((params)=>{
+            var name = params.data.name;
+            var password = params.data.password;
+            this.userdata.name=name;
+            this.userdata.password=password;
             console.log(params.data);
         }).catch((err)=>{
             console.log(err);
@@ -136,7 +153,8 @@ export default class Login extends Vue {
     }
     register(){
         this.validatePassword();
-                Axios.post('/api/User/LogIn',this.userdata).then((params)=>{
+        Axios.post('/api/kshubuser/adduser',this.userdata).then((params)=>{
+
         }).catch((err)=>{
             console.log(err.response.userdata.errorMessage);
             alert(err);
@@ -148,7 +166,7 @@ export default class Login extends Vue {
     validatePassword(){
     if(this.confirmPassword!==this.userdata.password){
       this.isShowErrorMessage=true;
-      this.errorMessage='确认密码和密码不相同！';
+      this.errorMessage='两次输入的密码不相同！';
     }
     else if (this.userdata.password.length<=8) {
       this.isShowErrorMessage=true;
@@ -166,6 +184,6 @@ export default class Login extends Vue {
     max-width: 500px;
 }
 .isforgivable{
-    background-color:white;
+    background-color:wheat;
 }
 </style>

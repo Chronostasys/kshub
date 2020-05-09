@@ -64,7 +64,6 @@ namespace LoveCraft.Kshub.Controllers
             return _mapper.Map<KshubUserDetailDto>(user);
         }
         
-        
         [AllowAnonymous]
         [HttpPost]
         [Route("LogIn")]
@@ -94,7 +93,7 @@ namespace LoveCraft.Kshub.Controllers
 
                 //==========================
                 //测试把IsEamcilConfirmed设为false检测发邮件
-                user.IsEmailConfirmed = false;
+                user.IsEmailConfirmed = true;
                 //======================
                 if (user == null)
                 {
@@ -142,10 +141,10 @@ namespace LoveCraft.Kshub.Controllers
                 SchoolName = "",
                 Introduction = "Grillen",
                 Email = "2016231075@qq.com",
-
+                IsEmailConfirmed = true,
                 UserId = "12345678",
                 PassWordHash ="Gutentag2020@", //_secretRecord.GrillenPassword,
-                //"Gutentag2020@",
+
                 Roles = new List<string> { KshubRoles.Admin,KshubRoles.Grillen,KshubRoles.User,KshubRoles.Anonymous },
             };
             await _kshubService.KshubUserServices.AddUserAsync(user);

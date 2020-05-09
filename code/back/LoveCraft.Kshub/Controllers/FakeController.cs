@@ -37,6 +37,7 @@ namespace LoveCraft.Kshub.Controllers
                         UserId = (100 + i).ToString(),
                         Email = (100 + i).ToString() + "@test.com",
                         PassWordHash = "12345678a",
+                        IsEmailConfirmed=true,
                         Roles = new List<string> { "User" },
                     });
             }

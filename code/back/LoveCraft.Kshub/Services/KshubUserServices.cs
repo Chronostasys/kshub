@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using DocumentFormat.OpenXml.InkML;
-
+using LoveCraft.Kshub.Exceptions;
 namespace LoveCraft.Kshub.Services
 {
 
@@ -68,14 +68,14 @@ namespace LoveCraft.Kshub.Services
                 //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Numbers);
                 if (!validater.Validate(user.PassWordHash))
                 {
-                    throw new Exception("Password is not strong enough!");
+                    throw new _401Exception("Password is not strong enough!");
                 }
                 user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
                 await AddAsync(user);
             }
             else
             {
-                throw new Exception($"You don't belong to {user.SchoolName}!");
+                throw new _401Exception($"You don't belong to {user.SchoolName}!");
             }
             return user;
         }
@@ -86,7 +86,7 @@ namespace LoveCraft.Kshub.Services
             var u = await FindUserAsync(user.UserId);
             if (u == null)
             {
-                throw new Exception("Cannot find this Id");
+                throw new _401Exception("Cannot find this Id");
             }
             bool auth = true;
             if (validPassword)
@@ -120,7 +120,7 @@ namespace LoveCraft.Kshub.Services
             }
             else
             {
-                throw new Exception("Password and email do not match!");
+                throw new _400Exception("Password and email do not match!");
             }
         }
 

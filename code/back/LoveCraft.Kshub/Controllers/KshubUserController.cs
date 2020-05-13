@@ -16,7 +16,7 @@ using DocumentFormat.OpenXml.InkML;
 using Microsoft.AspNetCore.Identity;
 using LimFx.Business.Services;
 using Microsoft.Extensions.Configuration;
-
+using LoveCraft.Kshub.Exceptions;
 namespace LoveCraft.Kshub.Controllers
 {
     
@@ -82,9 +82,9 @@ namespace LoveCraft.Kshub.Controllers
                     return await _kshubService.KshubUserServices.FindFirstAsync(u =>Guid.Parse(User.Identity.Name) == u.Id,
                         u => _mapper.Map<KshubUserDetailDto>(u));
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    throw new Exception(e.Message);
+                    throw new _500Exception();
                 }
             }
             else
@@ -97,7 +97,7 @@ namespace LoveCraft.Kshub.Controllers
                 //======================
                 if (user == null)
                 {
-                    throw new Exception("Username or Password is wrong.");
+                    throw new _400Exception("Username or Password is wrong.");
                 }
                 else if (!user.IsEmailConfirmed)
                 {
@@ -110,7 +110,7 @@ namespace LoveCraft.Kshub.Controllers
                         Url= Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/{user.Id}")
                 };
                     await _kshubService.EmailService.SendEmailAsync(emailProperty);
-                    throw new Exception("Please verify your email!");
+                    throw new _401Exception("Please verify your email!");
                 }
                 else
                 {

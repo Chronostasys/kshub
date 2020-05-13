@@ -10,7 +10,7 @@ using LoveCraft.Kshub.Dto;
 using Microsoft.AspNetCore.Authorization;
 using LoveCraft.Kshub.Models;
 using MongoDB.Driver;
-
+using LoveCraft.Kshub.Exceptions;
 namespace LoveCraft.Kshub.Controllers
 {
     [ApiController]
@@ -92,7 +92,7 @@ namespace LoveCraft.Kshub.Controllers
             }
             else
             {
-                throw new Exception("Only admin can add Course!");
+                throw new _403Exception("Only admin can add Course!");
             }
         }
 
@@ -107,7 +107,7 @@ namespace LoveCraft.Kshub.Controllers
             //当前用户不是对应course的owner或者当前用户不是该course的成员
             if (curinfo==null||!curinfo.Roles.Contains(CourseRoles.Owner))  
             {
-                throw new Exception("You have no access to add a admin!");
+                throw new _403Exception("You have no access to add a admin!");
             }
             else
             {

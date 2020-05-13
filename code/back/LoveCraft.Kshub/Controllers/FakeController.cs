@@ -39,7 +39,7 @@ namespace LoveCraft.Kshub.Controllers
                         PassWordHash = "12345678a",
                         IsEmailConfirmed=true,
                         Roles = new List<string> { "User" },
-                    });
+                    }); 
             }
         }
 

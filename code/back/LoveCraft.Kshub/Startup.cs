@@ -21,8 +21,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace LoveCraft.Kshub
 {
+
     public class Startup
     {
+
         public string password=null;
         public Startup(IConfiguration configuration)
         {

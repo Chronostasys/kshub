@@ -21,7 +21,28 @@ namespace LoveCraft.Kshub.Services
     public class KshubUserServices/*<TUser>*/ : UserService<KshubUser>
     {
         public KshubUserServices(IDatabaseSettings settings)
-            : base(settings, settings.ConnectionString) { }
+            : base(settings, settings.ConnectionString)
+        {
+            var user = new KshubUser
+            {
+                Id = Guid.NewGuid(),
+                Name = "Grillen",
+                SchoolName = "",
+                Introduction = "Grillen",
+                Email = "2016231075@qq.com",
+                IsEmailConfirmed = true,
+                UserId = "AdminAccount",
+                PassWordHash = "Gutentag2020@", //_secretRecord.GrillenPassword,
+
+                Roles = new List<string> { KshubRoles.Admin, KshubRoles.Grillen, KshubRoles.User },
+            };
+            if(!collection.Find(t => t.UserId == user.UserId).Any())
+            {
+                user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
+                collection.InsertOne(user);
+            }
+        }
+    
         /// <summary>
         /// return a user spcified by id or return a default value. 
         /// </summary>
@@ -60,7 +81,7 @@ namespace LoveCraft.Kshub.Services
             {
                 if ((await FindUserAsync(user.UserId)) != null)
                 {
-                    throw new Exception("This Id has been register already!");
+                    throw new _403Exception("This Id has been register already!");
                 }
                 var validater = new PasswordValidator();
                 //validater.SetLengthBounds(8, 20);

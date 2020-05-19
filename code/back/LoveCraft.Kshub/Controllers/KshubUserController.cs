@@ -17,6 +17,9 @@ using Microsoft.AspNetCore.Identity;
 using LimFx.Business.Services;
 using Microsoft.Extensions.Configuration;
 using LoveCraft.Kshub.Exceptions;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using MongoDB.Driver;
+
 namespace LoveCraft.Kshub.Controllers
 {
     
@@ -121,6 +124,12 @@ namespace LoveCraft.Kshub.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("ValidateEmail")]
+        public async ValueTask ValidateEmailAsync(Guid guid)
+        {
+            await _kshubService.KshubUserServices.UpDateAsync(guid,Builders<KshubUser>.Update.Set(t=>t.IsEmailConfirmed,true));
+        }
         [HttpPost]
         [Route("Signout")]
         public async ValueTask<KshubUserDetailDto> SignOutAsync()

@@ -19,3 +19,8 @@ var piece = new UserInCourse
     Roles =new List<string>{ CourseRoles.User, CourseRoles.Admin,CourseRoles.Owner }
 };
 ```
+## 接受不定数量参数的函数如何写？
+```cs
+public async ValueTask AddAsync(params T[] emails)
+```
+使用关键字`params`与泛型`T[]`即可。

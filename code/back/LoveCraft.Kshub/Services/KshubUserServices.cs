@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using DocumentFormat.OpenXml.InkML;
 using LoveCraft.Kshub.Exceptions;
+using System.Threading.Tasks.Sources;
+
 namespace LoveCraft.Kshub.Services
 {
 
@@ -42,7 +44,6 @@ namespace LoveCraft.Kshub.Services
                 collection.InsertOne(user);
             }
         }
-    
         /// <summary>
         /// return a user spcified by id or return a default value. 
         /// </summary>
@@ -126,9 +127,9 @@ namespace LoveCraft.Kshub.Services
                 };
 
                 var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, u.Id.ToString()),
-            };
+                {
+                    new Claim(ClaimTypes.Name, u.Id.ToString()),
+                };
                 for (int i = 0; i < u.Roles.Count; i++)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, u.Roles[i]));

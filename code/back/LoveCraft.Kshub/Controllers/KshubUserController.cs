@@ -60,7 +60,7 @@ namespace LoveCraft.Kshub.Controllers
                 Email = addUserDto.Email,
                 PassWordHash = addUserDto.Password,
                 Roles = new List<string> { "User" },
-                IsEmailConfirmed = false
+                IsEmailConfirmed = true
             };
             var flag =await _kshubService.KshubUserServices.FindFirstAsync(t => t.Email == user.Email, t => t.Email == user.Email);
             if (flag)
@@ -134,6 +134,7 @@ namespace LoveCraft.Kshub.Controllers
             if (user == null) throw new _401Exception("You have not a registered token");
             else
             {
+                
                 await _kshubService.KshubUserServices.AddUserAsync((KshubUser)user);
                 return _mapper.Map<KshubUserDetailDto>((KshubUser)user);
             }

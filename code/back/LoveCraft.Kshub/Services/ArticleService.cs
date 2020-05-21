@@ -24,5 +24,14 @@ namespace LoveCraft.Kshub.Services
         {
             return await (await collection.FindAsync(t => t.Id == articleId)).FirstAsync();
         }
+        public async ValueTask CheckArticleName(Guid authorId,string name)
+        {
+            var result = await collection.FindAsync(t => t.AuthorId == authorId && t.Title == name);
+        }
+        public async ValueTask<Article> AddArticleAsync(Article article)
+        {
+            await collection.InsertOneAsync(article);
+            return article;
+        }
     }
 }

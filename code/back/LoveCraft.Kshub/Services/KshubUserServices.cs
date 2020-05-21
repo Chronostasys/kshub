@@ -58,9 +58,9 @@ namespace LoveCraft.Kshub.Services
             var user =await (await collection.FindAsync(f => f.UserId == userId)).FirstOrDefaultAsync();
             return user;
         }
-        public async ValueTask<KshubUser> FindUserAsync(Guid userId)
+        public async ValueTask<KshubUser> FindUserAsync(Guid id)
         {
-            var user = await (await collection.FindAsync(f => f.Id == userId)).FirstOrDefaultAsync();
+            var user = await (await collection.FindAsync(f => f.Id == id)).FirstOrDefaultAsync();
             return user;
         }
         public string HashPasswordWithSalt(string password)
@@ -105,7 +105,6 @@ namespace LoveCraft.Kshub.Services
             }
             return user;
         }
-
         public async ValueTask<bool> LogInAsync(KshubUser user, HttpContext httpContext, bool rememberMe = true, bool validPassword = true)
         {
 
@@ -149,9 +148,6 @@ namespace LoveCraft.Kshub.Services
                 throw new _400Exception("Password and email do not match!");
             }
         }
-
-        
-        
         public async ValueTask SignOutAsync(HttpContext httpContext)
         {
             await httpContext.SignOutAsync();

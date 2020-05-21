@@ -117,11 +117,6 @@ namespace LoveCraft.Kshub.Controllers
                 {
                     throw new _400Exception("Username or Password is wrong.");
                 }
-                //else if (!user.IsEmailConfirmed)
-                //{
-
-
-                //}
                 else
                 {
                     user.PassWordHash = logInDto.Password;

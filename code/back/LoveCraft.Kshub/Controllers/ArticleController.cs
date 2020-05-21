@@ -9,6 +9,9 @@ using LoveCraft.Kshub.Services;
 using DocumentFormat.OpenXml.Spreadsheet;
 using LoveCraft.Kshub.Dto;
 using LoveCraft.Kshub.Exceptions;
+using Qiniu.Util;
+using LoveCraft.Kshub.Models;
+
 namespace LoveCraft.Kshub.Controllers
 {
     [Route("api/[controller]")]
@@ -24,6 +27,7 @@ namespace LoveCraft.Kshub.Controllers
             this.env = env;
         }
         [HttpGet]
+        [Route("Article")]
         public async ValueTask<ArticleDetailDto> GetArticleAsync(Guid articleId)
         {
             try
@@ -37,6 +41,7 @@ namespace LoveCraft.Kshub.Controllers
             }
         }
         [HttpGet]
+        [Route("AutherArticle")]
         public async ValueTask<List<ArticleDetailDto>> GetAutherArticleAsync(Guid autherId)
         {
             try
@@ -54,6 +59,31 @@ namespace LoveCraft.Kshub.Controllers
                 return null;
             }
 
+        }
+
+        [HttpPost]
+        [Route("NewArticle")]
+        public async ValueTask<ArticleDetailDto> AddNewArticle(AddArticleDto addArticleDto)
+        {
+            var authorId =Guid.Parse(User.Identity.Name);
+            try
+            {
+                await _kshubService.ArticleService.CheckArticleName(authorId, addArticleDto.Title);
+                var article = new Article
+                {
+                    Id = Guid.NewGuid(),
+                    AuthorId = authorId,
+                    Title = addArticleDto.Title,
+                    Description = addArticleDto.Description,
+                    Content = addArticleDto.Content
+                };
+                await _kshubService.ArticleService.AddArticleAsync(article);
+                return _mapper.Map<ArticleDetailDto>(article);
+            }
+            catch (Exception)
+            {
+                throw new _401Exception($"The article with title: {addArticleDto.Title} exists!");
+            }
         }
     }
 }

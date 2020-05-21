@@ -35,7 +35,7 @@ namespace LoveCraft.Kshub.Services
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+
             }
            
         }

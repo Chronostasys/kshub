@@ -21,8 +21,6 @@ namespace LoveCraft.Kshub.Models
         public string UserInCourseCollection { get; set; }
         public string CourseCollection { get; set; }
         public string UserCollection { get; set; }
-        //public string ConnectionString { get; set; }
-        //public string DatabaseName { get; set; }
 
     }
 

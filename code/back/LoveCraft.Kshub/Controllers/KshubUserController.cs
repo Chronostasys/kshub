@@ -62,9 +62,22 @@ namespace LoveCraft.Kshub.Controllers
                 Roles = new List<string> { "User" },
                 IsEmailConfirmed = false
             };
-
-            await _kshubService.KshubUserServices.AddUserAsync(user);
-            return _mapper.Map<KshubUserDetailDto>(user);
+            var flag =await _kshubService.KshubUserServices.FindFirstAsync(t => t.Email == user.Email, t => t.Email == user.Email);
+            if (flag)
+            {
+                throw new _401Exception("This email has register already,if you forget your password,please reset your password");
+            }
+            _kshubService.tokens.TryAdd(user.Id, user);
+            var emailProperty = new EmailProperty()
+            {
+                RazorTemplatePath = "\\EmailTemplate\\EmailConfirm.cshtml",
+                Subject = "Confirm Kshub Account's Email",
+                Receivers = new List<string> { user.Email },
+                Url = Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/{user.Id}")
+            };
+            _kshubService.tokens.TryAdd(user.Id, user.Email);
+            await _kshubService.EmailService.SendEmailAsync(emailProperty);
+            throw new _401Exception("Please verify your email!");
         }
         
         [AllowAnonymous]
@@ -94,28 +107,16 @@ namespace LoveCraft.Kshub.Controllers
             {
                 var user = await _kshubService.KshubUserServices.FindUserAsync(logInDto.UserId);
 
-                //==========================
-                //测试把IsEamcilConfirmed设为false检测发邮件
 
-                //======================
                 if (user == null)
                 {
                     throw new _400Exception("Username or Password is wrong.");
                 }
-                else if (!user.IsEmailConfirmed)
-                {
+                //else if (!user.IsEmailConfirmed)
+                //{
 
-                    var emailProperty = new EmailProperty()
-                    {
-                        RazorTemplatePath = "\\EmailTemplate\\EmailConfirm.cshtml",
-                        Subject = "Confirm Kshub Account's Email",
-                        Receivers = new List<string> { user.Email },
-                        Url= Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/{user.Id}")
-                    };
-                    _kshubService.tokens.TryAdd(user.Id, user.Email);
-                    await _kshubService.EmailService.SendEmailAsync(emailProperty);
-                    throw new _401Exception("Please verify your email!");
-                }
+
+                //}
                 else
                 {
                     user.PassWordHash = logInDto.Password;
@@ -127,13 +128,14 @@ namespace LoveCraft.Kshub.Controllers
 
         [HttpPost]
         [Route("ValidateEmail")]
-        public async ValueTask ValidateEmailAsync(Guid guid)
+        public async ValueTask<KshubUserDetailDto> ValidateEmailAsync(Guid guid)
         {
-            var email = _kshubService.tokens[guid];
-            if (email == null) throw new _401Exception("You have not the token");
+            _kshubService.tokens.TryRemove(guid, out object user);
+            if (user == null) throw new _401Exception("You have not a registered token");
             else
             {
-                await _kshubService.KshubUserServices.UpDateAsync(guid, Builders<KshubUser>.Update.Set(t => t.IsEmailConfirmed, true));
+                await _kshubService.KshubUserServices.AddUserAsync((KshubUser)user);
+                return _mapper.Map<KshubUserDetailDto>((KshubUser)user);
             }
         }
         [HttpPost]

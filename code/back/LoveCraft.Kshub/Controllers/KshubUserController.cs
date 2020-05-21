@@ -111,7 +111,8 @@ namespace LoveCraft.Kshub.Controllers
                         Subject = "Confirm Kshub Account's Email",
                         Receivers = new List<string> { user.Email },
                         Url= Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/{user.Id}")
-                };
+                    };
+                    _kshubService.tokens.TryAdd(user.Id, user.Email);
                     await _kshubService.EmailService.SendEmailAsync(emailProperty);
                     throw new _401Exception("Please verify your email!");
                 }
@@ -128,7 +129,12 @@ namespace LoveCraft.Kshub.Controllers
         [Route("ValidateEmail")]
         public async ValueTask ValidateEmailAsync(Guid guid)
         {
-            await _kshubService.KshubUserServices.UpDateAsync(guid,Builders<KshubUser>.Update.Set(t=>t.IsEmailConfirmed,true));
+            var email = _kshubService.tokens[guid];
+            if (email == null) throw new _401Exception("You have not the token");
+            else
+            {
+                await _kshubService.KshubUserServices.UpDateAsync(guid, Builders<KshubUser>.Update.Set(t => t.IsEmailConfirmed, true));
+            }
         }
         [HttpPost]
         [Route("Signout")]

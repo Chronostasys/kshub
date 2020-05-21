@@ -5,6 +5,14 @@
 @{
 }
 <h1>Ksuhb</h1>
-<h4>请点击<a href="@Model.Url">此处</a>@Model.Subject</h4>
+<h2>这是一封Kshub注册账户的验证邮件</h2>
+<h4>如果您使用本邮件注册了用户,请点击下面按钮确认注册：</h4>
+@Model.Subject
+<br />
+<a href="@Model.Url"><button>Verify</button></a>
+
+
+
+
 <br />
 <p>若注册非您本人操作，请无视此邮件</p>

@@ -61,5 +61,18 @@ namespace LoveCraft.Kshub.Controllers
                 await _kshubService.UserInCourseService.AddAdminInCouseAsync(course.Id, stuid);
             }
         }
+        [HttpPost]
+        [Route("SendEmail")]
+        public async ValueTask SendEmailConfirm(string email)
+        {
+            var emailProperty = new EmailProperty()
+            {
+                RazorTemplatePath = "\\EmailTemplate\\EmailConfirm.cshtml",
+                Subject = "Confirm Kshub Account's Email",
+                Receivers = new List<string> { email },
+                Url = Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/")
+            };
+            await _kshubService.EmailService.SendEmailAsync(emailProperty);
+        }
     }
 }

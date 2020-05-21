@@ -84,7 +84,7 @@ namespace LoveCraft.Kshub.Controllers
             throw new _401Exception("This email has register already,if you forget your password,please reset your password");
 
         }
-
+        
         [AllowAnonymous]
         [HttpPost]
         [Route("LogIn")]

@@ -20,9 +20,9 @@ using System.Threading.Tasks.Sources;
 namespace LoveCraft.Kshub.Services
 {
 
-    public class KshubUserServices/*<TUser>*/ : UserService<KshubUser>
+    public class UserServices/*<TUser>*/ : UserService<KshubUser>
     {
-        public KshubUserServices(IDatabaseSettings settings)
+        public UserServices(IDatabaseSettings settings)
             : base(settings, settings.ConnectionString)
         {
             var user = new KshubUser

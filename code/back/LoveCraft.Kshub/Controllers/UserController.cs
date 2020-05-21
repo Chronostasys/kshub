@@ -25,13 +25,13 @@ namespace LoveCraft.Kshub.Controllers
     
     [ApiController]
     [Route("api/[controller]")]
-    public class KshubUserController : Controller
+    public class UserController : Controller
     {
         private readonly SecretRecord _secretRecord;
         private readonly KshubService _kshubService;
         readonly IMapper _mapper;
         IHostEnvironment env;
-        public KshubUserController(KshubService kshubService, IMapper mapper, IHostEnvironment env,SecretRecord secretRecord)
+        public UserController(KshubService kshubService, IMapper mapper, IHostEnvironment env,SecretRecord secretRecord)
         {
             _secretRecord = secretRecord;
             _kshubService = kshubService;
@@ -40,10 +40,10 @@ namespace LoveCraft.Kshub.Controllers
         }
 
         [HttpGet]
-        public async ValueTask<KshubUserDetailDto> GetUsersAsync(string id)
+        public async ValueTask<UserDetailDto> GetUsersAsync(string id)
         {
             var user = await _kshubService.KshubUserServices.FindUserAsync(id);
-            return _mapper.Map<KshubUserDetailDto>(user);
+            return _mapper.Map<UserDetailDto>(user);
         }
 
         [HttpPost]
@@ -88,12 +88,12 @@ namespace LoveCraft.Kshub.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("LogIn")]
-        public async ValueTask<KshubUserDetailDto> LogIn(LogInDto logInDto,bool rememberMe)
+        public async ValueTask<UserDetailDto> LogIn(LogInDto logInDto,bool rememberMe)
         {
             
             if (!User.Identity.IsAuthenticated)
             {
-                return _mapper.Map<KshubUserDetailDto>(await _kshubService.KshubUserServices.SignInAsAnonymous(HttpContext));
+                return _mapper.Map<UserDetailDto>(await _kshubService.KshubUserServices.SignInAsAnonymous(HttpContext));
             }
             //已经认证过了，dto传进来的UserId是空的，
             else if (string.IsNullOrWhiteSpace(logInDto.UserId))
@@ -101,7 +101,7 @@ namespace LoveCraft.Kshub.Controllers
                 try
                 {
                     return await _kshubService.KshubUserServices.FindFirstAsync(u =>Guid.Parse(User.Identity.Name) == u.Id,
-                        u => _mapper.Map<KshubUserDetailDto>(u));
+                        u => _mapper.Map<UserDetailDto>(u));
                 }
                 catch (Exception)
                 {
@@ -122,13 +122,13 @@ namespace LoveCraft.Kshub.Controllers
                     user.PassWordHash = logInDto.Password;
                     await _kshubService.KshubUserServices.LogInAsync(user, HttpContext, rememberMe);
                 }
-                return _mapper.Map<KshubUserDetailDto>(user);
+                return _mapper.Map<UserDetailDto>(user);
             }
         }
 
         [HttpPost]
         [Route("ValidateEmail")]
-        public async ValueTask<KshubUserDetailDto> ValidateEmailAsync(Guid guid)
+        public async ValueTask<UserDetailDto> ValidateEmailAsync(Guid guid)
         {
             _kshubService.tokens.TryRemove(guid, out object user);
             if (user == null) throw new _401Exception("You have not a registered token");
@@ -136,15 +136,15 @@ namespace LoveCraft.Kshub.Controllers
             {
                 
                 await _kshubService.KshubUserServices.AddUserAsync((KshubUser)user);
-                return _mapper.Map<KshubUserDetailDto>((KshubUser)user);
+                return _mapper.Map<UserDetailDto>((KshubUser)user);
             }
         }
         [HttpPost]
         [Route("Signout")]
-        public async ValueTask<KshubUserDetailDto> SignOutAsync()
+        public async ValueTask<UserDetailDto> SignOutAsync()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return _mapper.Map<KshubUserDetailDto>(await _kshubService.KshubUserServices.SignInAsAnonymous(HttpContext));
+            return _mapper.Map<UserDetailDto>(await _kshubService.KshubUserServices.SignInAsAnonymous(HttpContext));
         }
 
 

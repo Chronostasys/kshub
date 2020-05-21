@@ -14,7 +14,7 @@ namespace LoveCraft.Kshub.Services
 {
     public class KshubService
     {
-        public KshubUserServices KshubUserServices { get; }
+        public UserServices KshubUserServices { get; }
         public CourseServices CourseServices { get; }
         public UserInCourseService UserInCourseService { get; }
         public EmailService EmailService { get; }
@@ -26,7 +26,7 @@ namespace LoveCraft.Kshub.Services
             try
             {
                 EmailService = new EmailService(email);
-                KshubUserServices = new KshubUserServices(databaseSettings);
+                KshubUserServices = new UserServices(databaseSettings);
                 CourseServices = new CourseServices(databaseSettings);
                 UserInCourseService = new UserInCourseService(databaseSettings);
                 tokens = new ConcurrentDictionary<Guid, object>();

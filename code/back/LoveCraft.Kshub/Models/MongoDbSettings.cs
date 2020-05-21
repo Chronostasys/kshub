@@ -8,6 +8,7 @@ namespace LoveCraft.Kshub.Models
     //这里展示了数据库中的collection名，然后之后把类映射到上面去
     public class MongoDbSettings : IDatabaseSettings
     {
+        public string ArticleCollection { get; set; }
         public string UserInCourseCollection {get;set;}
         public string CourseCollection { get; set; }
         public string UserCollection { get; set; }
@@ -16,6 +17,7 @@ namespace LoveCraft.Kshub.Models
     }
     public interface IDatabaseSettings:IBaseDbSettings
     {
+        public string ArticleCollection { get; set; }
         public string UserInCourseCollection { get; set; }
         public string CourseCollection { get; set; }
         public string UserCollection { get; set; }

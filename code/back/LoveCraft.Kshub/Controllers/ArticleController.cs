@@ -7,8 +7,8 @@ using AutoMapper;
 using Microsoft.Extensions.Hosting;
 using LoveCraft.Kshub.Services;
 using DocumentFormat.OpenXml.Spreadsheet;
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
+using LoveCraft.Kshub.Dto;
+using LoveCraft.Kshub.Exceptions;
 namespace LoveCraft.Kshub.Controllers
 {
     [Route("api/[controller]")]
@@ -23,36 +23,37 @@ namespace LoveCraft.Kshub.Controllers
             _mapper = mapper;
             this.env = env;
         }
-        // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async ValueTask<ArticleDetailDto> GetArticleAsync(Guid articleId)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var article = await _kshubService.ArticleService.GetArticleAsync(articleId);
+                return _mapper.Map<ArticleDetailDto>(article);
+            }
+            catch (Exception)
+            {
+                throw new _401Exception("It doesn't exist this article!");
+            }
         }
-
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        public async ValueTask<List<ArticleDetailDto>> GetAutherArticleAsync(Guid autherId)
         {
-            return "value";
-        }
+            try
+            {
+                List<ArticleDetailDto> dtos = new List<ArticleDetailDto>();
+                var articles = await _kshubService.ArticleService.GetAutherArticleAsync(autherId);
+                foreach(var item in articles)
+                {
+                    dtos.Add(_mapper.Map<ArticleDetailDto>(item));
+                }
+                return dtos;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
 
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

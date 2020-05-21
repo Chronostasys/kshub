@@ -48,7 +48,7 @@ namespace LoveCraft.Kshub.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public async ValueTask<KshubUserDetailDto> Register(AddUserDto addUserDto)
+        public async ValueTask Register(AddUserDto addUserDto)
         {
             var user = new KshubUser
             {
@@ -62,24 +62,29 @@ namespace LoveCraft.Kshub.Controllers
                 Roles = new List<string> { "User" },
                 IsEmailConfirmed = true
             };
-            var flag =await _kshubService.KshubUserServices.FindFirstAsync(t => t.Email == user.Email, t => t.Email == user.Email);
-            if (flag)
+            try
             {
-                throw new _401Exception("This email has register already,if you forget your password,please reset your password");
+                await _kshubService.KshubUserServices.GetUserByEmailAsync(user.Email);
             }
-            _kshubService.tokens.TryAdd(user.Id, user);
-            var emailProperty = new EmailProperty()
+            catch (Exception)
             {
-                RazorTemplatePath = "\\EmailTemplate\\EmailConfirm.cshtml",
-                Subject = "Confirm Kshub Account's Email",
-                Receivers = new List<string> { user.Email },
-                Url = Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/{user.Id}")
-            };
-            _kshubService.tokens.TryAdd(user.Id, user.Email);
-            await _kshubService.EmailService.SendEmailAsync(emailProperty);
-            throw new _401Exception("Please verify your email!");
+                _kshubService.tokens.TryAdd(user.Id, user);
+                var emailProperty = new EmailProperty()
+                {
+                    RazorTemplatePath = "\\EmailTemplate\\EmailConfirm.cshtml",
+                    Subject = "Confirm Kshub Account's Email",
+                    Receivers = new List<string> { user.Email },
+                    Url = Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/{user.Id}")
+                };
+                _kshubService.tokens.TryAdd(user.Id, user.Email);
+                await _kshubService.EmailService.SendEmailAsync(emailProperty);
+                throw new _401Exception("Please verify your email!");
+
+            }
+            throw new _401Exception("This email has register already,if you forget your password,please reset your password");
+
         }
-        
+
         [AllowAnonymous]
         [HttpPost]
         [Route("LogIn")]

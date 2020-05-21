@@ -38,10 +38,14 @@ namespace LoveCraft.Kshub.Services
 
                 Roles = new List<string> { KshubRoles.Admin, KshubRoles.Grillen, KshubRoles.User },
             };
-            if(!collection.Find(t => t.UserId == user.UserId).Any())
+            try
             {
                 user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
                 collection.InsertOne(user);
+            }
+            catch (Exception)
+            {
+
             }
         }
         /// <summary>

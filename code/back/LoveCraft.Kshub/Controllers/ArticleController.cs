@@ -68,7 +68,10 @@ namespace LoveCraft.Kshub.Controllers
             var authorId =Guid.Parse(User.Identity.Name);
             try
             {
-                await _kshubService.ArticleService.CheckArticleName(authorId, addArticleDto.Title);
+                await _kshubService.ArticleService.CheckArticleName(t=>t.AuthorId==authorId&&t.Title== addArticleDto.Title);
+            }
+            catch (Exception)
+            {
                 var article = new Article
                 {
                     Id = Guid.NewGuid(),
@@ -80,10 +83,16 @@ namespace LoveCraft.Kshub.Controllers
                 await _kshubService.ArticleService.AddArticleAsync(article);
                 return _mapper.Map<ArticleDetailDto>(article);
             }
-            catch (Exception)
-            {
-                throw new _401Exception($"The article with title: {addArticleDto.Title} exists!");
-            }
+            throw new _401Exception($"The article with title: {addArticleDto.Title} exists!");
+
+        }
+
+        [HttpPost]
+        [Route("DeleteArticle")]
+        public async ValueTask DeketeArticleAsync(Guid articleId)
+        {
+            var userId =Guid.Parse(User.Identity.Name);
+
         }
     }
 }

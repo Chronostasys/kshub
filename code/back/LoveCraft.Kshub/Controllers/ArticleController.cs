@@ -92,7 +92,16 @@ namespace LoveCraft.Kshub.Controllers
         public async ValueTask DeketeArticleAsync(Guid articleId)
         {
             var userId =Guid.Parse(User.Identity.Name);
-
+            try
+            {
+                await _kshubService.ArticleService.CheckArticleName(t => t.AuthorId == userId && t.Id == articleId);
+                //这里可以加一个垃圾箱的功能
+                await _kshubService.ArticleService.DeleteAsync(articleId);
+            }
+            catch (Exception)
+            {
+                throw new _403Exception();
+            }
         }
     }
 }

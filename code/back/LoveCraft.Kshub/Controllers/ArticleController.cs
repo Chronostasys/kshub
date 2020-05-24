@@ -124,5 +124,22 @@ namespace LoveCraft.Kshub.Controllers
 
 
         }
+
+        [HttpPost]
+        [Route("UpdateArticle")]
+        public async ValueTask<ArticleDetailDto> UpdateArticleAsync(UpdateArticleDto update)
+        {
+            var userId = Guid.Parse(User.Identity.Name);
+            try
+            {
+                var article= await _kshubService.ArticleService.CheckArticleProspertiesAsync(t => t.Id == update.Id && t.AuthorId == userId);
+
+                return _mapper.Map<ArticleDetailDto>(await _kshubService.ArticleService.UpdateArticleAsync(article));
+            }
+            catch (Exception)
+            {
+                throw new _403Exception();
+            }
+        }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
     }
 }

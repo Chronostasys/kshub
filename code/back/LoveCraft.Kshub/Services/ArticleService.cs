@@ -34,9 +34,10 @@ namespace LoveCraft.Kshub.Services
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public async ValueTask CheckArticleProspertiesAsync(Expression<Func<Article,bool>> action)
+        public async ValueTask<Article> CheckArticleProspertiesAsync(Expression<Func<Article,bool>> action)
         {
-            var result = await collection.FindAsync(Builders<Article>.Filter.Eq(action,true));
+            var result =await collection.FindAsync(Builders<Article>.Filter.Eq(action,true));
+            return (Article)result;
         }
         public async ValueTask<Article> AddArticleAsync(Article article)
         {
@@ -46,6 +47,15 @@ namespace LoveCraft.Kshub.Services
         public async ValueTask DeleteFromGarbageAsync(Guid articleId)
         {
             await collection.DeleteOneAsync(Builders<Article>.Filter.Eq(t => t.Id, articleId));
+        }
+        public async ValueTask<Article> UpdateArticleAsync(Article article)
+        {
+            await collection.FindOneAndUpdateAsync(t => t.Id == article.Id, Builders<Article>
+                .Update
+                .Set(t => t.Content, article.Content)
+                .Set(t => t.Title, article.Title)
+                .Set(t => t.Description, article.Description));
+            return article;
         }
     }
 }

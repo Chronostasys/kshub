@@ -77,13 +77,17 @@ namespace LoveCraft.Kshub
                 op.TemplateDir = "Index.cshtml";
             });
 
+            //添加了IEnumerable会不会有一点小问题？
+            //并没有添加typeof
             services.AddAutoMapper(config=> {
                 config.CreateMap<KshubUser, UserDetailDto>();
                 config.CreateMap<LogInDto, KshubUser>();
                 config.CreateMap<Course, CourseDetailDto>();
                 config.CreateMap<Article, ArticleDetailDto>();
+                config.CreateMap<IEnumerable<Article>, IEnumerable<ArticleDetailDto>>();
             }, typeof(KshubUser), typeof(UserDetailDto), typeof(LogInDto), typeof(Course)
-            , typeof(CourseDetailDto),typeof(Article),typeof(ArticleDetailDto));
+            , typeof(CourseDetailDto),typeof(Article),typeof(ArticleDetailDto),typeof(IEnumerable<Article>)
+            ,typeof(IEnumerable<ArticleDetailDto>));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(op =>
                 {

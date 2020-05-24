@@ -24,3 +24,16 @@ var piece = new UserInCourse
 public async ValueTask AddAsync(params T[] emails)
 ```
 使用关键字`params`与泛型`T[]`即可。
+
+## 7.ValueTask是不能迭代的（我在想peach)
+```cs
+public async ValueTask<IEnumerable<ArticleDetailDto>> GetGarbageListAsync()
+{
+    var userId=Guid.Parse(User.Identity.Name);
+    var list=await _kshubService.ArticleService.GetArticlesAsync(t=>t.AuthorId==userId&&t.IsDeleted==true);
+    foreach(var item in list)
+    {
+        yield return _mapper.Map<ArticleDetailDto>(item);
+    }
+}
+```

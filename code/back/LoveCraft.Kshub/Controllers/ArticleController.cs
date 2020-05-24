@@ -47,7 +47,7 @@ namespace LoveCraft.Kshub.Controllers
             try
             {
                 List<ArticleDetailDto> dtos = new List<ArticleDetailDto>();
-                var articles = await _kshubService.ArticleService.GetAutherArticleAsync(autherId);
+                var articles = await _kshubService.ArticleService.GetArticlesAsync(autherId);
                 foreach(var item in articles)
                 {
                     dtos.Add(_mapper.Map<ArticleDetailDto>(item));
@@ -68,7 +68,7 @@ namespace LoveCraft.Kshub.Controllers
             var authorId =Guid.Parse(User.Identity.Name);
             try
             {
-                await _kshubService.ArticleService.CheckArticleName(t=>t.AuthorId==authorId&&t.Title== addArticleDto.Title);
+                await _kshubService.ArticleService.CheckArticleProspertiesAsync(t=>t.AuthorId==authorId&&t.Title== addArticleDto.Title);
             }
             catch (Exception)
             {
@@ -94,14 +94,39 @@ namespace LoveCraft.Kshub.Controllers
             var userId =Guid.Parse(User.Identity.Name);
             try
             {
-                await _kshubService.ArticleService.CheckArticleName(t => t.AuthorId == userId && t.Id == articleId);
-                //这里可以加一个垃圾箱的功能
-                await _kshubService.ArticleService.DeleteAsync(articleId);
+                await _kshubService.ArticleService.CheckArticleProspertiesAsync(t => t.AuthorId == userId && t.Id == articleId);
+                var article =await _kshubService.ArticleService.GetArticleAsync(articleId);
+                if (article.IsDeleted)
+                {
+                    await _kshubService.ArticleService.DeleteFromGarbageAsync(articleId);
+                }
+                else
+                {
+                    await _kshubService.ArticleService.DeleteAsync(articleId);
+                }
             }
             catch (Exception)
             {
                 throw new _403Exception();
             }
+        }
+
+        [HttpGet]
+        [Route("Garbage")]
+        public async ValueTask<IEnumerable<ArticleDetailDto>> GetGarbageListAsync()
+        {
+            var userId=Guid.Parse(User.Identity.Name);
+            try
+            {
+                var list = await _kshubService.ArticleService.GetArticlesAsync(t => t.AuthorId == userId && t.IsDeleted == true);
+                return _mapper.Map<List<ArticleDetailDto>>(list);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+
         }
     }
 }

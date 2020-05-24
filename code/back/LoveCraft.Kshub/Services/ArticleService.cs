@@ -17,24 +17,24 @@ namespace LoveCraft.Kshub.Services
         public ArticleService(IDatabaseSettings databaseSettings)
             : base(databaseSettings, databaseSettings.ArticleCollection) { }
 
-        public async ValueTask<List<Article>> GetAutherArticleAsync(Guid userId)
+        public async ValueTask<List<Article>> GetArticlesAsync(Expression<Func<Article,bool>> expression, FilterDefinition<Article> filter=null)
         {
-            return (await collection.FindAsync(t => t.AuthorId == userId)).ToList();
+            return await (await collection.FindAsync(Builders<Article>.Filter.Eq(expression,true) & filter)).ToListAsync();
         }
         public async ValueTask<Article> GetArticleAsync(Guid articleId)
         {
             return await (await collection.FindAsync(t => t.Id == articleId)).FirstAsync();
         }
-        public async ValueTask CheckArticleName(Guid authorId,string name)
+        public async ValueTask<Article> CheckArticleName(Guid authorId,string name)
         {
-            var result = await collection.FindAsync(t => t.AuthorId == authorId && t.Title == name);
+            return  await (await collection.FindAsync(t => t.AuthorId == authorId && t.Title == name)).FirstAsync();
         }
         /// <summary>
         /// Throw exception if doesn't find the specified element
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public async ValueTask CheckArticleName(Expression<Func<Article,bool>> action)
+        public async ValueTask CheckArticleProspertiesAsync(Expression<Func<Article,bool>> action)
         {
             var result = await collection.FindAsync(Builders<Article>.Filter.Eq(action,true));
         }
@@ -42,6 +42,10 @@ namespace LoveCraft.Kshub.Services
         {
             await collection.InsertOneAsync(article);
             return article;
+        }
+        public async ValueTask DeleteFromGarbageAsync(Guid articleId)
+        {
+            await collection.DeleteOneAsync(Builders<Article>.Filter.Eq(t => t.Id, articleId));
         }
     }
 }

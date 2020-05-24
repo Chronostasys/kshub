@@ -47,12 +47,8 @@ namespace LoveCraft.Kshub.Controllers
             try
             {
                 List<ArticleDetailDto> dtos = new List<ArticleDetailDto>();
-                var articles = await _kshubService.ArticleService.GetArticlesAsync(autherId);
-                foreach(var item in articles)
-                {
-                    dtos.Add(_mapper.Map<ArticleDetailDto>(item));
-                }
-                return dtos;
+                var articles = await _kshubService.ArticleService.GetArticlesAsync(t=>t.AuthorId==autherId);
+                return _mapper.Map<List<ArticleDetailDto>>(articles);
             }
             catch (Exception)
             {

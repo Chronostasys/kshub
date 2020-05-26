@@ -11,6 +11,8 @@ using LoveCraft.Kshub.Dto;
 using LoveCraft.Kshub.Exceptions;
 using Qiniu.Util;
 using LoveCraft.Kshub.Models;
+using LimFx.Business.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LoveCraft.Kshub.Controllers
 {
@@ -41,7 +43,7 @@ namespace LoveCraft.Kshub.Controllers
             }
         }
         [HttpGet]
-        [Route("AutherArticle")]
+        [Route("AutherArticles")]
         public async ValueTask<List<ArticleDetailDto>> GetAutherArticleAsync(Guid autherId)
         {
             try
@@ -58,10 +60,17 @@ namespace LoveCraft.Kshub.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = KshubRoles.User)]
         [Route("NewArticle")]
         public async ValueTask<ArticleDetailDto> AddNewArticle(AddArticleDto addArticleDto)
         {
+
             var authorId =Guid.Parse(User.Identity.Name);
+            //var isUser = (await _kshubService.KshubUserServices.FindUserAsync(authorId)).Roles.Contains(KshubRoles.User);
+            //if (!isUser)
+            //{
+            //    throw new _403Exception();
+            //}
             try
             {
                 await _kshubService.ArticleService.CheckArticleProspertiesAsync(t=>t.AuthorId==authorId&&t.Title== addArticleDto.Title);
@@ -84,6 +93,7 @@ namespace LoveCraft.Kshub.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = KshubRoles.User)]
         [Route("DeleteArticle")]
         public async ValueTask DeketeArticleAsync(Guid articleId)
         {
@@ -108,6 +118,7 @@ namespace LoveCraft.Kshub.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = KshubRoles.User)]
         [Route("Garbage")]
         public async ValueTask<IEnumerable<ArticleDetailDto>> GetGarbageListAsync()
         {
@@ -126,6 +137,7 @@ namespace LoveCraft.Kshub.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = KshubRoles.User)]
         [Route("UpdateArticle")]
         public async ValueTask<ArticleDetailDto> UpdateArticleAsync(UpdateArticleDto update)
         {

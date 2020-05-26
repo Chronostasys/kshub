@@ -9,6 +9,9 @@ using Microsoft.Extensions.Hosting;
 using AutoMapper;
 using OpenXmlPowerTools;
 using LoveCraft.Kshub.Dto;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using LimFx.Business.Exceptions;
 
 namespace LoveCraft.Kshub.Controllers
 {
@@ -41,6 +44,24 @@ namespace LoveCraft.Kshub.Controllers
                         Roles = new List<string> { "User" },
                     }); 
             }
+        }
+
+        [HttpPost]
+        [Route("LoadFile")]
+        public async ValueTask UploadFile(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                throw new _400Exception("You haven't choose a file");
+
+            var path = Path.Combine(
+                        Directory.GetCurrentDirectory(), "wwwroot",
+                        file.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
         }
 
         [HttpPost]

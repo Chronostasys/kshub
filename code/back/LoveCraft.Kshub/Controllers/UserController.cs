@@ -19,7 +19,7 @@ using Microsoft.Extensions.Configuration;
 using LoveCraft.Kshub.Exceptions;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using MongoDB.Driver;
-
+using System.Security.Authentication;
 namespace LoveCraft.Kshub.Controllers
 {
     
@@ -147,6 +147,16 @@ namespace LoveCraft.Kshub.Controllers
             return _mapper.Map<UserDetailDto>(await _kshubService.KshubUserServices.SignInAsAnonymous(HttpContext));
         }
 
+        [HttpPost]
+        [Route("ChangeAvatar")]
+        [Authorize(Roles = KshubRoles.User)]
+        public async ValueTask ChangeAvatarAsync(IFormFile file)
+        {
+            var userId = Guid.Parse(User.Identity.Name);
+            var avatarId = await _kshubService.LoadFileServices.LoadFileAsync(file);
+            await _kshubService.KshubUserServices.UpDateAsync(userId,
+                Builders<KshubUser>.Update.Set(t => t.AvatarUrl, "//need generate an url to fetch picture in database"));           
+        }
 
 
     }

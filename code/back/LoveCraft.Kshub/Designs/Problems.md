@@ -37,3 +37,19 @@ public async ValueTask<IEnumerable<ArticleDetailDto>> GetGarbageListAsync()
     }
 }
 ```
+## 8.在写后端api的时候，是不需要自己调用上传文件的方法获取文件参数的。这个工作由前端来完成。
+这里是前端html的代码，摘自[Docs](https://docs.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads?view=aspnetcore-3.1#storage-scenarios).  
+这里的input那里调用获得的结果就是一个`IFormFile`类型参数，可以直接传给后端api。
+```html
+<form enctype="multipart/form-data" method="post">
+    <dl>
+        <dt>
+            <label asp-for="FileUpload.FormFile"></label>
+        </dt>
+        <dd>
+            <input asp-for="FileUpload.FormFile" type="file">
+        </dd>
+    </dl>
+    <input asp-page-handler="Upload" class="btn" type="submit" value="Upload">
+</form>
+```

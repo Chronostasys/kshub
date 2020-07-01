@@ -137,10 +137,11 @@ export default class Login extends Vue {
         this.$emit('close');
     }
     login(){
-        Axios.post('/api/kshubkuser/login',this.userdata).then((params)=>{
-            var name = params.data.name;
+        console.log('ok')
+        Axios.post('/api/KshubUser/LogIn/',this.userdata).then((params)=>{
+            var studentId = params.data.studentId;
             var password = params.data.password;
-            this.userdata.name=name;
+            this.userdata.studentId=studentId;
             this.userdata.password=password;
             console.log(params.data);
         }).catch((err)=>{
@@ -153,8 +154,7 @@ export default class Login extends Vue {
     }
     register(){
         this.validatePassword();
-        Axios.post('/api/kshubuser/adduser',this.userdata).then((params)=>{
-
+        Axios.post('/api/KshubUser/Adduser/',this.userdata).then((params)=>{
         }).catch((err)=>{
             console.log(err.response.userdata.errorMessage);
             alert(err);

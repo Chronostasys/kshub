@@ -28,7 +28,7 @@ module.exports = {
         proxy: {
             '/': {
                 // 要访问的跨域的域名
-                target: 'http://localhost:5000',
+                target: 'https://localhost:5001',
                 // target: 'https://limfx.pro',
                 ws: true, // 是否启用websockets
                 pathRewrite: { '^/frontend': '' },

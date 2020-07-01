@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using LimFx.Business.Models;
 using LimFx.Business.Services;
 using LoveCraft.Kshub.Models;
@@ -13,24 +15,30 @@ namespace LoveCraft.Kshub.Services
 {
     public class KshubService
     {
-        public KshubUserServices KshubUserServices { get; }
+        public UserServices KshubUserServices { get; }
         public CourseServices CourseServices { get; }
         public UserInCourseService UserInCourseService { get; }
         public EmailService EmailService { get; }
+        public ConcurrentDictionary<Guid, object> tokens { get; }
+        public ArticleService ArticleService {get;}
+        public LoadFileServices LoadFileServices { get; }
         public KshubService(IDatabaseSettings databaseSettings,IHostEnvironment env,IMapper mapper,EmailSender<Models.Email> email)
         {
             BsonSerializer.RegisterIdGenerator(typeof(Guid), GuidGenerator.Instance);
             try
             {
+                LoadFileServices = new LoadFileServices(databaseSettings);
                 EmailService = new EmailService(email);
-                KshubUserServices = new KshubUserServices(databaseSettings);
+                KshubUserServices = new UserServices(databaseSettings);
                 CourseServices = new CourseServices(databaseSettings);
                 UserInCourseService = new UserInCourseService(databaseSettings);
+                tokens = new ConcurrentDictionary<Guid, object>();
+                ArticleService = new ArticleService(databaseSettings);
                 this.env = env;
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+
             }
            
         }

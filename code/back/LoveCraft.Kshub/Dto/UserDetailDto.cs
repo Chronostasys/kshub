@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LoveCraft.Kshub.Dto
 {
-    public class KshubUserDetailDto
+    public class UserDetailDto
     {
         public string Name { get; set; }
         public string UserId { get; set; }

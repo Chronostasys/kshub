@@ -9,6 +9,9 @@ using Microsoft.Extensions.Hosting;
 using AutoMapper;
 using OpenXmlPowerTools;
 using LoveCraft.Kshub.Dto;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using LimFx.Business.Exceptions;
 
 namespace LoveCraft.Kshub.Controllers
 {
@@ -39,8 +42,26 @@ namespace LoveCraft.Kshub.Controllers
                         PassWordHash = "12345678a",
                         IsEmailConfirmed=true,
                         Roles = new List<string> { "User" },
-                    });
+                    }); 
             }
+        }
+
+        [HttpPost]
+        [Route("LoadFile")]
+        public async ValueTask UploadFile(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                throw new _400Exception("You haven't choose a file");
+
+            var path = Path.Combine(
+                        Directory.GetCurrentDirectory(), "wwwroot",
+                        file.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
         }
 
         [HttpPost]
@@ -60,6 +81,19 @@ namespace LoveCraft.Kshub.Controllers
                 var stuid =await _kshubService.KshubUserServices.FindFirstAsync(t => t.UserId == 100.ToString(), u => u.Id);
                 await _kshubService.UserInCourseService.AddAdminInCouseAsync(course.Id, stuid);
             }
+        }
+        [HttpPost]
+        [Route("SendEmail")]
+        public async ValueTask SendEmailConfirm(string email)
+        {
+            var emailProperty = new EmailProperty()
+            {
+                RazorTemplatePath = "\\EmailTemplate\\EmailConfirm.cshtml",
+                Subject = "Confirm Kshub Account's Email",
+                Receivers = new List<string> { email },
+                Url = Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/")
+            };
+            await _kshubService.EmailService.SendEmailAsync(emailProperty);
         }
     }
 }

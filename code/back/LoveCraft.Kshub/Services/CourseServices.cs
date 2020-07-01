@@ -51,7 +51,6 @@ namespace LoveCraft.Kshub.Services
             return course;
         }
 
-
         /// <summary>
         /// Give you a safe and unique CourseId to use. 
         /// </summary>

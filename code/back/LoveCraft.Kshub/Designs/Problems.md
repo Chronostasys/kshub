@@ -19,3 +19,37 @@ var piece = new UserInCourse
     Roles =new List<string>{ CourseRoles.User, CourseRoles.Admin,CourseRoles.Owner }
 };
 ```
+## 接受不定数量参数的函数如何写？
+```cs
+public async ValueTask AddAsync(params T[] emails)
+```
+使用关键字`params`与泛型`T[]`即可。
+
+## 7.ValueTask是不能迭代的（我在想peach)
+```cs
+public async ValueTask<IEnumerable<ArticleDetailDto>> GetGarbageListAsync()
+{
+    var userId=Guid.Parse(User.Identity.Name);
+    var list=await _kshubService.ArticleService.GetArticlesAsync(t=>t.AuthorId==userId&&t.IsDeleted==true);
+    foreach(var item in list)
+    {
+        yield return _mapper.Map<ArticleDetailDto>(item);
+    }
+}
+```
+## 8.在写后端api的时候，是不需要自己调用上传文件的方法获取文件参数的。这个工作由前端来完成。
+这里是前端html的代码，摘自[Docs](https://docs.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads?view=aspnetcore-3.1#storage-scenarios).  
+这里的input那里调用获得的结果就是一个`IFormFile`类型参数，可以直接传给后端api。
+```html
+<form enctype="multipart/form-data" method="post">
+    <dl>
+        <dt>
+            <label asp-for="FileUpload.FormFile"></label>
+        </dt>
+        <dd>
+            <input asp-for="FileUpload.FormFile" type="file">
+        </dd>
+    </dl>
+    <input asp-page-handler="Upload" class="btn" type="submit" value="Upload">
+</form>
+```

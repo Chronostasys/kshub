@@ -14,14 +14,40 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using DocumentFormat.OpenXml.InkML;
+using LoveCraft.Kshub.Exceptions;
+using System.Threading.Tasks.Sources;
 
 namespace LoveCraft.Kshub.Services
 {
 
-    public class KshubUserServices/*<TUser>*/ : UserService<KshubUser>
+    public class UserServices/*<TUser>*/ : UserService<KshubUser>
     {
-        public KshubUserServices(IDatabaseSettings settings)
-            : base(settings, settings.ConnectionString) { }
+        public UserServices(IDatabaseSettings settings)
+            : base(settings, settings.ConnectionString)
+        {
+            var user = new KshubUser
+            {
+                Id = Guid.NewGuid(),
+                Name = "Grillen",
+                SchoolName = "",
+                Introduction = "Grillen",
+                Email = "2016231075@qq.com",
+                IsEmailConfirmed = true,
+                UserId = "AdminAccount",
+                PassWordHash = "Gutentag2020@", //_secretRecord.GrillenPassword,
+
+                Roles = new List<string> { KshubRoles.Admin, KshubRoles.Grillen, KshubRoles.User },
+            };
+            try
+            {
+                user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
+                collection.InsertOne(user);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
         /// <summary>
         /// return a user spcified by id or return a default value. 
         /// </summary>
@@ -32,9 +58,9 @@ namespace LoveCraft.Kshub.Services
             var user =await (await collection.FindAsync(f => f.UserId == userId)).FirstOrDefaultAsync();
             return user;
         }
-        public async ValueTask<KshubUser> FindUserAsync(Guid userId)
+        public async ValueTask<KshubUser> FindUserAsync(Guid id)
         {
-            var user = await (await collection.FindAsync(f => f.Id == userId)).FirstOrDefaultAsync();
+            var user = await (await collection.FindAsync(f => f.Id == id)).FirstOrDefaultAsync();
             return user;
         }
         public string HashPasswordWithSalt(string password)
@@ -60,7 +86,7 @@ namespace LoveCraft.Kshub.Services
             {
                 if ((await FindUserAsync(user.UserId)) != null)
                 {
-                    throw new Exception("This Id has been register already!");
+                    throw new _403Exception("This Id has been register already!");
                 }
                 var validater = new PasswordValidator();
                 //validater.SetLengthBounds(8, 20);
@@ -68,25 +94,24 @@ namespace LoveCraft.Kshub.Services
                 //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Numbers);
                 if (!validater.Validate(user.PassWordHash))
                 {
-                    throw new Exception("Password is not strong enough!");
+                    throw new _401Exception("Password is not strong enough!");
                 }
                 user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
                 await AddAsync(user);
             }
             else
             {
-                throw new Exception($"You don't belong to {user.SchoolName}!");
+                throw new _401Exception($"You don't belong to {user.SchoolName}!");
             }
             return user;
         }
-
         public async ValueTask<bool> LogInAsync(KshubUser user, HttpContext httpContext, bool rememberMe = true, bool validPassword = true)
         {
 
             var u = await FindUserAsync(user.UserId);
             if (u == null)
             {
-                throw new Exception("Cannot find this Id");
+                throw new _401Exception("Cannot find this Id");
             }
             bool auth = true;
             if (validPassword)
@@ -105,9 +130,9 @@ namespace LoveCraft.Kshub.Services
                 };
 
                 var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, u.Id.ToString()),
-            };
+                {
+                    new Claim(ClaimTypes.Name, u.Id.ToString()),
+                };
                 for (int i = 0; i < u.Roles.Count; i++)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, u.Roles[i]));
@@ -120,12 +145,9 @@ namespace LoveCraft.Kshub.Services
             }
             else
             {
-                throw new Exception("Password and email do not match!");
+                throw new _400Exception("Password and email do not match!");
             }
         }
-
-        
-        
         public async ValueTask SignOutAsync(HttpContext httpContext)
         {
             await httpContext.SignOutAsync();

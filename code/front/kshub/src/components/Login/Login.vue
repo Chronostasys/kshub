@@ -155,6 +155,14 @@ export default class Login extends Vue {
     register(){
         this.validatePassword();
         Axios.post('/api/KshubUser/Adduser/',this.userdata).then((params)=>{
+            var name = params.data.name;
+            var email = params.data.email;
+            var studentId = params.data.studentId;
+            var password = params.data.password;
+            this.userdata.name=name;
+            this.userdata.email=email;
+            this.userdata.studentId=studentId;
+            this.userdata.password=password;
         }).catch((err)=>{
             console.log(err.response.userdata.errorMessage);
             alert(err);
@@ -184,6 +192,6 @@ export default class Login extends Vue {
     max-width: 500px;
 }
 .isforgivable{
-    background-color:wheat;
+    background-color:rgb(26, 22, 14);
 }
 </style>

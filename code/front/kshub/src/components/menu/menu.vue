@@ -63,14 +63,15 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 import Login from '@/components/Login/Login.vue'
 import NewProject from '@/components/New Project/NewProject.vue'
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-
+import { Component, Prop, Vue, Watch } from "vue-property-decorator"
+import UserCenter from '@/components/UserCenter/UserCenter.vue';
 
 
 @Component({
   components:{
     NewProject,
-    Login
+    Login,
+    UserCenter
   }
 })
 

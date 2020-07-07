@@ -65,6 +65,7 @@ import HelloWorld from '@/components/HelloWorld.vue'
 import Login from '../components/Login/Login.vue'
 import NewProject from '../components/New Project/NewProject'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import Axios from 'axios';
 
 @Component({
   components:{
@@ -79,6 +80,18 @@ export default class Home extends Vue {
   }
   close(){
     this.cssClass = 'modal';
+  }
+  getCourses(){
+    Axios.get('/api/Courses').then((res)=>{
+      console.log(res.data);
+      courses=res.data;
+      for(item in courses)
+      {
+        console.log(item.name);
+      }
+      }).catch((err)=>{console.log(err);
+      alert(err);
+      });
   }
 }
 </script>

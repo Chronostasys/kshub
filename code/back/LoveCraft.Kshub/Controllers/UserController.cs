@@ -144,7 +144,10 @@ namespace LoveCraft.Kshub.Controllers
         public async ValueTask<UserDetailDto> SignOutAsync()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return _mapper.Map<UserDetailDto>(await _kshubService.KshubUserServices.SignInAsAnonymous(HttpContext));
+
+            //can null be mapped as a UserDetailDto
+            //so why not return null dirextly?
+            return null;
         }
 
         [HttpPost]

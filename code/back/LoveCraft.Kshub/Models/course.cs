@@ -11,5 +11,7 @@ namespace LoveCraft.Kshub.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string SearchAbleString { get; set; }
+        public string CoverUrl { get; set; }
+
     }
 }

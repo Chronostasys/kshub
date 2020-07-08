@@ -50,7 +50,7 @@ namespace LoveCraft.Kshub.Controllers
 
         [HttpPost]
         [Route("Update")]
-        public async ValueTask<CourseDetailDto> UpdateCourseAsync(Guid courseId,CourseDto courseDto)
+        public async ValueTask<CourseDetailDto> UpdateCourseAsync(Guid courseId,AddCourseDto courseDto)
         {
             var user = await _kshubService.KshubUserServices.FindUserAsync(User.Identity.Name);
             var p=await _kshubService.UserInCourseService.GetInfoAsync(courseId, user.Id);
@@ -68,7 +68,7 @@ namespace LoveCraft.Kshub.Controllers
         }
         [HttpPost]
         [Route("AddCourse")]
-        public async ValueTask<CourseDetailDto> AddCourseAsync(CourseDto addCourseDto,string userId)
+        public async ValueTask<CourseDetailDto> AddCourseAsync(AddCourseDto addCourseDto,string userId)
         {
             if (addCourseDto.Name.Equals("CourseIdRecord"))
             {
@@ -82,7 +82,8 @@ namespace LoveCraft.Kshub.Controllers
                     CourseId =await _kshubService.CourseServices.GernerateCourseIdAsync(),
                     Id = Guid.NewGuid(),
                     Description = addCourseDto.Description,
-                    Name = addCourseDto.Name
+                    Name = addCourseDto.Name,
+                    CoverUrl=addCourseDto.CoverUrl
                 };
                 await _kshubService.CourseServices.AddCourseAsync(course);
                 var user = await _kshubService.KshubUserServices.FindUserAsync(userId);

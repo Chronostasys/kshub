@@ -3,6 +3,7 @@ class constSTRINGS {
         
     }
     loginApi:string='/api/kshubuser/login';
+    registerApi:string='/api/kshubuser/adduser';
 }
 class UserInfo {
     name: string;

@@ -4,16 +4,50 @@
     <Login :modalCssClass="loginClass"
         @close="closeLogin"></Login>
     <nav class="navbar is-white" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
+        <div class="navbar-brand" @click="MyMenu">
             <a class="navbar-item" href="/">
                 <img src="@/assets/lovecraft.png">
             </a>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="myMenu">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             </a>
+        </div>
+
+        <div>
+            <div id="myMenu" :class="'navbar-menu is-hidden-desktop ' +MyMenuClass" style="padding-left: 2%;">
+                <div class="control has-icons-right">
+                    <span class="icon is-right">
+                        <i class="fa fa-search" style="pointer-events:initial;cursor:pointer;">
+                        </i>
+                    </span>
+                    <input type="text" placeholder="搜索您感兴趣的内容..." autocomplete="off" class="input search-input is-rounded" style="width:100%;">
+                <input type="password" autocomplete="new-password" style="display: none;">
+                </div>
+                <hr class="dropdown-divider">
+                <button data-target="modalRegister" aria-haspopup="true" class="button modal-button button_normal is-outlined" style="width: 95%; display: none;">登录</button>
+                <div>
+                    <a class="dropdown-item" @click="jumpHome">
+                        <i class="fa fa-pencil"></i>
+                        主页
+                    </a>
+                    <a class="dropdown-item" @click="jumpAbout">
+                        <i class="fa fa-group"></i>
+                        关于
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item" @click="jumpMyCourse">
+                        <i class="fa fa-home"></i>
+                        我的课设
+                    </a>
+                    <a class="dropdown-item" @click="newProj">
+                        <i class="fa fa-book"></i>
+                        新建课设
+                    </a>
+                </div>
+            </div>
         </div>
 
         <div id="navbarBasicExample" class="navbar-menu is-mobile">
@@ -82,8 +116,14 @@ export default class Menu extends Vue {
   @Prop()
   userInfo!:any;
   cssClass = 'modal';
-  loginClass = 'modal';
-  isLog = false
+  loginClass = 'modal'
+  MyMenuClass=''
+  MyMenu(){
+      if(this.MyMenuClass==='')
+      this.MyMenuClass='is-active'
+      else
+      this.MyMenuClass=''
+  }
   login(){
     this.loginClass = 'modal is-active';
   }

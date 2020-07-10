@@ -47,8 +47,11 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-link" @click="login">
+                        <a v-if="!isLog" class="button is-link" @click="login">
                             Log in
+                        </a>
+                        <a v-if="isLog" class="button is-link" @click="signout">
+                            Sign out
                         </a>
                     </div>
                 </div>
@@ -64,8 +67,8 @@ import HelloWorld from '@/components/HelloWorld.vue'
 import Login from '@/components/Login/Login.vue'
 import NewProject from '@/components/New Project/NewProject.vue'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator"
-import UserCenter from '@/components/UserCenter/UserCenter.vue';
-
+import UserCenter from '@/components/UserCenter/UserCenter.vue'
+import Axios from 'axios';
 
 @Component({
   components:{
@@ -79,7 +82,8 @@ export default class Menu extends Vue {
   @Prop()
   userInfo!:any;
   cssClass = 'modal';
-  loginClass = 'modal'
+  loginClass = 'modal';
+  isLog = false
   login(){
     this.loginClass = 'modal is-active';
   }
@@ -100,6 +104,13 @@ export default class Menu extends Vue {
   }
   jumpMyCourse(){
       this.$router.push("/MyProject");
+  }
+  signout(){
+      Axios.post('/api/KshubUser/Signout/',).then((params)=>{
+        }).catch((err)=>{
+            console.log(err);
+            alert(err);
+        });
   }
 }
 

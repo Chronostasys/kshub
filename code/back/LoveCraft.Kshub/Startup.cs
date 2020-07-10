@@ -102,6 +102,7 @@ namespace LoveCraft.Kshub
             {
                 app.UseDeveloperExceptionPage();
             }
+            //配置提供静态文件的中间件
             app.UseStaticFiles();
             
             app.UseHttpsRedirection();

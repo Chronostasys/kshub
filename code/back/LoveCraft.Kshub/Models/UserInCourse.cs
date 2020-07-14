@@ -7,6 +7,7 @@ namespace LoveCraft.Kshub.Models
 {
     public class UserInCourse:Entity,ISearchAble
     {
+
         public Guid CourseId { get; set; }
         public Guid UserId { get; set; }
         public List<string> Roles { get; set; }

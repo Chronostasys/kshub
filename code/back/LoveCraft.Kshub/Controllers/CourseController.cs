@@ -77,20 +77,21 @@ namespace LoveCraft.Kshub.Controllers
             var isAdmin = await _kshubService.KshubUserServices.FindFirstAsync(t=>t.Id==Guid.Parse(User.Identity.Name), u => u.Roles.Contains(KshubRoles.Admin));
             if (isAdmin)
             {
+
                 Course course = new Course
                 {
-                    CourseId =await _kshubService.CourseServices.GernerateCourseIdAsync(),
+                    CourseId = await _kshubService.CourseServices.GernerateCourseIdAsync(),
                     Id = Guid.NewGuid(),
                     Description = addCourseDto.Description,
                     Name = addCourseDto.Name,
-                    CoverUrl=addCourseDto.CoverUrl
+                    CoverUrl = addCourseDto.CoverUrl
                 };
                 await _kshubService.CourseServices.AddCourseAsync(course);
                 var user = await _kshubService.KshubUserServices.FindUserAsync(userId);
                 await _kshubService.UserInCourseService.AddOwnerInCouseAsync(course.Id, user.Id);
                 return _mapper.Map<CourseDetailDto>(course);
-
             }
+
             else
             {
                 throw new _403Exception("Only admin can add Course!");

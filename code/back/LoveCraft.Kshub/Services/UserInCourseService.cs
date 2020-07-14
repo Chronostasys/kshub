@@ -10,7 +10,7 @@ namespace LoveCraft.Kshub.Services
     public class UserInCourseService:DbQueryServices<UserInCourse>
     {
         public UserInCourseService(IDatabaseSettings settings)
-            : base(settings, settings.ConnectionString) { }
+            : base(settings, settings.UserInCourseCollection) { }
         public async ValueTask<UserInCourse> GetInfoAsync(Guid courseId, Guid userId)
         {
             var piece = await (await collection.FindAsync(t => t.CourseId == courseId && t.UserId == userId))
@@ -55,6 +55,7 @@ namespace LoveCraft.Kshub.Services
         {
             var piece = new UserInCourse
             {
+                Id = Guid.NewGuid(),
                 CourseId = courseId,
                 UserId = userId,
                 Roles =new List<string>{ CourseRoles.User, CourseRoles.Admin,CourseRoles.Owner }

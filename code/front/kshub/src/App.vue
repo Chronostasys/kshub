@@ -7,11 +7,12 @@
   </div>
 </template>
 
+
 <script lang="ts">
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator"
-import Menu from '@/components/Menu/Menu.vue';
+import Menu from '@/components/menu/menu.vue';
 import Axios from 'axios';
 import STRINGS from '@/common/STRINGS'
 import { UserInfo } from '@/common/STRINGS'
@@ -66,4 +67,3 @@ export default class Home extends Vue {
   }
 }
 </style>
-

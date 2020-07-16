@@ -43,7 +43,7 @@ namespace LoveCraft.Kshub.Services
                 user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
                 collection.InsertOne(user);
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
             }

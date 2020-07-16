@@ -2,19 +2,30 @@ class constSTRINGS {
     constructor() {
         
     }
-    loginApi:string='/api/kshubuser/login';
-    registerApi:string='/api/kshubuser/adduser';
+    loginApi:string='/api/user/login';
+    registerApi:string='/api/user/register';
+}
+class RegDto{
+  name: string;
+  userId: string;
+  password: string;
+  schoolName: string;
+  introduction: string;
+  email: string;
+  rememberme:boolean;
 }
 class UserInfo {
     name: string;
-    studentId: string;
+    userId: string;
     schoolName: string;
     introduction: string;
     email: string;
-    role: string;
+    roles: [
+      string
+    ]
 }
 
-export { UserInfo };
+export { UserInfo, RegDto };
 
 const STRINGS = new constSTRINGS();
 export default STRINGS;

@@ -14,8 +14,8 @@ import HelloWorld from '@/components/HelloWorld.vue'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator"
 import Menu from '@/components/menu/menu.vue';
 import Axios from 'axios';
-import STRINGS from '@/common/STRINGS'
-import { UserInfo } from '@/common/STRINGS'
+import STRINGS from './common/STRINGS'
+import { UserInfo } from './common/STRINGS'
 
 
 @Component({
@@ -26,7 +26,7 @@ import { UserInfo } from '@/common/STRINGS'
 
 export default class Home extends Vue {
   cssClass = 'modal';
-  userInfo:any={};
+  userInfo:UserInfo=new UserInfo();
   created(){
     Axios.post(STRINGS.loginApi,{}).then(res=>{
       this.userInfo = res.data;

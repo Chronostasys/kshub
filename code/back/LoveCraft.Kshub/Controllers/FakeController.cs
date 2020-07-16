@@ -26,6 +26,13 @@ namespace LoveCraft.Kshub.Controllers
             _env = env;
             _mapper = mapper;
         }
+
+        [HttpGet("dropuser")]
+        public async ValueTask DropUser()
+        {
+            await _kshubService.KshubUserServices.collection.Database.DropCollectionAsync(_kshubService.KshubUserServices.collection.CollectionNamespace.CollectionName);
+        }
+
         [HttpPost]
         [Route("AddFakeUser")]
         public async ValueTask AddFakeUser()

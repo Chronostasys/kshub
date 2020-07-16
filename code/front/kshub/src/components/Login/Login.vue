@@ -47,7 +47,7 @@
                             :placeholder="'请输入学号'" 
                             class=" input"
                             @click="removeError"
-                            v-model="userdata.studentId"
+                            v-model="userdata.userId"
                         />
                     </p>
                 </div>
@@ -80,7 +80,7 @@
                     </p>
                 </div>
                 <div v-if="!isReg" class=" level-left field control">
-                    <input type="checkbox" class="checkbox left"/>
+                    <input type="checkbox" class="checkbox left" v-model="userdata.rememberme"/>
                     记住我
                 </div>
                 <span >
@@ -111,6 +111,8 @@ import "bulma/css/bulma.css";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import HelloWorld from '@/components/HelloWorld.vue';
 import Axios from 'axios';
+import { RegDto, UserInfo } from '../../common/STRINGS';
+import STRINGS from '../../common/STRINGS';
 
 @Component({
     components:{
@@ -122,31 +124,19 @@ export default class Login extends Vue {
     isShowErrorMessage=false;
     errorMessage='';
     confirmPassword='';
-    userdata:any={
-        name: null,
-        studentId: null,
-        password: null,
-        schoolName: "string",
-        introduction: "string",
-        email: null,
-        role: null
-    };
+    userdata:RegDto=new RegDto();
+    userInfo:UserInfo=new UserInfo();
     @Prop()
     modalCssClass='modal';
     close(){
         this.$emit('close');
     }
     login(){
-        console.log('ok')
-        Axios.post('/api/KshubUser/LogIn/',this.userdata).then((params)=>{
-            var studentId = params.data.studentId;
-            var password = params.data.password;
-            this.userdata.studentId=studentId;
-            this.userdata.password=password;
-            console.log(params.data);
+        Axios.post(STRINGS.loginApi,this.userdata).then((params)=>{
+            window.location.reload();
         }).catch((err)=>{
-            console.log(err);
-            alert(err);
+            this.isShowErrorMessage=true;
+            this.errorMessage = "学号或密码不正确！";
         })
     }
     toggleReg(){
@@ -154,18 +144,11 @@ export default class Login extends Vue {
     }
     register(){
         this.validatePassword();
-        Axios.post('/api/KshubUser/Adduser/',this.userdata).then((params)=>{
-            var name = params.data.name;
-            var email = params.data.email;
-            var studentId = params.data.studentId;
-            var password = params.data.password;
-            this.userdata.name=name;
-            this.userdata.email=email;
-            this.userdata.studentId=studentId;
-            this.userdata.password=password;
+        Axios.post(STRINGS.registerApi,this.userdata).then((params)=>{
+            window.location.reload();
         }).catch((err)=>{
-            console.log(err.response.userdata.errorMessage);
-            alert(err);
+            this.isShowErrorMessage = true;
+            this.errorMessage = "注册失败";
         })
     }
     removeError(){

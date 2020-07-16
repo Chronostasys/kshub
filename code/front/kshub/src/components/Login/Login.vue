@@ -1,7 +1,7 @@
 <template>
     <div :class="modalCssClass">
         <div class=" max-500px  modal-card">
-            <div class=" modal-card-head field has-icons-right">
+            <div class=" modal-card-head field has-icons-right" style="margin:0px">
                 <p class=" modal-card-title font_head_title">{{isReg?'注册':'登录'}}</p>
                 <span class=" clickable  icon is-right" 
                     title="关闭"
@@ -9,7 +9,7 @@
                     <i class="fa fa-close"></i>
                 </span>
             </div>
-            <div class="isforgivable modal-card-body">
+            <div class="modal-card-body">
                 <div v-if="isReg" class="field">
                     <p class="control has-icons-left ">
                         <span class="icon is-small is-left">

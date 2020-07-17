@@ -127,7 +127,7 @@ namespace LoveCraft.Kshub.Controllers
         }
 
         [HttpPost]
-        
+      
         [Route("ValidateEmail")]
         public async ValueTask<UserDetailDto> ValidateEmailAsync(Guid guid)
         {

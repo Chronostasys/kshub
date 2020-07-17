@@ -4,15 +4,17 @@
     <Login :modalCssClass="loginClass"
         @close="closeLogin"></Login>
     <nav class="navbar is-white" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand" @click="MyMenu">
+        <div class="navbar-brand">
             <a class="navbar-item" href="/">
-                <img src="@/assets/lovecraft.png">
+                <img src="@/assets/lovecraft.png" style="width: 128px;object-fit: cover;">
             </a>
 
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="myMenu">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
+            <div @click="MyMenu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </div>
             </a>
         </div>
 
@@ -45,6 +47,14 @@
                     <a class="dropdown-item" @click="newProj">
                         <i class="fa fa-book"></i>
                         新建课设
+                    </a>
+                    <a v-if="userInfo.roles.indexOf(strs.Roles.anonymous)>-1" class="dropdown-item" @click="login">
+                        <i class="fa fa-user"></i>
+                        登录
+                    </a>
+                    <a v-else class="dropdown-item" @click="jumpUserPage">
+                        <i class="fa fa-user"></i>
+                        我的主页
                     </a>
                 </div>
             </div>
@@ -81,12 +91,14 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a v-if="!isLog" class="button is-link" @click="login">
+                        <a v-if="userInfo.roles.indexOf(strs.Roles.anonymous)>-1" class="button is-link" @click="login">
                             Log in
                         </a>
-                        <a v-if="isLog" class="button is-link" @click="signout">
-                            Sign out
-                        </a>
+                        <div v-else class="">
+                            <figure class="image is-32x32 clickable" title="我的主页"  @click="jumpUserPage">
+                                <img style="max-height:32px;overflow:hidden;" class=" is-rounded" src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg" />
+                            </figure>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,6 +115,7 @@ import NewProject from '@/components/New Project/NewProject.vue'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator"
 import UserCenter from '@/components/UserCenter/UserCenter.vue'
 import Axios from 'axios';
+import { UserInfo, STRINGS } from '../../common/STRINGS'
 
 @Component({
   components:{
@@ -114,10 +127,17 @@ import Axios from 'axios';
 
 export default class Menu extends Vue {
   @Prop()
-  userInfo!:any;
+  userInfo:UserInfo;
   cssClass = 'modal';
   loginClass = 'modal'
-  MyMenuClass=''
+  MyMenuClass='';
+  strs = STRINGS;
+  created(){
+      console.log(this.userInfo);
+      this.$router.afterEach((to,from)=>{
+          this.MyMenuClass='';
+      });
+  }
   MyMenu(){
       if(this.MyMenuClass==='')
       this.MyMenuClass='is-active'
@@ -145,8 +165,12 @@ export default class Menu extends Vue {
   jumpMyCourse(){
       this.$router.push("/MyProject");
   }
+  jumpUserPage(){
+      this.$router.push("/user/"+this.userInfo.userId);
+  }
   signout(){
-      Axios.post('/api/KshubUser/Signout/',).then((params)=>{
+      Axios.post(STRINGS.signoutApi,).then((params)=>{
+          window.location.reload();
         }).catch((err)=>{
             console.log(err);
             alert(err);
@@ -159,10 +183,10 @@ export default class Menu extends Vue {
 
 <style scoped>
 /* 并不想让这个样式全局起作用 */
-img{
+/* img{
     width: 128px;
     object-fit: cover;
-}
+} */
 </style>
 
 <style>
@@ -170,5 +194,8 @@ img{
     position: absolute;
     width: 24px;
     height: 48px;
+}
+img{
+    object-fit: cover;
 }
 </style>

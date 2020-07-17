@@ -4,6 +4,12 @@ class constSTRINGS {
     }
     loginApi:string='/api/user/login';
     registerApi:string='/api/user/register';
+    signoutApi: string = '/api/User/Signout';
+    Roles={
+      anonymous:'Anonymous',
+      user:'User',
+      admin:'Admin'
+    }
 }
 class RegDto{
   name: string;
@@ -20,12 +26,9 @@ class UserInfo {
     schoolName: string;
     introduction: string;
     email: string;
-    roles: [
-      string
-    ]
+    roles: string[] = [];
 }
-
-export { UserInfo, RegDto };
-
 const STRINGS = new constSTRINGS();
+export { UserInfo, RegDto, STRINGS };
+
 export default STRINGS;

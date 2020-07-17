@@ -5,6 +5,7 @@ class constSTRINGS {
     loginApi:string='/api/user/login';
     registerApi:string='/api/user/register';
     signoutApi: string = '/api/User/Signout';
+    userInfoApi: string = '/api/User';
     Roles={
       anonymous:'Anonymous',
       user:'User',
@@ -21,11 +22,11 @@ class RegDto{
   rememberme:boolean;
 }
 class UserInfo {
-    name: string;
-    userId: string;
-    schoolName: string;
-    introduction: string;
-    email: string;
+    name: string='';
+    userId: string='';
+    schoolName: string='';
+    introduction: string='';
+    email: string='';
     roles: string[] = [];
 }
 const STRINGS = new constSTRINGS();

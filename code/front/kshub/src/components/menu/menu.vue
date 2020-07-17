@@ -9,8 +9,8 @@
                 <img src="@/assets/lovecraft.png" style="width: 128px;object-fit: cover;">
             </a>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="myMenu">
-            <div @click="MyMenu">
+            <a @click="MyMenu" role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="myMenu">
+            <div>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -36,7 +36,7 @@
                         主页
                     </a>
                     <a class="dropdown-item" @click="jumpAbout">
-                        <i class="fa fa-group"></i>
+                        <i class="fa fa-exclamation-circle"></i>
                         关于
                     </a>
                     <hr class="dropdown-divider">
@@ -139,6 +139,7 @@ export default class Menu extends Vue {
       });
   }
   MyMenu(){
+      console.log('click');
       if(this.MyMenuClass==='')
       this.MyMenuClass='is-active'
       else

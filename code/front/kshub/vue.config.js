@@ -26,7 +26,7 @@ module.exports = {
     // 反向代理
     devServer: {
         proxy: {
-            '/': {
+            '/api': {
                 // 要访问的跨域的域名
                 target: 'http://localhost:5000',
                 // target: 'https://limfx.pro',

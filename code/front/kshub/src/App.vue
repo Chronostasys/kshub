@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Menu :userInfo="userInfo"/>
+    <Menu :userInfo="userInfo" style="margin-left: 10px;margin-right: 10px; margin-bottom: 10px;"/>
     <router-view
-      :userInfo="userInfo"
+      :userInfo="userInfo" class="container"
     />
   </div>
 </template>
@@ -30,6 +30,7 @@ export default class Home extends Vue {
   created(){
     Axios.post(STRINGS.loginApi,{}).then(res=>{
       this.userInfo = res.data;
+      console.log(this.userInfo);
     })
   }
   

@@ -37,7 +37,7 @@ namespace LoveCraft.Kshub.Controllers
 
         [HttpGet]
         [Route("GetCourses")]
-        public async ValueTask<List<CourseDetailDto>> GetCourseAsync(string name)
+        public async ValueTask<IEnumerable<CourseDetailDto>> GetCourseAsync(string name)
         {
             var cos = await _kshubService.CourseServices.FindCourseAsync(name);
             List<CourseDetailDto> listdto = new List<CourseDetailDto>();

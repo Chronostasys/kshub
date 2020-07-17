@@ -34,7 +34,7 @@ namespace LoveCraft.Kshub.Services
                 .Set(t => t.Description, course.Description));
             return course;
         }
-        public async ValueTask<List<Course>> FindCourseAsync(string name)
+        public async ValueTask<IEnumerable<Course>> FindCourseAsync(string name)
         {
             var cos =(await collection.FindAsync(item => item.Name == name)).ToList();
             return cos;
@@ -57,6 +57,7 @@ namespace LoveCraft.Kshub.Services
         /// <returns></returns>
         public async ValueTask<int> GernerateCourseIdAsync()
         {
+            
             //存储courseId最大的那个数，如果使用需要再+1
             var p = await (await collection.FindAsync(r => r.Name == "CourseIdRecord")).FirstOrDefaultAsync();
             if (p == null)

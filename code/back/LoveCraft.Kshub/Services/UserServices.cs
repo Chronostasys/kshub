@@ -20,7 +20,7 @@ using System.Threading.Tasks.Sources;
 namespace LoveCraft.Kshub.Services
 {
 
-    public class UserServices/*<TUser>*/ : UserService<KshubUser>
+    public class UserServices: UserService<KshubUser>
     {
         public UserServices(IDatabaseSettings settings)
             : base(settings, settings.ConnectionString)
@@ -73,36 +73,23 @@ namespace LoveCraft.Kshub.Services
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async ValueTask<bool> CheckUserExistenceAsync(KshubUser user)
-        {
-            //需要在管理员加入用户的信息中进行检索，判断能不能加到数据库里面去
-            //这玩意应该放在另一个service里面去，因为操作的不是一个数据表
-            return true;
-        }
         public async ValueTask<KshubUser> AddUserAsync(KshubUser user)
         {
-            //try-catch结构更好还是if-else更好？
-            if (await CheckUserExistenceAsync(user))
+
+            if ((await FindUserAsync(user.UserId)) != null)
             {
-                if ((await FindUserAsync(user.UserId)) != null)
-                {
-                    throw new _403Exception("This Id has been register already!");
-                }
-                var validater = new PasswordValidator();
-                //validater.SetLengthBounds(8, 20);
-                //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Letters);
-                //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Numbers);
-                if (!validater.Validate(user.PassWordHash))
-                {
-                    throw new _401Exception("Password is not strong enough!");
-                }
-                user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
-                await AddAsync(user);
+                throw new _403Exception("This Id has been register already!");
             }
-            else
+            var validater = new PasswordValidator();
+            //validater.SetLengthBounds(8, 20);
+            //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Letters);
+            //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Numbers);
+            if (!validater.Validate(user.PassWordHash))
             {
-                throw new _401Exception($"You don't belong to {user.SchoolName}!");
+                throw new _401Exception("Password is not strong enough!");
             }
+            user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
+            await AddAsync(user);
             return user;
         }
         public async ValueTask<bool> LogInAsync(KshubUser user, HttpContext httpContext, bool rememberMe = true, bool validPassword = true)

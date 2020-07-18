@@ -49,19 +49,35 @@ namespace LoveCraft.Kshub.Services
             }
         }
         /// <summary>
-        /// return a user spcified by id or return a default value. 
+        /// return certain user or throw an exception if not find
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
         public async ValueTask<KshubUser> FindUserAsync(string userId)
         {
-            var user =await (await collection.FindAsync(f => f.UserId == userId)).FirstOrDefaultAsync();
-            return user;
+            try
+            {
+                var filter= Builders<KshubUser>.Filter.Eq(t => t.UserId, userId);
+                var user =await collection.Find(filter).FirstAsync();
+                return user;
+            }
+            catch(Exception e)
+            {
+                throw new _401Exception("Cannot find this User");
+            }
         }
         public async ValueTask<KshubUser> FindUserAsync(Guid id)
         {
-            var user = await (await collection.FindAsync(f => f.Id == id)).FirstOrDefaultAsync();
-            return user;
+            try
+            {
+                var filter = Builders<KshubUser>.Filter.Eq(t => t.Id, id);
+                return await collection.Find(filter).FirstAsync();
+
+            }
+            catch(Exception e)
+            {
+                throw new _401Exception("Cannot find this User");
+            }
         }
         public string HashPasswordWithSalt(string password)
         {

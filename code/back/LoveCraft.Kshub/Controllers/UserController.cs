@@ -60,25 +60,30 @@ namespace LoveCraft.Kshub.Controllers
                 Email = addUserDto.Email,
                 PassWordHash = addUserDto.Password,
                 Roles = new List<string> { "User" },
-                IsEmailConfirmed = true
+                IsEmailConfirmed = true,
+                //应该提供默认头像的url，之后加上
+                AvatarUrl=null
             };
             try
             {
                 await _kshubService.KshubUserServices.GetUserByEmailAsync(user.Email);
             }
+            //没找到就去注册
             catch (Exception)
             {
-                _kshubService.tokens.TryAdd(user.Id, user);
-                var emailProperty = new EmailProperty()
-                {
-                    RazorTemplatePath = "\\EmailTemplate\\EmailConfirm.cshtml",
-                    Subject = "Confirm Kshub Account's Email",
-                    Receivers = new List<string> { user.Email },
-                    Url = Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/{user.Id}")
-                };
-                _kshubService.tokens.TryAdd(user.Id, user.Email);
-                await _kshubService.EmailService.SendEmailAsync(emailProperty);
-                throw new _401Exception("Please verify your email!");
+                await _kshubService.KshubUserServices.AddUserAsync(user);
+                //_kshubService.tokens.TryAdd(user.Id, user);
+                //var emailProperty = new EmailProperty()
+                //{
+                //    RazorTemplatePath = "\\EmailTemplate\\EmailConfirm.cshtml",
+                //    Subject = "Confirm Kshub Account's Email",
+                //    Receivers = new List<string> { user.Email },
+                //    Url = Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/{user.Id}")
+                //};
+                //_kshubService.tokens.TryAdd(user.Id, user.Email);
+                //await _kshubService.EmailService.SendEmailAsync(emailProperty);
+
+                //throw new _401Exception("Please verify your email!");
 
             }
             throw new _401Exception("This email has register already,if you forget your password,please reset your password");
@@ -134,8 +139,7 @@ namespace LoveCraft.Kshub.Controllers
             _kshubService.tokens.TryRemove(guid, out object user);
             if (user == null) throw new _401Exception("You have not a registered token");
             else
-            {
-                
+            {                
                 await _kshubService.KshubUserServices.AddUserAsync((KshubUser)user);
                 return _mapper.Map<UserDetailDto>((KshubUser)user);
             }

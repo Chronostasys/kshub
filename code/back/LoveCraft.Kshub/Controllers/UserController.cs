@@ -67,26 +67,14 @@ namespace LoveCraft.Kshub.Controllers
             try
             {
                 await _kshubService.KshubUserServices.GetUserByEmailAsync(user.Email);
+                throw new _401Exception("This email has register already,if you forget your password,please reset your password");
+
             }
             //没找到就去注册
             catch (Exception)
             {
                 await _kshubService.KshubUserServices.AddUserAsync(user);
-                //_kshubService.tokens.TryAdd(user.Id, user);
-                //var emailProperty = new EmailProperty()
-                //{
-                //    RazorTemplatePath = "\\EmailTemplate\\EmailConfirm.cshtml",
-                //    Subject = "Confirm Kshub Account's Email",
-                //    Receivers = new List<string> { user.Email },
-                //    Url = Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/{user.Id}")
-                //};
-                //_kshubService.tokens.TryAdd(user.Id, user.Email);
-                //await _kshubService.EmailService.SendEmailAsync(emailProperty);
-
-                //throw new _401Exception("Please verify your email!");
-
             }
-            throw new _401Exception("This email has register already,if you forget your password,please reset your password");
 
         }
         

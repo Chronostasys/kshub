@@ -87,11 +87,13 @@ namespace LoveCraft.Kshub.Services
 
         public async ValueTask<KshubUser> AddUserAsync(KshubUser user)
         {
-
-            if ((await FindUserAsync(user.UserId)) != null)
+            try
             {
+                await FindUserAsync(user.UserId);
                 throw new _403Exception("This Id has been register already!");
             }
+            catch { }
+
             var validater = new PasswordValidator();
             //validater.SetLengthBounds(8, 20);
             //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Letters);

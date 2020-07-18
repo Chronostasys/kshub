@@ -155,17 +155,21 @@ namespace LoveCraft.Kshub.Controllers
             return null;
         }
 
+
         [HttpPost]
-        [Route("ChangeAvatar")]
-        [Authorize(Roles = KshubRoles.User)]
-        public async ValueTask ChangeAvatarAsync(IFormFile file)
+        [Route("Update")]
+        [Authorize(Roles=KshubRoles.User)]
+        public async ValueTask UpdateInfoAsync(UpdateUserDto updateUserDto)
         {
-            var userId = Guid.Parse(User.Identity.Name);
-            var avatarId = await _kshubService.LoadFileServices.LoadFileAsync(file);
-            await _kshubService.KshubUserServices.UpDateAsync(userId,
-                Builders<KshubUser>.Update.Set(t => t.AvatarUrl, "//need generate an url to fetch picture in database"));           
+            //直接从cookie中获取Guid，不需要前端传递？
+            //是否有被伪造的危险？——暂时没想到
+            var id =Guid.Parse(HttpContext.User.Identity.Name);
+            var definition = Builders<KshubUser>.Update
+                .Set(t => t.Name, updateUserDto.Name)
+                .Set(t => t.Introduction, updateUserDto.Introduction)
+                .Set(t => t.AvatarUrl, updateUserDto.AvatarUrl);
+
+            await _kshubService.KshubUserServices.UpDateAsync(id,definition);
         }
-
-
     }
 }

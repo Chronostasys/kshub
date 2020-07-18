@@ -84,11 +84,7 @@ namespace LoveCraft.Kshub.Services
             var pwhash = HashLibrary.HashedPassword.New(password);
             return pwhash.Hash + pwhash.Salt;
         }
-        /// <summary>
-        /// 学号姓名学校与数据库中匹配返回true
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
+
         public async ValueTask<KshubUser> AddUserAsync(KshubUser user)
         {
 
@@ -108,6 +104,7 @@ namespace LoveCraft.Kshub.Services
             await AddAsync(user);
             return user;
         }
+
         public async ValueTask<bool> LogInAsync(KshubUser user, HttpContext httpContext, bool rememberMe = true, bool validPassword = true)
         {
 

@@ -10,6 +10,8 @@ namespace LoveCraft.Kshub.Models
     {
 
         public string Name { get; set; }
+
+        //用户自己的一个Id，不同于Guid，登陆时候的账户名
         public string UserId { get; set; }
         public string SchoolName { get; set; }
         public string Introduction { get; set; }

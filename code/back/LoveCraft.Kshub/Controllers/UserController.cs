@@ -50,34 +50,15 @@ namespace LoveCraft.Kshub.Controllers
         [Route("Register")]
         public async ValueTask Register(AddUserDto addUserDto)
         {
-            var user = new KshubUser
-            {
-                Id = Guid.NewGuid(),
-                Name = addUserDto.Name,
-                SchoolName = addUserDto.SchoolName,
-                UserId = addUserDto.UserId,
-                Introduction = addUserDto.Introduction,
-                Email = addUserDto.Email,
-                PassWordHash = addUserDto.Password,
-                Roles = new List<string> { "User" },
-                IsEmailConfirmed = true,
-                //应该提供默认头像的url，之后加上
-                AvatarUrl=null
-            };
-            try
-            {
-                await _kshubService.KshubUserServices.GetUserByEmailAsync(user.Email);
-                throw new _401Exception("This email has register already,if you forget your password,please reset your password");
-
-            }
-            //没找到就去注册
-            catch (Exception)
-            {
-                await _kshubService.KshubUserServices.AddUserAsync(user);
-            }
+            //automapper直接映射，不需要再new对象一个个赋值了
+            var user = _mapper.Map<KshubUser>(addUserDto);
+            user.Roles = new List<string> { Roles.User };
+            //password Hash没有映射
+            user.PassWordHash = addUserDto.Password;
+            await _kshubService.KshubUserServices.AddUserWithCheckAsync(user);
 
         }
-        
+
         [AllowAnonymous]
         [HttpPost]
         [Route("LogIn")]
@@ -128,7 +109,7 @@ namespace LoveCraft.Kshub.Controllers
             if (user == null) throw new _401Exception("You have not a registered token");
             else
             {                
-                await _kshubService.KshubUserServices.AddUserAsync((KshubUser)user);
+                await _kshubService.KshubUserServices.AddUserWithCheckAsync((KshubUser)user);
                 return _mapper.Map<UserDetailDto>((KshubUser)user);
             }
         }

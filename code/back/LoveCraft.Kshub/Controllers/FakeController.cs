@@ -39,7 +39,7 @@ namespace LoveCraft.Kshub.Controllers
         {
             for (int i = 0; i < 20; i++)
             {
-                await _kshubService.KshubUserServices.AddUserAsync(
+                await _kshubService.KshubUserServices.AddUserWithCheckAsync(
                     new KshubUser
                     {
                         Id = Guid.NewGuid(),

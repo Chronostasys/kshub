@@ -20,7 +20,7 @@ using System.Threading.Tasks.Sources;
 namespace LoveCraft.Kshub.Services
 {
 
-    public class UserServices: UserService<KshubUser>
+    public class UserServices : UserService<KshubUser>
     {
         public UserServices(IDatabaseSettings settings)
             : base(settings, settings.ConnectionString)
@@ -57,11 +57,11 @@ namespace LoveCraft.Kshub.Services
         {
             try
             {
-                var filter= Builders<KshubUser>.Filter.Eq(t => t.UserId, userId);
-                var user =await collection.Find(filter).FirstAsync();
+                var filter = Builders<KshubUser>.Filter.Eq(t => t.UserId, userId);
+                var user = await collection.Find(filter).FirstAsync();
                 return user;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new _401Exception("Cannot find this User");
             }
@@ -74,7 +74,7 @@ namespace LoveCraft.Kshub.Services
                 return await collection.Find(filter).FirstAsync();
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new _401Exception("Cannot find this User");
             }
@@ -85,15 +85,36 @@ namespace LoveCraft.Kshub.Services
             return pwhash.Hash + pwhash.Salt;
         }
 
-        public async ValueTask<KshubUser> AddUserAsync(KshubUser user)
+        public async ValueTask CheckAvailableAsync(string email, string userId)
         {
+            bool havaException = false;
             try
             {
-                await FindUserAsync(user.UserId);
-                throw new _403Exception("This Id has been register already!");
+                await FindUserAsync(userId);
+                havaException = true;
             }
             catch { }
+            if (havaException)
+                throw new _401Exception("This userId has been taken");
+            havaException = false;
+            try
+            {
+                await GetUserByEmailAsync(email);
+                havaException = true;
+            }
+            catch { }
+            if (havaException)
+                throw new _401Exception("This email has been taken");
 
+        }
+        /// <summary>
+        /// Add an user with checking UserId and email
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async ValueTask<KshubUser> AddUserWithCheckAsync(KshubUser user)
+        {
+            await CheckAvailableAsync(user.Email, user.UserId);
             var validater = new PasswordValidator();
             //validater.SetLengthBounds(8, 20);
             //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Letters);
@@ -154,6 +175,7 @@ namespace LoveCraft.Kshub.Services
         {
             await httpContext.SignOutAsync();
         }
-    
+
+
     }
 }

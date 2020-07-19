@@ -81,13 +81,15 @@ namespace LoveCraft.Kshub
             //并没有添加typeof
             services.AddAutoMapper(config=> {
                 config.CreateMap<KshubUser, UserDetailDto>();
+                config.CreateMap<AddUserDto, KshubUser>();
                 config.CreateMap<LogInDto, KshubUser>();
                 config.CreateMap<Course, CourseDetailDto>();
                 config.CreateMap<Article, ArticleDetailDto>();
                 config.CreateMap<IEnumerable<Article>, IEnumerable<ArticleDetailDto>>();
+
             }, typeof(KshubUser), typeof(UserDetailDto), typeof(LogInDto), typeof(Course)
             , typeof(CourseDetailDto),typeof(Article),typeof(ArticleDetailDto),typeof(IEnumerable<Article>)
-            ,typeof(IEnumerable<ArticleDetailDto>));
+            ,typeof(IEnumerable<ArticleDetailDto>),typeof(AddUserDto));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(op =>
                 {

@@ -16,8 +16,6 @@ namespace LoveCraft.Kshub.Services
     public class KshubService
     {
         public UserServices KshubUserServices { get; }
-        public CourseServices CourseServices { get; }
-        public UserInCourseService UserInCourseService { get; }
         public EmailService EmailService { get; }
         public ConcurrentDictionary<Guid, object> tokens { get; }
         public ArticleService ArticleService {get;}
@@ -30,8 +28,6 @@ namespace LoveCraft.Kshub.Services
                 LoadFileServices = new LoadFileServices(databaseSettings);
                 EmailService = new EmailService(email);
                 KshubUserServices = new UserServices(databaseSettings);
-                CourseServices = new CourseServices(databaseSettings);
-                UserInCourseService = new UserInCourseService(databaseSettings);
                 tokens = new ConcurrentDictionary<Guid, object>();
                 ArticleService = new ArticleService(databaseSettings);
                 this.env = env;

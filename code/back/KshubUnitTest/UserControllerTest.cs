@@ -29,8 +29,6 @@ namespace KshubUnitTest
                 .UseEnvironment("Development")
                 .UseStartup<Startup>());
             KshubService = server.Services.GetService(typeof(KshubService)) as KshubService;
-            mapper = server.Services.GetService(typeof(IMapper)) as IMapper;
-
         }
 
         [Fact]

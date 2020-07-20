@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -77,8 +77,8 @@ namespace LoveCraft.Kshub
                 op.TemplateDir = "Index.cshtml";
             });
 
-            //Ìí¼ÓÁËIEnumerable»á²»»áÓÐÒ»µãÐ¡ÎÊÌâ£¿
-            //²¢Ã»ÓÐÌí¼Ótypeof
+            //ï¿½ï¿½ï¿½ï¿½ï¿½IEnumerableï¿½á²»ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½â£¿
+            //ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½typeof
             services.AddAutoMapper(config=> {
                 config.CreateMap<KshubUser, UserDetailDto>();
                 config.CreateMap<AddUserDto, KshubUser>();
@@ -104,10 +104,11 @@ namespace LoveCraft.Kshub
             {
                 app.UseDeveloperExceptionPage();
             }
-            //ÅäÖÃÌá¹©¾²Ì¬ÎÄ¼þµÄÖÐ¼ä¼þ
+            //ï¿½ï¿½ï¿½ï¿½ï¿½á¹©ï¿½ï¿½Ì¬ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½
             app.UseStaticFiles();
             
-            //²»¼ÓopenApiµÄ·þÎñSwagger¾ÍÓÃ²»ÁË
+            //app.UseHttpsRedirection();
+            //ï¿½ï¿½ï¿½ï¿½openApiï¿½Ä·ï¿½ï¿½ï¿½Swaggerï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½
             app.UseOpenApi(config =>
             {
                 //config.PostProcess = (doc, rec) =>

@@ -107,7 +107,7 @@ namespace LoveCraft.Kshub
             //配置提供静态文件的中间件
             app.UseStaticFiles();
             
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             //不加openApi的服务Swagger就用不了
             app.UseOpenApi(config =>
             {

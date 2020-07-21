@@ -10,7 +10,8 @@ using LoveCraft.Kshub.Dto;
 using Microsoft.AspNetCore.Authorization;
 using LoveCraft.Kshub.Models;
 using MongoDB.Driver;
-using LoveCraft.Kshub.Exceptions;
+using LimFx.Business.Exceptions;
+
 namespace LoveCraft.Kshub.Controllers
 {
     [ApiController]

@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using DocumentFormat.OpenXml.InkML;
-using LoveCraft.Kshub.Exceptions;
+using LimFx.Business.Exceptions;
 using System.Threading.Tasks.Sources;
 
 namespace LoveCraft.Kshub.Services

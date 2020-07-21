@@ -18,7 +18,6 @@ namespace LoveCraft.Kshub.Services
         public UserServices KshubUserServices { get; }
         public EmailService EmailService { get; }
         public ConcurrentDictionary<Guid, object> tokens { get; }
-        public ArticleService ArticleService {get;}
         public LoadFileServices LoadFileServices { get; }
         public KshubService(IDatabaseSettings databaseSettings,IHostEnvironment env,IMapper mapper,EmailSender<Models.Email> email)
         {
@@ -29,7 +28,6 @@ namespace LoveCraft.Kshub.Services
                 EmailService = new EmailService(email);
                 KshubUserServices = new UserServices(databaseSettings);
                 tokens = new ConcurrentDictionary<Guid, object>();
-                ArticleService = new ArticleService(databaseSettings);
                 this.env = env;
             }
             catch (Exception e)

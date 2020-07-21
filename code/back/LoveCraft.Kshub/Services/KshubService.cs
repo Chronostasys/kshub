@@ -19,6 +19,8 @@ namespace LoveCraft.Kshub.Services
         public EmailService EmailService { get; }
         public ConcurrentDictionary<Guid, object> tokens { get; }
         public LoadFileServices LoadFileServices { get; }
+
+        public UniversityServices UniversityServices { get; }
         public KshubService(IDatabaseSettings databaseSettings,IHostEnvironment env,IMapper mapper,EmailSender<Models.Email> email)
         {
             BsonSerializer.RegisterIdGenerator(typeof(Guid), GuidGenerator.Instance);
@@ -27,6 +29,7 @@ namespace LoveCraft.Kshub.Services
                 LoadFileServices = new LoadFileServices(databaseSettings);
                 EmailService = new EmailService(email);
                 KshubUserServices = new UserServices(databaseSettings);
+                UniversityServices = new UniversityServices(databaseSettings);
                 tokens = new ConcurrentDictionary<Guid, object>();
                 this.env = env;
             }

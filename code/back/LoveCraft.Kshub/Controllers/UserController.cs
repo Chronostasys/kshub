@@ -20,6 +20,8 @@ using LoveCraft.Kshub.Exceptions;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using MongoDB.Driver;
 using System.Security.Authentication;
+using LimFx.Business.Models;
+
 namespace LoveCraft.Kshub.Controllers
 {
     
@@ -101,7 +103,7 @@ namespace LoveCraft.Kshub.Controllers
                 }
                 catch
                 {
-                    throw new _400Exception("Username or Password is wrong.");
+                    throw new LimFx.Business.Exceptions._400Exception("Username or Password is wrong.");
                 }
 
 
@@ -140,6 +142,7 @@ namespace LoveCraft.Kshub.Controllers
             }
             else
             {
+                
                 throw new _400Exception("Anonymous cannot change infomation!");
             }
         }

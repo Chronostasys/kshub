@@ -18,6 +18,7 @@ using LoveCraft.Kshub.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using LimFx.Business.Services;
 using Microsoft.AspNetCore.Identity;
+using LimFx.Business.Extensions;
 
 namespace LoveCraft.Kshub
 {
@@ -97,12 +98,14 @@ namespace LoveCraft.Kshub
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) { 
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.UseLimFxExceptionHandler();
             //配置提供静态文件的中间件
             app.UseStaticFiles();
             

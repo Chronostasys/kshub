@@ -105,10 +105,6 @@ namespace LoveCraft.Kshub.Controllers
                 {
                     throw new LimFx.Business.Exceptions._400Exception("Username or Password is wrong.");
                 }
-
-
-
-
             }
         }
       

@@ -121,21 +121,27 @@ namespace LoveCraft.Kshub.Controllers
             return null;
         }
 
-
         [HttpPost]
         [Route("Update")]
-        [Authorize(Roles=KshubRoles.User)]
         public async ValueTask UpdateInfoAsync(UpdateUserDto updateUserDto)
         {
             //直接从cookie中获取Guid，不需要前端传递？
             //是否有被伪造的危险？——暂时没想到
             var id =Guid.Parse(HttpContext.User.Identity.Name);
-            var definition = Builders<KshubUser>.Update
-                .Set(t => t.Name, updateUserDto.Name)
-                .Set(t => t.Introduction, updateUserDto.Introduction)
-                .Set(t => t.AvatarUrl, updateUserDto.AvatarUrl);
+            var IsUser =(await _kshubService.KshubUserServices.GetAsync(t=>t.Roles.Contains("User"),t=>t.Id==id)).First();
+            if (IsUser)
+            {
+                var definition = Builders<KshubUser>.Update
+                    .Set(t => t.Name, updateUserDto.Name)
+                    .Set(t => t.Introduction, updateUserDto.Introduction)
+                    .Set(t => t.AvatarUrl, updateUserDto.AvatarUrl);
 
-            await _kshubService.KshubUserServices.UpDateAsync(id,definition);
+                await _kshubService.KshubUserServices.UpDateAsync(id, definition);
+            }
+            else
+            {
+                throw new _400Exception("Anonymous cannot change infomation!");
+            }
         }
     }
 }

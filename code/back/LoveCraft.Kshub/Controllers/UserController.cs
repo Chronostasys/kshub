@@ -50,6 +50,12 @@ namespace LoveCraft.Kshub.Controllers
         [Route("Register")]
         public async ValueTask Register(AddUserDto addUserDto)
         {
+            addUserDto.Email = addUserDto.Email.Trim();
+            addUserDto.UserId = addUserDto.UserId.Trim();
+            if (string.IsNullOrEmpty(addUserDto.Email)|| string.IsNullOrEmpty(addUserDto.Email))
+            {
+                throw new _400Exception("Email or UserId cannot be empty!");
+            }
             //automapper直接映射，不需要再new对象一个个赋值了
             var user = _mapper.Map<KshubUser>(addUserDto);
             user.Roles = new List<string> { Roles.User };
@@ -84,35 +90,26 @@ namespace LoveCraft.Kshub.Controllers
             }
             else
             {
-                var user = await _kshubService.KshubUserServices.FindUserAsync(logInDto.UserId);
+                try
+                {
+                    
+                    var user = await _kshubService.KshubUserServices.FindUserAsync(logInDto.UserId);
+                    user.PassWordHash = logInDto.Password;
+                    await _kshubService.KshubUserServices.LogInAsync(user, HttpContext, rememberMe);
+                    return _mapper.Map<UserDetailDto>(user);
 
-
-                if (user == null)
+                }
+                catch
                 {
                     throw new _400Exception("Username or Password is wrong.");
                 }
-                else
-                {
-                    user.PassWordHash = logInDto.Password;
-                    await _kshubService.KshubUserServices.LogInAsync(user, HttpContext, rememberMe);
-                }
-                return _mapper.Map<UserDetailDto>(user);
-            }
-        }
 
-        [HttpPost]
-      
-        [Route("ValidateEmail")]
-        public async ValueTask<UserDetailDto> ValidateEmailAsync(Guid guid)
-        {
-            _kshubService.tokens.TryRemove(guid, out object user);
-            if (user == null) throw new _401Exception("You have not a registered token");
-            else
-            {                
-                await _kshubService.KshubUserServices.AddUserWithCheckAsync((KshubUser)user);
-                return _mapper.Map<UserDetailDto>((KshubUser)user);
+
+
+
             }
         }
+      
         [HttpPost]
         [Route("Signout")]
         public async ValueTask<UserDetailDto> SignOutAsync()

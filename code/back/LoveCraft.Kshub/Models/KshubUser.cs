@@ -25,5 +25,6 @@ namespace LoveCraft.Kshub.Models
         public string AvatarUrl { get; set; }
         public int Awesomes { get; set; }
         public float Exp { get; set; }
+        public string SecurityStamp { get; set; }
     }
 }

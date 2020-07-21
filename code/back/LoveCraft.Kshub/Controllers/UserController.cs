@@ -16,7 +16,7 @@ using DocumentFormat.OpenXml.InkML;
 using Microsoft.AspNetCore.Identity;
 using LimFx.Business.Services;
 using Microsoft.Extensions.Configuration;
-using LoveCraft.Kshub.Exceptions;
+using LimFx.Business.Exceptions;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using MongoDB.Driver;
 using System.Security.Authentication;
@@ -103,7 +103,7 @@ namespace LoveCraft.Kshub.Controllers
                 }
                 catch
                 {
-                    throw new LimFx.Business.Exceptions._400Exception("Username or Password is wrong.");
+                    throw new _400Exception("Username or Password is wrong.");
                 }
             }
         }

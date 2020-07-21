@@ -84,10 +84,12 @@ namespace LoveCraft.Kshub
                 config.CreateMap<KshubUser, UserDetailDto>();
                 config.CreateMap<AddUserDto, KshubUser>();
                 config.CreateMap<LogInDto, KshubUser>();
-
+                config.CreateMap<AddUnilDto, University>();
+                config.CreateMap<University, UniDetailDto>();
             }, typeof(KshubUser), typeof(UserDetailDto), typeof(LogInDto)
-            , typeof(CourseDetailDto),typeof(ArticleDetailDto)
-            ,typeof(IEnumerable<ArticleDetailDto>),typeof(AddUserDto));
+            , typeof(CourseDetailDto),typeof(AddUserDto)
+            ,typeof(AddUnilDto),typeof(University), typeof(UniDetailDto)
+            );
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(op =>
                 {

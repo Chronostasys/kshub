@@ -8,6 +8,7 @@ using LoveCraft.Kshub.Dto;
 using LoveCraft.Kshub.Models;
 using LoveCraft.Kshub.Services;
 using Lucene.Net.Search;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
@@ -31,6 +32,7 @@ namespace LoveCraft.Kshub.Controllers
         
         [HttpPost]
         [Route("AddUni")]
+        [Authorize(Roles =KshubRoles.Admin)]
         public async ValueTask<UniDetailDto> AddUniAsync(AddUnilDto addUnilDto)
         {
             var uni = _mapper.Map<University>(addUnilDto);

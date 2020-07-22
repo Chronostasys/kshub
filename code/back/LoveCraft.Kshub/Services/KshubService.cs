@@ -15,6 +15,7 @@ namespace LoveCraft.Kshub.Services
 {
     public class KshubService
     {
+        public CollegeServices CollegeServices { get; }
         public UserServices KshubUserServices { get; }
         public EmailService EmailService { get; }
         public ConcurrentDictionary<Guid, object> tokens { get; }
@@ -26,6 +27,7 @@ namespace LoveCraft.Kshub.Services
             BsonSerializer.RegisterIdGenerator(typeof(Guid), GuidGenerator.Instance);
             try
             {
+                CollegeServices = new CollegeServices(databaseSettings);
                 LoadFileServices = new LoadFileServices(databaseSettings);
                 EmailService = new EmailService(email);
                 KshubUserServices = new UserServices(databaseSettings);

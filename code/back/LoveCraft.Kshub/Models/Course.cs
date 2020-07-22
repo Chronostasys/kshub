@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace LoveCraft.Kshub.Models
 {
-    public class Course
+    public class Course : Entity, ISearchAble
     {
+
+        public string SearchAbleString { get; set; }
 
     }
 }

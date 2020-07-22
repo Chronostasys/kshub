@@ -9,6 +9,7 @@ namespace LoveCraft.Kshub.Models
     public class MongoDbSettings : IDatabaseSettings
     {
         public string UniversityCollection { get; set; }
+        public string CollegeCollection { get; set; }
 
         public string FileCollection { get; set; }
         public string ArticleCollection { get; set; }
@@ -19,6 +20,7 @@ namespace LoveCraft.Kshub.Models
     }
     public interface IDatabaseSettings:IBaseDbSettings
     {
+        public string CollegeCollection { get; set; }
         public string FileCollection { get; set; }
         public string CourseCollection { get; set; }
         public string UserCollection { get; set; }

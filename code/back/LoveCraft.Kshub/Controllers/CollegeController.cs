@@ -31,32 +31,26 @@ namespace LoveCraft.Kshub.Controllers
         {
             var c = _mapper.Map<College>(addCollegeDto);
             c.Id = Guid.NewGuid();
-            await _kshubService.CollegeServices.AddCollegeAsync(c);
+            await _kshubService.CollegeServices.AddCollegeWithCheckingAsync(c);
         }
 
         [HttpGet("GetCollege/{name}")]
-        
         public async ValueTask<CollegeDetailDto> GetCollegeByNameAsync(string name)
         {
-            try
-            {
+
                 var filter = Builders<College>.Filter.Eq(t => t.Name, name);
                 //t => _mapper.Map<CollegeDetailDto>(t)
                 var r = await _kshubService.CollegeServices.GetAsync(t => _mapper.Map<CollegeDetailDto>(t),0,1,null,true,filter);
-                return r.First();
-            }
-            catch(Exception e)
-            {
-                throw new _401Exception(e.Message);
-            }
+                return r.FirstOrDefault();
 
         }
 
-        [HttpGet("GetColleges")]
-        public async ValueTask<IEnumerable<CollegeDetailDto>> GetUniversitysAsync(int page = 0, int pagesize = 10,
+        [HttpGet("GetUniColleges")]
+        public async ValueTask<IEnumerable<CollegeDetailDto>> GetUniCollegessAsync(Guid uniId,int page = 0, int pagesize = 10,
             bool isDescending = true)
         {
             var projection = Builders<College>.Projection.Expression(t => _mapper.Map<CollegeDetailDto>(t));
+            var filter= Builders<College>.Filter.Eq(t=>t.BelongUniId,uniId);
             SortDefinition<College> sortfilter;
             var sort = Builders<College>.Sort;
             if (isDescending)
@@ -69,7 +63,7 @@ namespace LoveCraft.Kshub.Controllers
                 sortfilter = sort.Ascending(t => t.CreateTime);
             }
 
-            var results = await _kshubService.CollegeServices.GetAsync(projection, page, pagesize, sortfilter, Builders<College>.Filter.Empty);
+            var results = await _kshubService.CollegeServices.GetAsync(projection, page, pagesize, sortfilter, filter);
 
             return results;
         }

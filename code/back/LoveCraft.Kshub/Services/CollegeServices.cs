@@ -14,7 +14,7 @@ namespace LoveCraft.Kshub.Services
         public CollegeServices(IDatabaseSettings databaseSettings)
             : base(databaseSettings, databaseSettings.CollegeCollection) { }
 
-        public async ValueTask<College> AddCollegeAsync(College college)
+        public async ValueTask<College> AddCollegeWithCheckingAsync(College college)
         {
             try
             {

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using LoveCraft.Kshub.Models;
 using MongoDB.Driver;
 using LimFx.Business.Exceptions;
+using Castle.Core.Internal;
 
 namespace LoveCraft.Kshub.Controllers
 {
@@ -27,6 +28,34 @@ namespace LoveCraft.Kshub.Controllers
             _mapper = mapper;
             env = hostEnvironment;
         }
+        
+        [HttpPost]
+        [Route("AddCourse")]
+        public async ValueTask AddCourseAsync(AddCourseDto addCourseDto)
+        {
+            var course = _mapper.Map<Course>(addCourseDto);
+            course.Id = Guid.NewGuid();
+            try
+            {
+                await _kshubService.CollegeServices.FindFirstAsync(course.BelongedCollegeId);
+            }
+            catch
+            {
+                throw new _401Exception("You can't add this Course because the belonged College doesn't exist!");
+            }
 
+            var filter = Builders<Course>.Filter.Eq(t => t.BelongedCollegeId, course.BelongedCollegeId)
+                & Builders<Course>.Filter.Eq(t=>t.Name,course.Name);
+            var re=await _kshubService.CourseServices.GetAsync(t => t, 0, 1,"UpdateTime", true, filter);
+            if (re.IsNullOrEmpty())
+            {
+                await _kshubService.CourseServices.AddCourseWithoutCheckingAsync(course);
+            }
+            else
+            {
+                throw new _401Exception("This Course has already existed!");
+
+            }
+        }
     }
 }

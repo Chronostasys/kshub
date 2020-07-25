@@ -22,5 +22,8 @@ namespace LoveCraft.Kshub.Dto
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public Guid BelongedCollegeId { get; set; }
+        public Dictionary<string, double> ScoreRating { get; set; }
+
     }
 }

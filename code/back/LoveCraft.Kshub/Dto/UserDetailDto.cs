@@ -24,6 +24,7 @@ namespace LoveCraft.Kshub.Dto
         public string Introduction { get; set; }
         public string Email { get; set; }
         public string AvatarUrl { get; set; }
+        public Guid BelongId { get; set; }
 
     }
     public class LogInDto

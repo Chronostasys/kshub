@@ -67,6 +67,25 @@ namespace LoveCraft.Kshub.Controllers
 
         }
 
+        [HttpPost]
+        [Route("AddTeacher")]
+        public async ValueTask AddTeacherAsync(AddUserDto addUserDto)
+        {
+            addUserDto.Email = addUserDto.Email.Trim();
+            addUserDto.UserId = addUserDto.UserId.Trim();
+            if (string.IsNullOrEmpty(addUserDto.Email) || string.IsNullOrEmpty(addUserDto.Email))
+            {
+                throw new _400Exception("Email or TeacherId cannot be empty!");
+            }
+            //automapper直接映射，不需要再new对象一个个赋值了
+            var user = _mapper.Map<KshubUser>(addUserDto);
+            user.Roles = new List<string> { KshubRoles.User,KshubRoles.Teacher };
+            //password Hash没有映射
+            user.PassWordHash = addUserDto.Password;
+            await _kshubService.KshubUserServices.AddUserWithCheckAsync(user);
+
+        }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("LogIn")]

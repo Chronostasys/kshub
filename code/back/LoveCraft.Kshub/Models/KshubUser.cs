@@ -8,6 +8,8 @@ namespace LoveCraft.Kshub.Models
 {
     public class KshubUser : Entity, ISearchAble, IUser,IPraiseAble
     {
+        //添加了一个用户属于的组织Id,如果是学生那么就是所属班级，若是老师则为所属CollegeId
+        public Guid BelongId { get; set; }
 
         public string Name { get; set; }
 

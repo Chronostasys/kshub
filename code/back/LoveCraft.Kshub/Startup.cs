@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using LimFx.Business.Services;
 using Microsoft.AspNetCore.Identity;
 using LimFx.Business.Extensions;
+using OpenXmlPowerTools;
 
 namespace LoveCraft.Kshub
 {
@@ -90,11 +91,13 @@ namespace LoveCraft.Kshub
                 config.CreateMap<AddCollegeDto, College>();
                 config.CreateMap<AddCourseDto, Course>();
                 config.CreateMap<Course, CourseDetailDto>();
+                config.CreateMap<AddClassDto, Class>();
             }, typeof(KshubUser), typeof(UserDetailDto), typeof(LogInDto)
            ,typeof(AddUserDto)
             ,typeof(AddUnilDto),typeof(University), typeof(UniDetailDto)
             ,typeof(College),typeof(CollegeDetailDto),typeof(AddCollegeDto)
             ,typeof(Course), typeof(CourseDetailDto),typeof(AddCourseDto)
+            ,typeof(Class),typeof(AddClassDto)
             );
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(op =>

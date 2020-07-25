@@ -10,6 +10,7 @@ namespace LoveCraft.Kshub.Models
     {
         public string UniversityCollection { get; set; }
         public string CollegeCollection { get; set; }
+        public string ClassCollection { get; set; }
 
         public string FileCollection { get; set; }
         public string ArticleCollection { get; set; }
@@ -24,7 +25,7 @@ namespace LoveCraft.Kshub.Models
         public string FileCollection { get; set; }
         public string CourseCollection { get; set; }
         public string UserCollection { get; set; }
-
+        public string ClassCollection { get; set; }
         public string UniversityCollection { get; set; }
     }
 

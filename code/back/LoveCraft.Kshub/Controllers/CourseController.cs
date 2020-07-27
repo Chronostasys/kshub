@@ -12,6 +12,7 @@ using LoveCraft.Kshub.Models;
 using MongoDB.Driver;
 using LimFx.Business.Exceptions;
 using Castle.Core.Internal;
+using DocumentFormat.OpenXml.InkML;
 
 namespace LoveCraft.Kshub.Controllers
 {
@@ -34,6 +35,7 @@ namespace LoveCraft.Kshub.Controllers
         public async ValueTask AddCourseAsync(AddCourseDto addCourseDto)
         {
             var course = _mapper.Map<Course>(addCourseDto);
+            course.CourseManagerId =Guid.Parse(User.Identity.Name);
             course.Id = Guid.NewGuid();
             try
             {

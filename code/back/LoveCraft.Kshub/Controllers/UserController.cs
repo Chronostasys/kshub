@@ -61,7 +61,7 @@ namespace LoveCraft.Kshub.Controllers
             //automapper直接映射，不需要再new对象一个个赋值了
             var user = _mapper.Map<KshubUser>(addUserDto);
             user.Roles = new List<string> { Roles.User };
-            //password Hash没有映射
+            //需要检查一下所属课程的Id是否为空
             user.PassWordHash = addUserDto.Password;
             await _kshubService.KshubUserServices.AddUserWithCheckAsync(user);
 

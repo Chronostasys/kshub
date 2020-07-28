@@ -27,10 +27,7 @@ namespace LoveCraft.Kshub.Dto
         public string Abstract { get; set; }
         public string Description { get; set; }
         public List<string> Keywords { get; set; }
-
         public string ProjectUrl { get; set; }
-
-        public Guid BelongCollegeId { get; set; }
         public List<Guid> Participants { get; set; }
     }
 }

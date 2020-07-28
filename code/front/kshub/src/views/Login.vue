@@ -3,7 +3,6 @@
     <div class="notification">
     <Login :modalCssClass="cssClass" @close="close"/>
     <div class="login">
-      <img alt="EVA logo" src="../assets/EVA.png">
     </div>
     <button class="button is-black" @click="login">login</button>
   </div>

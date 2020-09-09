@@ -34,8 +34,10 @@ namespace LoveCraft.Kshub.Controllers
         [Route("AddCourse")]
         public async ValueTask AddCourseAsync(AddCourseDto addCourseDto)
         {
+            
             var course = _mapper.Map<Course>(addCourseDto);
-            course.CourseManagerId =Guid.Parse(User.Identity.Name);
+            //显然不应该有这句
+            //course.TeacherIds.Add(Guid.Parse(User.Identity.Name));
             course.Id = Guid.NewGuid();
             try
             {
@@ -56,8 +58,38 @@ namespace LoveCraft.Kshub.Controllers
             else
             {
                 throw new _401Exception("This Course has already existed!");
-
             }
         }
+
+        [HttpGet]
+        [Route("GetCourses")]
+        public async ValueTask<CourseDetailDto> GetCourseAsync(int page = 0, int pagesize = 10)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Route("GetCourse")]
+        public async ValueTask<CourseDetailDto> GetCourseAsync(Guid guid)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        [Route("AddStudent")]
+        public async ValueTask AddStudentAsync(Guid CourseId,Guid StuId)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        [Route("AddTeacher")]
+        //主要添加老师还是在创建课程的时候添加吧
+        public async ValueTask AddTeacherAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

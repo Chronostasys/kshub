@@ -9,6 +9,7 @@ using LoveCraft.Kshub.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 
 namespace LoveCraft.Kshub.Controllers
 {
@@ -31,11 +32,11 @@ namespace LoveCraft.Kshub.Controllers
         public async ValueTask AddKsAsync(AddKsDto addKsDto)
         {
             var ks = _mapper.Map<Ks>(addKsDto);
-            var stuId = Guid.Parse(User.Identity.Name);
-            ks.ProjectManager = stuId;
+            var managerId = Guid.Parse(User.Identity.Name);
+            ks.ProjectManager = managerId;
             ks.Id = Guid.NewGuid();
-            var user = await _kshubService.KshubUserServices.FindUserAsync(stuId);
-            ks.BelongCollegeId= user.BelongId;
+            var user = await _kshubService.KshubUserServices.FindUserAsync(managerId);
+            ks.BelongCollegeId= user.CollegeId;
             await _kshubService.KsServices.AddAsync(ks);
         }
 
@@ -43,7 +44,8 @@ namespace LoveCraft.Kshub.Controllers
         public async ValueTask<IEnumerable<KsDetailDto>> GetKsDetailAsync
             (int page=0,int pagesize = 10,bool IsDescending=true)
         {
-            return await _kshubService.KsServices.GetAsync(t => _mapper.Map<KsDetailDto>(t));
+            return await _kshubService.KsServices.GetAsync(t => _mapper.Map<KsDetailDto>(t),page,pagesize,"UpdateTime",IsDescending);
         }
+
     }
 }

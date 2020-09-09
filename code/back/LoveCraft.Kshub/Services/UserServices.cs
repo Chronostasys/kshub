@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using DocumentFormat.OpenXml.InkML;
 using LimFx.Business.Exceptions;
 using System.Threading.Tasks.Sources;
+using OpenXmlPowerTools;
 
 namespace LoveCraft.Kshub.Services
 {
@@ -43,7 +44,7 @@ namespace LoveCraft.Kshub.Services
                 user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
                 collection.InsertOne(user);
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
             }
@@ -175,7 +176,6 @@ namespace LoveCraft.Kshub.Services
         {
             await httpContext.SignOutAsync();
         }
-
 
     }
 }

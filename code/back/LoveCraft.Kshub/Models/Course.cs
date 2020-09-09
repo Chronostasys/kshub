@@ -13,7 +13,9 @@ namespace LoveCraft.Kshub.Models
         public string CoverUrl { get; set; }
 
         public Guid BelongedCollegeId { get; set; }
-        public Guid CourseManagerId { get; set; }
+        
+        //允许课程有多名老师作为管理
+        public List<Guid> TeacherIds { get; set; }
 
         //老师用来指定各项成绩占比
         public Dictionary<string,double> ScoreRating { get; set; }

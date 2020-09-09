@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using DocumentFormat.OpenXml.InkML;
 using LimFx.Business.Exceptions;
 using System.Threading.Tasks.Sources;
+using OpenXmlPowerTools;
 
 namespace LoveCraft.Kshub.Services
 {
@@ -175,7 +176,6 @@ namespace LoveCraft.Kshub.Services
         {
             await httpContext.SignOutAsync();
         }
-
 
     }
 }

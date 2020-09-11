@@ -25,5 +25,9 @@ namespace LoveCraft.Kshub.Services
             await collection.InsertOneAsync(course);
             return course;
         }
+        public async ValueTask AddStudentsInCourseAsync(IEnumerable<Guid> stuids)
+        {
+
+        }
     }
 }

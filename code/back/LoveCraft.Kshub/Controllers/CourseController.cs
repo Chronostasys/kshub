@@ -77,7 +77,7 @@ namespace LoveCraft.Kshub.Controllers
 
         [HttpPost]
         [Route("AddStudent")]
-        public async ValueTask AddStudentAsync(Guid CourseId,Guid StuId)
+        public async ValueTask AddStudentAsync(Guid CourseId,List<Guid> StuIds)
         {
             throw new NotImplementedException();
         }
@@ -90,6 +90,43 @@ namespace LoveCraft.Kshub.Controllers
             throw new NotImplementedException();
         }
 
+        [HttpPost]
+        [Route("SetScoreRating")]
+        public async ValueTask<Dictionary<string,int>> SetScoreRatingAsync(Dictionary<string, int> scoreRule)
+        {
+            //一门Course的Manager可以设置评分细则
+            //Dictionary好像不太好用，因为我还需要加一个关于本评分标准的Description
+            //=>不过我可以在另外一个地方新加一个字段就是了，这点不急
+            throw new NotImplementedException();
+        }
+
+        [HttpDelete]
+        [Route("DeleteCourse")]
+        public async ValueTask DeleteCourseAsync(Guid guid)
+        {
+            throw new NotImplementedException();
+
+        }
+
+        [HttpDelete]
+        [Route("RemoveCourseManager")]
+        public async ValueTask RemoveCourseManagerAsync(Guid guid)
+        {
+            throw new NotImplementedException();
+
+        }
+
+        [HttpPut]
+        [Route("EditInfo")]
+        //Course的Manager可以修改的内容
+        public async ValueTask<CourseDetailDto> UpdateCourseInfoAsync(UpdateCourseDto updateCourseDto)
+        {
+            //Course的Manager可以修改一些基础信息
+            //评分标准就调用另外一个API？
+            //==>提供CoureseManager能修改全部他能修改内容的Api
+            //剩下怎么设置前端可以只用一部分
+            throw new NotImplementedException();
+        }
 
     }
 }

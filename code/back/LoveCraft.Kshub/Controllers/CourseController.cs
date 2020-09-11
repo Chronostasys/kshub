@@ -63,28 +63,46 @@ namespace LoveCraft.Kshub.Controllers
 
         [HttpGet]
         [Route("GetCourses")]
-        public async ValueTask<CourseDetailDto> GetCourseAsync(int page = 0, int pagesize = 10)
+        public async ValueTask<IEnumerable<CourseDetailDto>> GetCourseAsync(int page = 0, int pagesize = 10,bool IsAscending=true)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Course>.Filter.Empty;
+            SortDefinition<Course> sort;
+            if (IsAscending)
+            {
+                sort = Builders<Course>.Sort.Ascending(t => t.Name);
+            }
+            else
+            {
+                sort = Builders<Course>.Sort.Descending(t => t.Name);
+            }
+            var t = await _kshubService.CourseServices.GetAsync(t=>_mapper.Map<CourseDetailDto>(t),page, pagesize);
+            return t;
         }
 
         [HttpGet]
         [Route("GetCourse")]
         public async ValueTask<CourseDetailDto> GetCourseAsync(Guid guid)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Course>.Filter.Eq(t => t.Id, guid);
+            var course= await _kshubService.CourseServices.FindFirstAsync(guid);
+            return _mapper.Map<CourseDetailDto>(course);
         }
 
         [HttpPost]
         [Route("AddStudent")]
         public async ValueTask AddStudentAsync(Guid CourseId,List<Guid> StuIds)
         {
-            throw new NotImplementedException();
+            var currentId =Guid.Parse(User.Identity.Name);
+            await _kshubService.KshubUserServices.CheckAuthAsync(KshubRoles.CollegeAdmin, currentId);
+            var update = Builders<Course>.Update.PushEach(t=>t.StudentsID,StuIds);
+
+            await _kshubService.CourseServices.UpDateAsync(CourseId, update);
         }
 
         [HttpPost]
         [Route("AddTeacher")]
         //主要添加老师还是在创建课程的时候添加吧
+        //这个Api先不写为妙
         public async ValueTask AddTeacherAsync()
         {
             throw new NotImplementedException();

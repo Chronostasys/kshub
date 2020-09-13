@@ -32,6 +32,7 @@ namespace LoveCraft.Kshub.Dto
     }
     public class UpdateCourseDto
     {
+        public Guid Id { get; set; }
         public string Desciption { get; set; }
 
         public string CoverUrl { get; set; }

@@ -77,5 +77,39 @@ namespace LoveCraft.Kshub.Controllers
             };
             await _kshubService.EmailService.SendEmailAsync(emailProperty);
         }
+
+        [HttpPost]
+        [Route("ForTesting")]
+        public async ValueTask AddCollegeAsync()
+        {
+            University university = new University
+            {
+                Id = Guid.NewGuid(),
+                Name = "PlantTreesUniversity",
+                Desciption = "We love planting trees:)",
+             
+            };
+            College college = new College
+            {
+                Id = Guid.NewGuid(),
+                Name = "CSE",
+                BelongUniId = university.Id,
+                
+            };
+            KshubUser collegeAdmin = new KshubUser
+            {
+                Name = "CSECollegeAdmin",
+                UserId="CSECollegeAdmin",
+                CollegeId = college.Id,
+                Roles = new List<string> { KshubRoles.CollegeAdmin, KshubRoles.User },
+                Id = Guid.NewGuid(),
+                Email = "test1@kshub.com",
+                PassWordHash = "Helloworld2020@"
+            };
+            await _kshubService.CollegeServices.AddCollegeWithCheckingAsync(college);
+            await _kshubService.KshubUserServices.AddUserWithCheckAsync(collegeAdmin);
+            await _kshubService.UniversityServices.AddUniWithCheckAsync(university);
+
+        }
     }
 }

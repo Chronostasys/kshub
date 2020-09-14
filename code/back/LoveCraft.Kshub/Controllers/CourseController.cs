@@ -40,14 +40,10 @@ namespace LoveCraft.Kshub.Controllers
             //显然不应该有这句
             //course.TeacherIds.Add(Guid.Parse(User.Identity.Name));
             course.Id = Guid.NewGuid();
-            try
-            {
-                await _kshubService.CollegeServices.FindFirstAsync(course.BelongedCollegeId);
-            }
-            catch
-            {
-                throw new _401Exception("You can't add this Course because the belonged College doesn't exist!");
-            }
+            var collegeAdminId=Guid.Parse(User.Identity.Name);
+            await _kshubService.KshubUserServices.CheckAuthAsync(KshubRoles.CollegeAdmin, collegeAdminId);
+            var collegeId = await _kshubService.KshubUserServices.FindFirstAsync(t => t.Id == collegeAdminId, t => t.CollegeId);
+            course.BelongedCollegeId = collegeId;
 
             var filter = Builders<Course>.Filter.Eq(t => t.BelongedCollegeId, course.BelongedCollegeId)
                 & Builders<Course>.Filter.Eq(t=>t.Name,course.Name);

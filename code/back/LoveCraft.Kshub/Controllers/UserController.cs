@@ -29,13 +29,11 @@ namespace LoveCraft.Kshub.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        private readonly SecretRecord _secretRecord;
         private readonly KshubService _kshubService;
         readonly IMapper _mapper;
         IHostEnvironment env;
-        public UserController(KshubService kshubService, IMapper mapper, IHostEnvironment env,SecretRecord secretRecord)
+        public UserController(KshubService kshubService, IMapper mapper, IHostEnvironment env)
         {
-            _secretRecord = secretRecord;
             _kshubService = kshubService;
             _mapper = mapper;
             this.env = env;

@@ -14,11 +14,12 @@ namespace LoveCraft.Kshub.Models
 
         public Guid BelongedCollegeId { get; set; }
         
-        //允许课程有多名老师作为管理
+        //All a few teacher to manager the same course 
         public List<Guid> TeachersId { get; set; }
 
         public List<Guid> StudentsID { get; set; }
-        //老师用来指定各项成绩占比
+        
+        //specify the final score rating
         public Dictionary<string,double> ScoreRating { get; set; }
         public string SearchAbleString { get; set; }
 

@@ -147,7 +147,7 @@ namespace LoveCraft.Kshub.Services
             }
             if (auth)
             {
-                //这里设置了AuthenticationProperties的
+                //set AuthenticationProperties
                 var authProperties = new AuthenticationProperties
                 {
                     IsPersistent = rememberMe

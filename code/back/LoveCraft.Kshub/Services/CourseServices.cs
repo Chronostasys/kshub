@@ -19,7 +19,7 @@ namespace LoveCraft.Kshub.Services
 
 
         /// <summary>
-        /// 假定要加入的Course未存在与当前College
+        /// Add a course which not exist in current college
         /// </summary>
         /// <param name="course"></param>
         /// <returns></returns>

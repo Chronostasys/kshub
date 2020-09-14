@@ -8,7 +8,7 @@ namespace LoveCraft.Kshub.Models
     public class Course : Entity, ISearchAble
     {
         public string Name { get; set; }
-        public string Desciption { get; set; }
+        public string Description { get; set; }
 
         public string CoverUrl { get; set; }
 

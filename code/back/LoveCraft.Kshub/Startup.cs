@@ -60,9 +60,9 @@ namespace LoveCraft.Kshub
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
             services.AddSingleton<KshubService>();
-            services.AddSecrertRecord<SecretRecord>(o =>
-                o.GrillenPassword = Configuration["GrillenPassword"]
-            );
+            //services.AddSecrertRecord<SecretRecord>(o =>
+            //    o.GrillenPassword = Configuration["GrillenPassword"]
+            //);
             services.AddEmailSenderService<Email>(op =>
             {
                 op.DatabaseName = "KshubDb";

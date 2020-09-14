@@ -9,7 +9,7 @@ namespace LoveCraft.Kshub.Dto
     
     public class CourseDetailDto
     {
-        
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string CoverUrl { get; set; }
         public string Description { get; set; }
@@ -33,10 +33,8 @@ namespace LoveCraft.Kshub.Dto
     public class UpdateCourseDto
     {
         public Guid Id { get; set; }
-        public string Desciption { get; set; }
-
+        public string Description { get; set; }
         public string CoverUrl { get; set; }
-
         public Dictionary<string, double> ScoreRating { get; set; }
 
     }

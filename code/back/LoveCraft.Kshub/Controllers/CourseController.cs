@@ -37,9 +37,8 @@ namespace LoveCraft.Kshub.Controllers
         {
             
             var course = _mapper.Map<Course>(addCourseDto);
-            //显然不应该有这句
-            //course.TeacherIds.Add(Guid.Parse(User.Identity.Name));
             course.Id = Guid.NewGuid();
+
             var collegeAdminId=Guid.Parse(User.Identity.Name);
             await _kshubService.KshubUserServices.CheckAuthAsync(KshubRoles.CollegeAdmin, collegeAdminId);
             var collegeId = await _kshubService.KshubUserServices.FindFirstAsync(t => t.Id == collegeAdminId, t => t.CollegeId);
@@ -78,8 +77,9 @@ namespace LoveCraft.Kshub.Controllers
 
         [HttpGet]
         [Route("GetCourse")]
-        public async ValueTask<CourseDetailDto> GetCourseAsync(Guid guid)
+        public async ValueTask<CourseDetailDto> GetCourseAsync(string id)
         {
+            Guid guid = Guid.Parse(id);
             var filter = Builders<Course>.Filter.Eq(t => t.Id, guid);
             var course= await _kshubService.CourseServices.FindFirstAsync(guid);
             return _mapper.Map<CourseDetailDto>(course);
@@ -152,7 +152,7 @@ namespace LoveCraft.Kshub.Controllers
             //==>提供CoureseManager能修改全部他能修改内容的Api
             //剩下怎么设置前端可以只用一部分
             var update = Builders<Course>.Update
-                        .Set(t => t.Desciption, updateCourseDto.Desciption)
+                        .Set(t => t.Description, updateCourseDto.Description)
                         .Set(t => t.CoverUrl, updateCourseDto.CoverUrl)
                         .Set(t => t.ScoreRating, updateCourseDto.ScoreRating);
             await _kshubService.CourseServices.UpDateAsync(updateCourseDto.Id, update);

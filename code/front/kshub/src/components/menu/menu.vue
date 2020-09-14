@@ -89,6 +89,19 @@
                 </div>
             </div>
             <div class="navbar-end">
+                <a class="navbar-item">
+                <div class="control has-icons-left">
+                <span class="icon is-left">
+                 <i class="fa fa-search"></i>
+                </span>                  
+                <input
+                  class="input search-input"
+                  type="text"
+                  style="width: 20rem;"
+                  placeholder="搜点什么看看"
+                />
+                </div>
+                </a>
                 <div class="navbar-item">
                     <div class="buttons">
                         <a v-if="userInfo.roles.indexOf(strs.Roles.anonymous)>-1" class="button is-link" @click="login">

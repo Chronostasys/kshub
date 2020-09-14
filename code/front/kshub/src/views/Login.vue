@@ -1,5 +1,6 @@
 <template>
   <div class="container is-fluid">
+    <img draggable="true" />
     <div class="notification">
     <Login :modalCssClass="cssClass" @close="close"/>
     <div class="login">

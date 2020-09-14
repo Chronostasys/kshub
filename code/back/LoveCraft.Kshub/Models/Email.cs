@@ -9,11 +9,10 @@ namespace LoveCraft.Kshub.Models
 {
     public class Email : Entity, IEmail, ISearchAble
     {
-        //发送者名称
+        //Sender Name
         public string Sender { get; set; }
-        //希望发送的时间
+
         public DateTime ExpectSendTime { get; set; }
-        //接收者的email集合
         public List<string> Receivers { get; set; }
         public string Subject { get; set; }
         public string RazorTemplate { get; set; }

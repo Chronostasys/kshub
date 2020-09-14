@@ -56,10 +56,8 @@ namespace LoveCraft.Kshub.Controllers
             {
                 throw new _400Exception("Email or UserId cannot be empty!");
             }
-            //automapper直接映射，不需要再new对象一个个赋值了
             var user = _mapper.Map<KshubUser>(addUserDto);
             user.Roles = new List<string> { Roles.User };
-            //需要检查一下所属课程的Id是否为空
             user.PassWordHash = addUserDto.Password;
             await _kshubService.KshubUserServices.AddUserWithCheckAsync(user);
 
@@ -75,10 +73,8 @@ namespace LoveCraft.Kshub.Controllers
             {
                 throw new _400Exception("Email or TeacherId cannot be empty!");
             }
-            //automapper直接映射，不需要再new对象一个个赋值了
             var user = _mapper.Map<KshubUser>(addUserDto);
             user.Roles = new List<string> { KshubRoles.User,KshubRoles.Teacher };
-            //password Hash没有映射
             user.PassWordHash = addUserDto.Password;
             await _kshubService.KshubUserServices.AddUserWithCheckAsync(user);
 
@@ -103,12 +99,12 @@ namespace LoveCraft.Kshub.Controllers
         [Route("LogIn")]
         public async ValueTask<UserDetailDto> LogIn(LogInDto logInDto,bool rememberMe)
         {
-            
-            if (!User.Identity.IsAuthenticated)
+            var auth = User.Identity.IsAuthenticated;
+            if (!auth)
             {
                 return _mapper.Map<UserDetailDto>(await _kshubService.KshubUserServices.SignInAsAnonymous(HttpContext));
             }
-            //已经认证过了，dto传进来的UserId是空的，
+            
             else if (string.IsNullOrWhiteSpace(logInDto.UserId))
             {
                 try
@@ -154,8 +150,7 @@ namespace LoveCraft.Kshub.Controllers
         [Route("Update")]
         public async ValueTask UpdateInfoAsync(UpdateUserDto updateUserDto)
         {
-            //直接从cookie中获取Guid，不需要前端传递？
-            //是否有被伪造的危险？——暂时没想到
+
             var id =Guid.Parse(HttpContext.User.Identity.Name);
             var IsUser =(await _kshubService.KshubUserServices.GetAsync(t=>t.Roles.Contains("User"),t=>t.Id==id)).First();
             if (IsUser)
@@ -179,8 +174,9 @@ namespace LoveCraft.Kshub.Controllers
         public async ValueTask<IEnumerable<UserDetailDto>> GetUsersAsync
             (int page=0,int pagesize=10,bool IsDecsending = true)
         {
-            //Need to add SortDefinition
-            return await _kshubService.KshubUserServices.GetAsync(t => _mapper.Map<UserDetailDto>(t), page, pagesize);
+            //sort by Name
+            return await _kshubService.KshubUserServices
+                .GetAsync(t => _mapper.Map<UserDetailDto>(t), page, pagesize,"Name",IsDecsending);
         }
     }
 }

@@ -101,9 +101,6 @@ namespace LoveCraft.Kshub.Controllers
         [Route("SetScoreRating")]
         public async ValueTask<Dictionary<string,double>> SetScoreRatingAsync(Guid courseId,Dictionary<string, double> scoreRule)
         {
-            //一门Course的Manager可以设置评分细则
-            //Dictionary好像不太好用，因为我还需要加一个关于本评分标准的Description
-            //=>不过我可以在另外一个地方新加一个字段就是了，这点不急
             await _kshubService.KshubUserServices.CheckAuth(HttpContext, KshubRoles.Teacher);
             var filter = Builders<Course>.Filter.Eq(t => t.Id, courseId);
             var teacherIds = await _kshubService.CourseServices.FindFirstAsync(t=>t.Id==courseId,t=>t.TeachersId);
@@ -130,7 +127,7 @@ namespace LoveCraft.Kshub.Controllers
         [Route("DeleteCourse")]
         public async ValueTask DeleteCourseAsync(Guid guid)
         {
-            //不需要垃圾桶的功能，直接在数据库里删除内容
+            //It's useless to set a dustbin,so delete it from db directly
             await _kshubService.CourseServices.DeleteCourseAsync(guid);
         }
 
@@ -144,13 +141,10 @@ namespace LoveCraft.Kshub.Controllers
 
         [HttpPut]
         [Route("UpdateCourseInfo")]
-        //Course的Manager可以修改的内容
+        //update something by teacher
         public async ValueTask UpdateCourseInfoAsync(UpdateCourseDto updateCourseDto)
         {
-            //Course的Manager可以修改一些基础信息
-            //评分标准就调用另外一个API？
-            //==>提供CoureseManager能修改全部他能修改内容的Api
-            //剩下怎么设置前端可以只用一部分
+
             var update = Builders<Course>.Update
                         .Set(t => t.Description, updateCourseDto.Description)
                         .Set(t => t.CoverUrl, updateCourseDto.CoverUrl)
@@ -159,11 +153,10 @@ namespace LoveCraft.Kshub.Controllers
         }
 
 
-        //==============下面的属于没有想好有没有必要实现的==========
+        //==============Not sure to implement ye==========
         [HttpPost]
         [Route("AddTeacher")]
-        //主要添加老师还是在创建课程的时候添加吧
-        //这个Api先不写为妙
+        //Add teacher in Update
         public async ValueTask AddTeacherAsync()
         {
             throw new NotImplementedException();

@@ -39,7 +39,7 @@ namespace LoveCraft.Kshub.Controllers
         {
             for (int i = 0; i < 20; i++)
             {
-                await _kshubService.KshubUserServices.AddUserAsync(
+                await _kshubService.KshubUserServices.AddUserWithCheckAsync(
                     new KshubUser
                     {
                         Id = Guid.NewGuid(),
@@ -71,24 +71,6 @@ namespace LoveCraft.Kshub.Controllers
 
         }
 
-        [HttpPost]
-        [Route("AddFakeCourses")]
-        public async ValueTask AddCourses()
-        {
-            //全部课程的管理员全部为UserId 为100的用户
-            for(int i = 0; i < 10; i++)
-            {
-                var course = new Course
-                {
-                    CourseId = await _kshubService.CourseServices.GernerateCourseIdAsync(),
-                    Id = Guid.NewGuid(),
-                    Name = "Course" + i.ToString()
-                };
-                await _kshubService.CourseServices.AddCourseAsync(course);
-                var stuid =await _kshubService.KshubUserServices.FindFirstAsync(t => t.UserId == 100.ToString(), u => u.Id);
-                await _kshubService.UserInCourseService.AddAdminInCouseAsync(course.Id, stuid);
-            }
-        }
         [HttpPost]
         [Route("SendEmail")]
         public async ValueTask SendEmailConfirm(string email)

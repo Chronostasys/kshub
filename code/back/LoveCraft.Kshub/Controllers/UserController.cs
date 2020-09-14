@@ -16,10 +16,12 @@ using DocumentFormat.OpenXml.InkML;
 using Microsoft.AspNetCore.Identity;
 using LimFx.Business.Services;
 using Microsoft.Extensions.Configuration;
-using LoveCraft.Kshub.Exceptions;
+using LimFx.Business.Exceptions;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using MongoDB.Driver;
 using System.Security.Authentication;
+using LimFx.Business.Models;
+
 namespace LoveCraft.Kshub.Controllers
 {
     
@@ -50,41 +52,40 @@ namespace LoveCraft.Kshub.Controllers
         [Route("Register")]
         public async ValueTask Register(AddUserDto addUserDto)
         {
-            var user = new KshubUser
+            addUserDto.Email = addUserDto.Email.Trim();
+            addUserDto.UserId = addUserDto.UserId.Trim();
+            if (string.IsNullOrEmpty(addUserDto.Email)|| string.IsNullOrEmpty(addUserDto.Email))
             {
-                Id = Guid.NewGuid(),
-                Name = addUserDto.Name,
-                SchoolName = addUserDto.SchoolName,
-                UserId = addUserDto.UserId,
-                Introduction = addUserDto.Introduction,
-                Email = addUserDto.Email,
-                PassWordHash = addUserDto.Password,
-                Roles = new List<string> { "User" },
-                IsEmailConfirmed = true
-            };
-            try
-            {
-                await _kshubService.KshubUserServices.GetUserByEmailAsync(user.Email);
+                throw new _400Exception("Email or UserId cannot be empty!");
             }
-            catch (Exception)
-            {
-                _kshubService.tokens.TryAdd(user.Id, user);
-                var emailProperty = new EmailProperty()
-                {
-                    RazorTemplatePath = "\\EmailTemplate\\EmailConfirm.cshtml",
-                    Subject = "Confirm Kshub Account's Email",
-                    Receivers = new List<string> { user.Email },
-                    Url = Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/{user.Id}")
-                };
-                _kshubService.tokens.TryAdd(user.Id, user.Email);
-                await _kshubService.EmailService.SendEmailAsync(emailProperty);
-                throw new _401Exception("Please verify your email!");
-
-            }
-            throw new _401Exception("This email has register already,if you forget your password,please reset your password");
+            //automapper直接映射，不需要再new对象一个个赋值了
+            var user = _mapper.Map<KshubUser>(addUserDto);
+            user.Roles = new List<string> { Roles.User };
+            //需要检查一下所属课程的Id是否为空
+            user.PassWordHash = addUserDto.Password;
+            await _kshubService.KshubUserServices.AddUserWithCheckAsync(user);
 
         }
-        
+
+        [HttpPost]
+        [Route("AddTeacher")]
+        public async ValueTask AddTeacherAsync(AddUserDto addUserDto)
+        {
+            addUserDto.Email = addUserDto.Email.Trim();
+            addUserDto.UserId = addUserDto.UserId.Trim();
+            if (string.IsNullOrEmpty(addUserDto.Email) || string.IsNullOrEmpty(addUserDto.Email))
+            {
+                throw new _400Exception("Email or TeacherId cannot be empty!");
+            }
+            //automapper直接映射，不需要再new对象一个个赋值了
+            var user = _mapper.Map<KshubUser>(addUserDto);
+            user.Roles = new List<string> { KshubRoles.User,KshubRoles.Teacher };
+            //password Hash没有映射
+            user.PassWordHash = addUserDto.Password;
+            await _kshubService.KshubUserServices.AddUserWithCheckAsync(user);
+
+        }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("LogIn")]
@@ -110,36 +111,22 @@ namespace LoveCraft.Kshub.Controllers
             }
             else
             {
-                var user = await _kshubService.KshubUserServices.FindUserAsync(logInDto.UserId);
+                try
+                {
+                    
+                    var user = await _kshubService.KshubUserServices.FindUserAsync(logInDto.UserId);
+                    user.PassWordHash = logInDto.Password;
+                    await _kshubService.KshubUserServices.LogInAsync(user, HttpContext, rememberMe);
+                    return _mapper.Map<UserDetailDto>(user);
 
-
-                if (user == null)
+                }
+                catch
                 {
                     throw new _400Exception("Username or Password is wrong.");
                 }
-                else
-                {
-                    user.PassWordHash = logInDto.Password;
-                    await _kshubService.KshubUserServices.LogInAsync(user, HttpContext, rememberMe);
-                }
-                return _mapper.Map<UserDetailDto>(user);
             }
         }
-
-        [HttpPost]
-        
-        [Route("ValidateEmail")]
-        public async ValueTask<UserDetailDto> ValidateEmailAsync(Guid guid)
-        {
-            _kshubService.tokens.TryRemove(guid, out object user);
-            if (user == null) throw new _401Exception("You have not a registered token");
-            else
-            {
-                
-                await _kshubService.KshubUserServices.AddUserAsync((KshubUser)user);
-                return _mapper.Map<UserDetailDto>((KshubUser)user);
-            }
-        }
+      
         [HttpPost]
         [Route("Signout")]
         public async ValueTask<UserDetailDto> SignOutAsync()
@@ -152,16 +139,27 @@ namespace LoveCraft.Kshub.Controllers
         }
 
         [HttpPost]
-        [Route("ChangeAvatar")]
-        [Authorize(Roles = KshubRoles.User)]
-        public async ValueTask ChangeAvatarAsync(IFormFile file)
+        [Route("Update")]
+        public async ValueTask UpdateInfoAsync(UpdateUserDto updateUserDto)
         {
-            var userId = Guid.Parse(User.Identity.Name);
-            var avatarId = await _kshubService.LoadFileServices.LoadFileAsync(file);
-            await _kshubService.KshubUserServices.UpDateAsync(userId,
-                Builders<KshubUser>.Update.Set(t => t.AvatarUrl, "//need generate an url to fetch picture in database"));           
+            //直接从cookie中获取Guid，不需要前端传递？
+            //是否有被伪造的危险？——暂时没想到
+            var id =Guid.Parse(HttpContext.User.Identity.Name);
+            var IsUser =(await _kshubService.KshubUserServices.GetAsync(t=>t.Roles.Contains("User"),t=>t.Id==id)).First();
+            if (IsUser)
+            {
+                var definition = Builders<KshubUser>.Update
+                    .Set(t => t.Name, updateUserDto.Name)
+                    .Set(t => t.Introduction, updateUserDto.Introduction)
+                    .Set(t => t.AvatarUrl, updateUserDto.AvatarUrl);
+
+                await _kshubService.KshubUserServices.UpDateAsync(id, definition);
+            }
+            else
+            {
+                
+                throw new _400Exception("Anonymous cannot change infomation!");
+            }
         }
-
-
     }
 }

@@ -18,6 +18,8 @@ using LoveCraft.Kshub.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using LimFx.Business.Services;
 using Microsoft.AspNetCore.Identity;
+using LimFx.Business.Extensions;
+using OpenXmlPowerTools;
 
 namespace LoveCraft.Kshub
 {
@@ -81,13 +83,25 @@ namespace LoveCraft.Kshub
             //并没有添加typeof
             services.AddAutoMapper(config=> {
                 config.CreateMap<KshubUser, UserDetailDto>();
+                config.CreateMap<AddUserDto, KshubUser>();
                 config.CreateMap<LogInDto, KshubUser>();
+                config.CreateMap<AddUnilDto, University>();
+                config.CreateMap<University, UniDetailDto>();
+                config.CreateMap<College, CollegeDetailDto>();
+                config.CreateMap<AddCollegeDto, College>();
+                config.CreateMap<AddCourseDto, Course>();
                 config.CreateMap<Course, CourseDetailDto>();
-                config.CreateMap<Article, ArticleDetailDto>();
-                config.CreateMap<IEnumerable<Article>, IEnumerable<ArticleDetailDto>>();
-            }, typeof(KshubUser), typeof(UserDetailDto), typeof(LogInDto), typeof(Course)
-            , typeof(CourseDetailDto),typeof(Article),typeof(ArticleDetailDto),typeof(IEnumerable<Article>)
-            ,typeof(IEnumerable<ArticleDetailDto>));
+                config.CreateMap<AddClassDto, Class>();
+                config.CreateMap<AddKsDto, Ks>();
+                config.CreateMap<Ks, KsDetailDto>();
+            }, typeof(KshubUser), typeof(UserDetailDto), typeof(LogInDto)
+           ,typeof(AddUserDto)
+            ,typeof(AddUnilDto),typeof(University), typeof(UniDetailDto)
+            ,typeof(College),typeof(CollegeDetailDto),typeof(AddCollegeDto)
+            ,typeof(Course), typeof(CourseDetailDto),typeof(AddCourseDto)
+            ,typeof(Class),typeof(AddClassDto)
+            ,typeof(AddKsDto),typeof(KsDetailDto),typeof(Ks)
+            );
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(op =>
                 {
@@ -96,15 +110,18 @@ namespace LoveCraft.Kshub
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) { 
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.UseLimFxExceptionHandler();
             //配置提供静态文件的中间件
             app.UseStaticFiles();
             
+            //app.UseHttpsRedirection();
             //不加openApi的服务Swagger就用不了
             app.UseOpenApi(config =>
             {

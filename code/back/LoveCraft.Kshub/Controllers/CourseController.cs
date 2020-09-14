@@ -10,7 +10,10 @@ using LoveCraft.Kshub.Dto;
 using Microsoft.AspNetCore.Authorization;
 using LoveCraft.Kshub.Models;
 using MongoDB.Driver;
-using LoveCraft.Kshub.Exceptions;
+using LimFx.Business.Exceptions;
+using Castle.Core.Internal;
+using DocumentFormat.OpenXml.InkML;
+
 namespace LoveCraft.Kshub.Controllers
 {
     [ApiController]
@@ -26,77 +29,35 @@ namespace LoveCraft.Kshub.Controllers
             _mapper = mapper;
             env = hostEnvironment;
         }
-
-        [HttpGet]
-        [Route("GetCourse")]
-        public async ValueTask<CourseDetailDto> GetCourseAsync(int courseId)
-        {
-            var co = await _kshubService.CourseServices.FindCourseAsync(courseId);
-            return _mapper.Map<CourseDetailDto>(co);
-        }
-
-        [HttpGet]
-        [Route("GetCourses")]
-        public async ValueTask<List<CourseDetailDto>> GetCourseAsync(string name)
-        {
-            var cos = await _kshubService.CourseServices.FindCourseAsync(name);
-            List<CourseDetailDto> listdto = new List<CourseDetailDto>();
-            foreach (var item in cos)
-            {
-                listdto.Add(_mapper.Map<CourseDetailDto>(item));
-            }
-            return listdto;
-        }
-
-        [HttpPost]
-        [Route("Update")]
-        public async ValueTask<CourseDetailDto> UpdateCourseAsync(Guid courseId,AddCourseDto courseDto)
-        {
-            var user = await _kshubService.KshubUserServices.FindUserAsync(User.Identity.Name);
-            var p=await _kshubService.UserInCourseService.GetInfoAsync(courseId, user.Id);
-            var cor = await _kshubService.CourseServices.FindCourseAsync(courseId);
-
-            if (p.Roles.Contains(CourseRoles.Owner))
-            {
-                
-                cor.Name = courseDto.Name;
-                cor.Description = courseDto.Description;
-            }
-            cor= await _kshubService.CourseServices.UpdateCourseAsync(cor);
-
-            return _mapper.Map<CourseDetailDto>(cor);
-        }
+        
         [HttpPost]
         [Route("AddCourse")]
-        public async ValueTask<CourseDetailDto> AddCourseAsync(AddCourseDto addCourseDto,string userId)
+        public async ValueTask AddCourseAsync(AddCourseDto addCourseDto)
         {
-            if (addCourseDto.Name.Equals("CourseIdRecord"))
+            var course = _mapper.Map<Course>(addCourseDto);
+            course.CourseManagerId =Guid.Parse(User.Identity.Name);
+            course.Id = Guid.NewGuid();
+            try
             {
-                throw new Exception("Unlegal Course Name!");
+                await _kshubService.CollegeServices.FindFirstAsync(course.BelongedCollegeId);
             }
-            var isUser = await _kshubService.KshubUserServices.FindFirstAsync(t=>t.Id==Guid.Parse(User.Identity.Name), u => u.Roles.Contains(KshubRoles.User));
-            if (isUser)
+            catch
             {
+                throw new _401Exception("You can't add this Course because the belonged College doesn't exist!");
+            }
 
-                Course course = new Course
-                {
-                    CourseId = await _kshubService.CourseServices.GernerateCourseIdAsync(),
-                    Id = Guid.NewGuid(),
-                    Description = addCourseDto.Description,
-                    Name = addCourseDto.Name,
-                    CoverUrl = addCourseDto.CoverUrl
-                };
-                await _kshubService.CourseServices.AddCourseAsync(course);
-                var user = await _kshubService.KshubUserServices.FindUserAsync(userId);
-                await _kshubService.UserInCourseService.AddOwnerInCouseAsync(course.Id, user.Id);
-                return _mapper.Map<CourseDetailDto>(course);
+            var filter = Builders<Course>.Filter.Eq(t => t.BelongedCollegeId, course.BelongedCollegeId)
+                & Builders<Course>.Filter.Eq(t=>t.Name,course.Name);
+            var re=await _kshubService.CourseServices.GetAsync(t => t, 0, 1,"UpdateTime", true, filter);
+            if (re.IsNullOrEmpty())
+            {
+                await _kshubService.CourseServices.AddCourseWithoutCheckingAsync(course);
             }
             else
             {
-                throw new _403Exception("Anonymous can't add Course!");
+                throw new _401Exception("This Course has already existed!");
+
             }
         }
-        
-
     }
 }

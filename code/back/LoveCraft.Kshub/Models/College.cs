@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 
 namespace LoveCraft.Kshub.Models
 {
-    public class Article:Entity,ISearchAble
+    public class College : Entity, ISearchAble
     {
-        public Guid AuthorId { get; set; }
-        public string Title { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
-        public string Content { get; set; }
+
+        public string CoverUrl { get; set; }
+        
+        public Guid BelongUniId { get; set; }
         public string SearchAbleString { get; set; }
+
     }
-    
 }

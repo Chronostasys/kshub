@@ -14,13 +14,14 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using DocumentFormat.OpenXml.InkML;
-using LoveCraft.Kshub.Exceptions;
+using LimFx.Business.Exceptions;
 using System.Threading.Tasks.Sources;
+using OpenXmlPowerTools;
 
 namespace LoveCraft.Kshub.Services
 {
 
-    public class UserServices/*<TUser>*/ : UserService<KshubUser>
+    public class UserServices : UserService<KshubUser>
     {
         public UserServices(IDatabaseSettings settings)
             : base(settings, settings.ConnectionString)
@@ -49,62 +50,85 @@ namespace LoveCraft.Kshub.Services
             }
         }
         /// <summary>
-        /// return a user spcified by id or return a default value. 
+        /// return certain user or throw an exception if not find
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
         public async ValueTask<KshubUser> FindUserAsync(string userId)
         {
-            var user =await (await collection.FindAsync(f => f.UserId == userId)).FirstOrDefaultAsync();
-            return user;
+            try
+            {
+                var filter = Builders<KshubUser>.Filter.Eq(t => t.UserId, userId);
+                var user = await collection.Find(filter).FirstAsync();
+                return user;
+            }
+            catch (Exception e)
+            {
+                throw new _401Exception("Cannot find this User");
+            }
         }
         public async ValueTask<KshubUser> FindUserAsync(Guid id)
         {
-            var user = await (await collection.FindAsync(f => f.Id == id)).FirstOrDefaultAsync();
-            return user;
+            try
+            {
+                var filter = Builders<KshubUser>.Filter.Eq(t => t.Id, id);
+                return await collection.Find(filter).FirstAsync();
+
+            }
+            catch (Exception e)
+            {
+                throw new _401Exception("Cannot find this User");
+            }
         }
         public string HashPasswordWithSalt(string password)
         {
             var pwhash = HashLibrary.HashedPassword.New(password);
             return pwhash.Hash + pwhash.Salt;
         }
+
+        public async ValueTask CheckAvailableAsync(string email, string userId)
+        {
+            bool havaException = false;
+            try
+            {
+                await FindUserAsync(userId);
+                havaException = true;
+            }
+            catch { }
+            if (havaException)
+                throw new _401Exception("This userId has been taken");
+            havaException = false;
+            try
+            {
+                await GetUserByEmailAsync(email);
+                havaException = true;
+            }
+            catch { }
+            if (havaException)
+                throw new _401Exception("This email has been taken");
+
+        }
         /// <summary>
-        /// 学号姓名学校与数据库中匹配返回true
+        /// Add an user with checking UserId and email
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async ValueTask<bool> CheckUserExistenceAsync(KshubUser user)
+        public async ValueTask<KshubUser> AddUserWithCheckAsync(KshubUser user)
         {
-            //需要在管理员加入用户的信息中进行检索，判断能不能加到数据库里面去
-            //这玩意应该放在另一个service里面去，因为操作的不是一个数据表
-            return true;
-        }
-        public async ValueTask<KshubUser> AddUserAsync(KshubUser user)
-        {
-            //try-catch结构更好还是if-else更好？
-            if (await CheckUserExistenceAsync(user))
+            await CheckAvailableAsync(user.Email, user.UserId);
+            var validater = new PasswordValidator();
+            //validater.SetLengthBounds(8, 20);
+            //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Letters);
+            //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Numbers);
+            if (!validater.Validate(user.PassWordHash))
             {
-                if ((await FindUserAsync(user.UserId)) != null)
-                {
-                    throw new _403Exception("This Id has been register already!");
-                }
-                var validater = new PasswordValidator();
-                //validater.SetLengthBounds(8, 20);
-                //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Letters);
-                //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Numbers);
-                if (!validater.Validate(user.PassWordHash))
-                {
-                    throw new _401Exception("Password is not strong enough!");
-                }
-                user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
-                await AddAsync(user);
+                throw new _401Exception("Password is not strong enough!");
             }
-            else
-            {
-                throw new _401Exception($"You don't belong to {user.SchoolName}!");
-            }
+            user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
+            await AddAsync(user);
             return user;
         }
+
         public async ValueTask<bool> LogInAsync(KshubUser user, HttpContext httpContext, bool rememberMe = true, bool validPassword = true)
         {
 
@@ -152,6 +176,16 @@ namespace LoveCraft.Kshub.Services
         {
             await httpContext.SignOutAsync();
         }
-    
+        public async ValueTask CheckAuthAsync(string roles,Guid guid)
+        {
+            try
+            {
+                var t = await collection.Find(t => t.Id == guid && t.Roles.Contains(roles)).ToListAsync();
+            }
+            catch
+            {
+                throw new _403Exception();
+            }
+        }
     }
 }

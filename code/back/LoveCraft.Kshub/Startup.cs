@@ -18,6 +18,8 @@ using LoveCraft.Kshub.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using LimFx.Business.Services;
 using Microsoft.AspNetCore.Identity;
+using LimFx.Business.Extensions;
+using OpenXmlPowerTools;
 
 namespace LoveCraft.Kshub
 {
@@ -25,7 +27,6 @@ namespace LoveCraft.Kshub
     public class Startup
     {
 
-        public string password=null;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -36,7 +37,6 @@ namespace LoveCraft.Kshub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            password = Configuration["GrillenPassword"];
             services.AddSwaggerDocument(config =>
             {
                 config.PostProcess = document =>
@@ -60,9 +60,9 @@ namespace LoveCraft.Kshub
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
             services.AddSingleton<KshubService>();
-            services.AddSecrertRecord<SecretRecord>(o =>
-                o.GrillenPassword = Configuration["GrillenPassword"]
-            );
+            //services.AddSecrertRecord<SecretRecord>(o =>
+            //    o.GrillenPassword = Configuration["GrillenPassword"]
+            //);
             services.AddEmailSenderService<Email>(op =>
             {
                 op.DatabaseName = "KshubDb";
@@ -77,17 +77,29 @@ namespace LoveCraft.Kshub
                 op.TemplateDir = "Index.cshtml";
             });
 
-            //Ìí¼ÓÁËIEnumerable»á²»»áÓÐÒ»µãÐ¡ÎÊÌâ£¿
-            //²¢Ã»ÓÐÌí¼Ótypeof
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½IEnumerableï¿½á²»ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½â£¿
+            //ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½typeof
             services.AddAutoMapper(config=> {
                 config.CreateMap<KshubUser, UserDetailDto>();
+                config.CreateMap<AddUserDto, KshubUser>();
                 config.CreateMap<LogInDto, KshubUser>();
+                config.CreateMap<AddUnilDto, University>();
+                config.CreateMap<University, UniDetailDto>();
+                config.CreateMap<College, CollegeDetailDto>();
+                config.CreateMap<AddCollegeDto, College>();
+                config.CreateMap<AddCourseDto, Course>();
                 config.CreateMap<Course, CourseDetailDto>();
-                config.CreateMap<Article, ArticleDetailDto>();
-                config.CreateMap<IEnumerable<Article>, IEnumerable<ArticleDetailDto>>();
-            }, typeof(KshubUser), typeof(UserDetailDto), typeof(LogInDto), typeof(Course)
-            , typeof(CourseDetailDto),typeof(Article),typeof(ArticleDetailDto),typeof(IEnumerable<Article>)
-            ,typeof(IEnumerable<ArticleDetailDto>));
+                config.CreateMap<AddClassDto, Class>();
+                config.CreateMap<AddKsDto, Ks>();
+                config.CreateMap<Ks, KsDetailDto>();
+            }, typeof(KshubUser), typeof(UserDetailDto), typeof(LogInDto)
+           ,typeof(AddUserDto)
+            ,typeof(AddUnilDto),typeof(University), typeof(UniDetailDto)
+            ,typeof(College),typeof(CollegeDetailDto),typeof(AddCollegeDto)
+            ,typeof(Course), typeof(CourseDetailDto),typeof(AddCourseDto)
+            ,typeof(Class),typeof(AddClassDto)
+            ,typeof(AddKsDto),typeof(KsDetailDto),typeof(Ks)
+            );
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(op =>
                 {
@@ -96,16 +108,19 @@ namespace LoveCraft.Kshub
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) { 
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            //ÅäÖÃÌá¹©¾²Ì¬ÎÄ¼þµÄÖÐ¼ä¼þ
+            
+            app.UseLimFxExceptionHandler();
+            //ï¿½ï¿½ï¿½ï¿½ï¿½á¹©ï¿½ï¿½Ì¬ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½
             app.UseStaticFiles();
             
-            //²»¼ÓopenApiµÄ·þÎñSwagger¾ÍÓÃ²»ÁË
+            //app.UseHttpsRedirection();
+            //ï¿½ï¿½ï¿½ï¿½openApiï¿½Ä·ï¿½ï¿½ï¿½Swaggerï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½
             app.UseOpenApi(config =>
             {
                 //config.PostProcess = (doc, rec) =>

@@ -15,25 +15,27 @@ namespace LoveCraft.Kshub.Services
 {
     public class KshubService
     {
+        public KsServices KsServices { get; }
+        public CollegeServices CollegeServices { get; }
         public UserServices KshubUserServices { get; }
-        public CourseServices CourseServices { get; }
-        public UserInCourseService UserInCourseService { get; }
         public EmailService EmailService { get; }
         public ConcurrentDictionary<Guid, object> tokens { get; }
-        public ArticleService ArticleService {get;}
-        public LoadFileServices LoadFileServices { get; }
+        public CourseServices CourseServices { get; set; }
+        public UniversityServices UniversityServices { get; }
+        public ClassServices ClassServices { get; }
         public KshubService(IDatabaseSettings databaseSettings,IHostEnvironment env,IMapper mapper,EmailSender<Models.Email> email)
         {
             BsonSerializer.RegisterIdGenerator(typeof(Guid), GuidGenerator.Instance);
             try
             {
-                LoadFileServices = new LoadFileServices(databaseSettings);
+                KsServices = new KsServices(databaseSettings);
+                CollegeServices = new CollegeServices(databaseSettings);
                 EmailService = new EmailService(email);
                 KshubUserServices = new UserServices(databaseSettings);
+                UniversityServices = new UniversityServices(databaseSettings);
                 CourseServices = new CourseServices(databaseSettings);
-                UserInCourseService = new UserInCourseService(databaseSettings);
+                ClassServices = new ClassServices(databaseSettings);
                 tokens = new ConcurrentDictionary<Guid, object>();
-                ArticleService = new ArticleService(databaseSettings);
                 this.env = env;
             }
             catch (Exception e)

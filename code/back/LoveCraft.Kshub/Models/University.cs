@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 
 namespace LoveCraft.Kshub.Models
 {
-    public class UserInCourse:Entity,ISearchAble
+    public class University:Entity,ISearchAble
     {
-
-        public Guid CourseId { get; set; }
-        public Guid UserId { get; set; }
-        public List<string> Roles { get; set; }
+        public string Name { get; set; }
+        public string Desciption { get; set; }
+        public string CoverUrl { get; set; }
         public string SearchAbleString { get; set; }
     }
 }

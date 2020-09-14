@@ -1,27 +1,24 @@
 <template>
     <div>
-            
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <div class="subtitle is-hidden-touch">My Course</div>
+          <ul>
+            <li :key="item.id" class="menu-list" v-for="item in items">
+              <a href="#" :class="item.ishighlight?'is-active':''" @click="()=>highlight(item)" :key="item1">
+                <span class="icon"><i class="fa fa-table"></i></span>{{item.name}}
+              </a>
+            </li>
+          </ul>
+        </div>
 
-        <section class="main-content columns is-fullheight absolute">
-        
-            <aside class="fix column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile">
-                <p class="menu-label is-hidden-touch">My Course</p>
-                <ul >
-                  <li :key="item.id" class="menu-list" v-for="item in items">
-                      <a href="#" :class="item.ishighlight?'is-active':''" @click="()=>highlight(item)" :key="item1">
-                        <span class="icon"><i class="fa fa-table"></i></span>{{item.name}}
-                      </a>
-                  </li>
-                </ul>
-          </aside>
+        <div style="float:left;margin-top: 30px;width: 1px;height: 1000px; background: darkgray;"></div>
 
-            <section class="container column is-10 is-fullheight-with-navbar">
-                <br/>
-                <br/>
-                <div>Hello World</div>
-            </section>
-            
-        </section>
+        <div class="">
+
+        </div>
+      </div>
+
     </div>
 </template>
 
@@ -75,5 +72,11 @@ export default class Home extends Vue {
     position: absolute;
     width: 24px;
     height: 48px;
+}
+</style>
+
+<style scoped>
+.container{
+  max-width:none
 }
 </style>

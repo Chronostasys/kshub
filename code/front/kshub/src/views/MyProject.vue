@@ -1,35 +1,23 @@
 <template>
-    <div>
-            
-
-        <section class="main-content columns is-fullheight absolute">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <div class="subtitle is-hidden-touch">My Course</div>
+          <ul>
+            <li :key="item.id" class="menu-list" v-for="(item, index) in items">
+                <a href="#" :class="item.ishighlight?'is-active':''" @click="()=>highlight(item, index)" :key="item1">
+                  <span class="icon"><i class="fa fa-table"></i></span>{{item.name}}
+                </a>
+            </li>
+          </ul>
+        </div>
         
-            <aside class="fix column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile">
-                <p class="menu-label is-hidden-touch">My Course</p>
-                <ul >
-                  <li :key="item.id" class="menu-list" v-for="(item, index) in items">
-                      <a href="#" :class="item.ishighlight?'is-active':''" @click="()=>highlight(item, index)" :key="item1">
-                        <span class="icon"><i class="fa fa-table"></i></span>{{item.name}}
-                      </a>
-                  </li>
-                </ul>
-          </aside>
+        <div :style="'float:left;margin-top: 30px;width: 1px; background: darkgray;'+'height:'+windowheight.toString()+'px'"></div>
 
-            <section class="container column is-offset-2 is-10 is-fullheight-with-navbar">
-              <div class="container">
-                <center>
-                  <figure class="image is-96x96 clickable">
-                    <img style="max-height: 96px;" class=" is-rounded" :src="courseDetail.coverUrl" />
-                  </figure>
-                </center>
-                <h1 class="title">{{courseDetail.name}}</h1>
-                <h2 class="subtitle">
-                  {{courseDetail.description}}
-                </h2>
-              </div>
-            </section>
-            
-        </section>
+        <div class="">
+
+        </div>
+      </div>
     </div>
 </template>
 
@@ -50,6 +38,9 @@ import Axios from 'axios';
 })
 
 export default class Home extends Vue {
+    get windowheight(){
+    return document.body.offsetHeight-120
+  }
   cssClass = 'modal';
   size = 10;
   courseDetail = {
@@ -99,5 +90,11 @@ export default class Home extends Vue {
     position: absolute;
     width: 24px;
     height: 48px;
+}
+</style>
+
+<style scoped>
+.container{
+  max-width:none
 }
 </style>

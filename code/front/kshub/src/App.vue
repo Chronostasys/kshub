@@ -67,4 +67,10 @@ export default class Home extends Vue {
     }
   }
 }
+body{
+  height: 100%;
+}
+html{
+  height: 100%;
+}
 </style>

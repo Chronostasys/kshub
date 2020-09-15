@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
       <div class="columns">
         <div class="column is-one-quarter">
           <div class="subtitle is-hidden-touch">My Course</div>
@@ -11,14 +11,13 @@
             </li>
           </ul>
         </div>
-
-        <div style="float:left;margin-top: 30px;width: 1px;height: 1000px; background: darkgray;"></div>
+        
+        <div :style="'float:left;margin-top: 30px;width: 1px; background: darkgray;'+'height:'+windowheight.toString()+'px'"></div>
 
         <div class="">
 
         </div>
       </div>
-
     </div>
 </template>
 
@@ -38,6 +37,9 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 })
 
 export default class Home extends Vue {
+    get windowheight(){
+    return document.body.offsetHeight-120
+  }
   cssClass = 'modal';
   items = [{
     id:1,

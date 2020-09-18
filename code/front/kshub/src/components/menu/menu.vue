@@ -63,27 +63,27 @@
         <div id="navbarBasicExample" class="navbar-menu is-mobile">
             <div class="navbar-start">
                 <a class="navbar-item" @click="jumpHome">
-                    Home
+                    主页
                 </a>
 
                 <a class="navbar-item"  @click="jumpAbout">
-                    About
+                    关于
                 </a>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
-                    Course
+                    课程
                     </a>
 
                     <div class="navbar-dropdown">
                         <a class="navbar-item" @click="jumpMyCourse">
-                            My Course
+                            全部课程
                         </a>
                         <a class="navbar-item" @click="newProj">
-                            New Course
+                            新建课设
                         </a>
                         <hr class="navbar-divider">
                         <a class="navbar-item">
-                            Something else
+                            其他
                         </a>
                     </div>
                 </div>

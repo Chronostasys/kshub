@@ -2,7 +2,7 @@
     <div :class="modalCssClass">
         <div class=" max-500px modal-card">
             <div class=" modal-card-head has-icons-right level is-mobile m0 is-gapless is-marginless">
-                <label class=" level-item level-left"> New course</label>
+                <label class=" level-item level-left"> 新建课设</label>
                 <span class=" level-item level-right clickable icon has-text-right"
                     title="关闭"
                     @click="close">
@@ -11,7 +11,7 @@
             </div>
             <div class=" modal-card-body">
                 <div class="field">
-                    <label class="label">课程名称</label>
+                    <label class="label">课设名称</label>
                     <div class="control">
                         <input class="input" type="text" placeholder="项目名">
                     </div>
@@ -22,27 +22,57 @@
                         <input class="input" type="text" placeholder="关键词">
                     </div>
                 </div>
+                <hr>
                 <div class="field">
-                    <label class="label has-text-left">所属课题组</label>
-                        <div class="control">
-                            <div class="select">
-                                <select>
-                                    <option>Select dropdown</option>
-                                    <option>With options</option>
-                                </select>
+                    <label class="label has-text-left">所属课程</label>
+                    <hr>
+                        <div class="columns">
+                            <div class="colunm">
+                                <div class="field">
+                                    <label class="label has-text-left">学校</label>
+                                        <div class="control">
+                                            <div class="select">
+                                                <select>
+                                                    <option>华中科技大学</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+
+                            <div class="colunm">
+                                <div class="field">
+                                    <label class="label has-text-left">院系</label>
+                                        <div class="control">
+                                            <div class="select">
+                                                <select>
+                                                    <option>网络安全学院</option>
+                                                    <option>计算机学院</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+
+                            <div class="colunm">
+                                <div class="field">
+                                    <label class="label has-text-left">专业</label>
+                                        <div class="control">
+                                            <div class="select">
+                                                <select>
+                                                    <option>网络安全</option>
+                                                    <option>软件工程</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                </div>
                             </div>
                         </div>
-                </div>
-                <div class="field">
-                    <label class="label has-text-left">访问权限</label>
-                        <div class="control">
-                            <div class="select">
-                                <select>
-                                    <option>所有人可见</option>
-                                    <option>仅课题组可见</option>
-                                </select>
-                            </div>
+                        <hr>
+                        <div class="">
+                            选择班级，搜索框形式
                         </div>
+                        <hr>
                 </div>
                 <div class="field">
                     <label class="label">备注</label>

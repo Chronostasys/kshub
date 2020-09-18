@@ -29,6 +29,7 @@
         </div>
       </div>
     </div>
+        <a v-if="isSelf" class=button  @click="Signout()">退出登录</a>
   </div>
 </template>
 
@@ -57,6 +58,13 @@ export default class UserPage extends Vue {
       this.pageUserInfo = res.data;
       console.log(res.data);
     });
+  }
+
+  Signout(){
+    Axios.post(STRINGS.signoutApi).then((params)=>{
+      window.location.replace('/');
+    }).catch((err)=>{
+    })
   }
 }
 </script>

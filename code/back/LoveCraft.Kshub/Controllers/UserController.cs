@@ -29,13 +29,11 @@ namespace LoveCraft.Kshub.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        private readonly SecretRecord _secretRecord;
         private readonly KshubService _kshubService;
         readonly IMapper _mapper;
         IHostEnvironment env;
-        public UserController(KshubService kshubService, IMapper mapper, IHostEnvironment env,SecretRecord secretRecord)
+        public UserController(KshubService kshubService, IMapper mapper, IHostEnvironment env)
         {
-            _secretRecord = secretRecord;
             _kshubService = kshubService;
             _mapper = mapper;
             this.env = env;
@@ -85,7 +83,21 @@ namespace LoveCraft.Kshub.Controllers
             await _kshubService.KshubUserServices.AddUserWithCheckAsync(user);
 
         }
-
+        [HttpPost]
+        [Route("AddCollegeAdmin")]
+        public async ValueTask AddCollegeAdmin(AddUserDto addUserDto)
+        {
+            addUserDto.Email = addUserDto.Email.Trim();
+            addUserDto.UserId = addUserDto.UserId.Trim();
+            if (string.IsNullOrEmpty(addUserDto.Email) || string.IsNullOrEmpty(addUserDto.Email))
+            {
+                throw new _400Exception("Email or CollegeAdminId cannot be empty!");
+            }
+            var user = _mapper.Map<KshubUser>(addUserDto);
+            user.Roles = new List<string> { KshubRoles.User, KshubRoles.CollegeAdmin };
+            user.PassWordHash = addUserDto.Password;
+            await _kshubService.KshubUserServices.AddUserWithCheckAsync(user);
+        }
         [AllowAnonymous]
         [HttpPost]
         [Route("LogIn")]
@@ -160,6 +172,15 @@ namespace LoveCraft.Kshub.Controllers
                 
                 throw new _400Exception("Anonymous cannot change infomation!");
             }
+        }
+
+        [HttpGet]
+        [Route("GetUsers")]
+        public async ValueTask<IEnumerable<UserDetailDto>> GetUsersAsync
+            (int page=0,int pagesize=10,bool IsDecsending = true)
+        {
+            //Need to add SortDefinition
+            return await _kshubService.KshubUserServices.GetAsync(t => _mapper.Map<UserDetailDto>(t), page, pagesize);
         }
     }
 }

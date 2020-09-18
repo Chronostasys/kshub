@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using DocumentFormat.OpenXml.InkML;
 using LimFx.Business.Exceptions;
 using System.Threading.Tasks.Sources;
+using OpenXmlPowerTools;
 
 namespace LoveCraft.Kshub.Services
 {
@@ -175,7 +176,16 @@ namespace LoveCraft.Kshub.Services
         {
             await httpContext.SignOutAsync();
         }
-
-
+        public async ValueTask CheckAuthAsync(string roles,Guid guid)
+        {
+            try
+            {
+                var t = await collection.Find(t => t.Id == guid && t.Roles.Contains(roles)).ToListAsync();
+            }
+            catch
+            {
+                throw new _403Exception();
+            }
+        }
     }
 }

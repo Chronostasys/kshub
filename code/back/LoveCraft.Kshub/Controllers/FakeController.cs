@@ -52,37 +52,40 @@ namespace LoveCraft.Kshub.Controllers
                     }); 
             }
         }
-
         [HttpPost]
-        [Route("LoadFile")]
-        public async ValueTask UploadFile(IFormFile file)
+        [Route("ForTesting")]
+        public async ValueTask AddCollegeAsync()
         {
-            if (file == null || file.Length == 0)
-                throw new _400Exception("You haven't choose a file");
-
-            var path = Path.Combine(
-                        Directory.GetCurrentDirectory(), "wwwroot",
-                        file.FileName);
-
-            using (var stream = new FileStream(path, FileMode.Create))
+            University university = new University
             {
-                await file.CopyToAsync(stream);
-            }
+                Id = Guid.NewGuid(),
+                Name = "PlantTreesUniversity",
+                Desciption = "We love planting trees:)",
 
-        }
-
-        [HttpPost]
-        [Route("SendEmail")]
-        public async ValueTask SendEmailConfirm(string email)
-        {
-            var emailProperty = new EmailProperty()
-            {
-                RazorTemplatePath = "\\EmailTemplate\\EmailConfirm.cshtml",
-                Subject = "Confirm Kshub Account's Email",
-                Receivers = new List<string> { email },
-                Url = Url.Content($"{Request.Scheme}://{Request.Host.Value}/api/KshubUser/ValidateEmail/")
             };
-            await _kshubService.EmailService.SendEmailAsync(emailProperty);
+            College college = new College
+            {
+                Id = Guid.NewGuid(),
+                Name = "CSE",
+                BelongUniId = university.Id,
+
+            };
+            KshubUser collegeAdmin = new KshubUser
+            {
+                Name = "CSECollegeAdmin",
+                UserId = "CSECollegeAdmin",
+                CollegeId = college.Id,
+                Roles = new List<string> { KshubRoles.CollegeAdmin, KshubRoles.User },
+                Id = Guid.NewGuid(),
+                Email = "test1@kshub.com",
+                PassWordHash = "Helloworld2020@"
+            };
+            await _kshubService.CollegeServices.AddCollegeWithCheckingAsync(college);
+            await _kshubService.KshubUserServices.AddUserWithCheckAsync(collegeAdmin);
+            await _kshubService.UniversityServices.AddUniWithCheckAsync(university);
+
         }
+
+
     }
 }

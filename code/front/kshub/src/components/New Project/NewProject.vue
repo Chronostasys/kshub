@@ -1,5 +1,6 @@
 <template>
     <div :class="modalCssClass">
+        <div class=" modal-background">
         <div class=" max-500px modal-card">
             <div class=" modal-card-head has-icons-right level is-mobile m0 is-gapless is-marginless">
                 <label class=" level-item level-left"> 新建课设</label>
@@ -93,6 +94,7 @@
                 </div>
             </div>
 
+        </div>
         </div>
 
     </div>

@@ -1,5 +1,6 @@
 <template>
-    <div :class="modalCssClass">
+    <div  :class="modalCssClass ">
+        <div class="modal-background"></div>
         <div class=" max-500px  modal-card">
             <div class=" modal-card-head field has-icons-right" style="margin:0px">
                 <p class=" modal-card-title font_head_title">{{isReg?'注册':'登录'}}</p>
@@ -98,7 +99,7 @@
                 <div class=" level-item">
                     <button v-if="!isReg" @click="login" class=" button button-outline  ">登录</button>
                     <button v-if="isReg" @click="register" class=" button button-outline ">注册</button>
-                    <button class="button button-indent  " @click="close">取消</button>
+                    <button class="button button-indent is-model-right  " @click="close">取消</button>
                 </div>
             </div>
         </div>
@@ -167,7 +168,7 @@ export default class Login extends Vue {
 }
 </script>
 
-<style>
+<style lang="scss">
 .clickable{
     cursor: pointer;
 }

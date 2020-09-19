@@ -82,8 +82,8 @@
                             新建课设
                         </a>
                         <hr class="navbar-divider">
-                        <a class="navbar-item">
-                            其他
+                        <a class="navbar-item" @click="jumpCourses">
+                            某课程页面（测试用）
                         </a>
                     </div>
                 </div>
@@ -181,6 +181,9 @@ export default class Menu extends Vue {
   }
   jumpUserPage(){
       this.$router.push("/user/"+this.userInfo.userId);
+  }
+  jumpCourses(){
+      this.$router.push("/Courses")
   }
   signout(){
       Axios.post(STRINGS.signoutApi,).then((params)=>{

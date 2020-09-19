@@ -2,14 +2,62 @@
     <div class="container">
       <div class="columns">
         <div class="column is-one-quarter">
-          <div class="subtitle is-hidden-touch">学校</div>
-          <ul>
-            <li :key="item.id" class="menu-list" v-for="item in items">
-              <a href="#" :class="item.ishighlight?'is-active':''" @click="()=>highlight(item)" :key="item1">
-                <span class="icon"><i class="fa fa-table"></i></span>{{item.name}}
-              </a>
-            </li>
-          </ul>
+          <div class="subtitle is-hidden-touch">课程筛选</div>
+            <div class="field">
+              <div class="columns">
+                <div class="column">
+                  <span class="tag is-large is-link is-light">学校</span>
+                </div>
+                <div class="column">
+                    <div class="control">
+                        <div class="select">
+                            <select>
+                                <option>华中科技大学</option>
+                                <option>空</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="columns">
+                <div class="column">
+                  <span class="tag is-large is-link is-light">院系</span>
+                </div>
+                <div class="column">
+                    <div class="control">
+                        <div class="select">
+                            <select>
+                                <option>空</option>
+                                <option>计算机学院</option>
+                                <option>网络安全学院</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="columns">
+                <div class="column">
+                  <span class="tag is-large is-link is-light">专业</span>
+                </div>
+                <div class="column">
+                    <div class="control">
+                        <div class="select">
+                            <select>
+                                <option>网络安全</option>
+                                <option>软件工程</option>
+                                <option>人工智能</option>
+                                <option>空</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+                <button class="button is-link">确定</button>
+
+            </div>
         </div>
         
         <div :style="'float:left;margin-top: 30px;width: 1px; background: darkgray;'+'height:'+windowheight.toString()+'px'"></div>

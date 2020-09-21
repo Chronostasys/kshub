@@ -31,7 +31,7 @@ namespace LoveCraft.Kshub.Controllers
         }
         
         [HttpPost]
-        [Route("AddUni")]
+        [Route("AddUniveristy")]
         //[Authorize(Roles =KshubRoles.Admin)]
         public async ValueTask<UniDetailDto> AddUniAsync(AddUnilDto addUnilDto)
         {
@@ -40,7 +40,7 @@ namespace LoveCraft.Kshub.Controllers
             return _mapper.Map<UniDetailDto>(await _kshubService.UniversityServices.AddUniWithCheckAsync(uni));
         }
 
-        [HttpGet("GetUniversity/{id}")]
+        [HttpGet("GetUniversity")]
         public async ValueTask<UniDetailDto> GetUniAsync(Guid id)
         {
             var r = await _kshubService.UniversityServices.GetUniversityAsync(id);
@@ -68,6 +68,13 @@ namespace LoveCraft.Kshub.Controllers
             var results =await _kshubService.UniversityServices.GetAsync(projection, page, pagesize,sortfilter,Builders<University>.Filter.Empty);
 
             return results;
+        }
+
+        [HttpGet]
+        [Route("GetStudents")]
+        public async ValueTask GetStudentsAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

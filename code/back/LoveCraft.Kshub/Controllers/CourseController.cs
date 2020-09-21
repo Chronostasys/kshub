@@ -33,23 +33,32 @@ namespace LoveCraft.Kshub.Controllers
         
         [HttpPost]
         [Route("AddCourse")]
-        public async ValueTask AddCourseAsync(AddCourseDto addCourseDto)
+        public async ValueTask<Guid> AddCourseAsync(AddCourseDto addCourseDto)
         {
             
             var course = _mapper.Map<Course>(addCourseDto);
             course.Id = Guid.NewGuid();
-
             var collegeAdminId=Guid.Parse(User.Identity.Name);
             await _kshubService.KshubUserServices.CheckAuthAsync(KshubRoles.CollegeAdmin, collegeAdminId);
             var collegeId = await _kshubService.KshubUserServices.FindFirstAsync(t => t.Id == collegeAdminId, t => t.CollegeId);
-            course.BelongedCollegeId = collegeId;
 
+            var collegeName = await _kshubService.CollegeServices.FindFirstAsync(t => t.Id == collegeId, t => t.Name);
+            var uniId = await _kshubService.CollegeServices.FindFirstAsync(t => t.Id == collegeId, t => t.BelongUniId);
+            var uniName = await _kshubService.UniversityServices.FindFirstAsync(t => t.Id == uniId, t => t.Name);
+            course.Groups = new List<GroupMember>();
+
+            course.Groups.Add(new GroupMember
+                {
+                    CollegeName = collegeName,
+                    UniversityName = uniName,
+                });
             var filter = Builders<Course>.Filter.Eq(t => t.BelongedCollegeId, course.BelongedCollegeId)
                 & Builders<Course>.Filter.Eq(t=>t.Name,course.Name);
             var re=await _kshubService.CourseServices.GetAsync(t => t, 0, 1,"UpdateTime", true, filter);
             if (re.IsNullOrEmpty())
             {
                 await _kshubService.CourseServices.AddCourseWithoutCheckingAsync(course);
+                return course.Id;
             }
             else
             {
@@ -152,8 +161,18 @@ namespace LoveCraft.Kshub.Controllers
             await _kshubService.CourseServices.UpDateAsync(updateCourseDto.Id, update);
         }
 
-
-        //==============Not sure to implement ye==========
+        [HttpGet]
+        [Route("GetStudents")]
+        public async ValueTask GetStudentsAsync()
+        {
+            throw new NotImplementedException();
+        }
+        [HttpGet]
+        [Route("GetTeachers")]
+        public async ValueTask GetTeachersAsync()
+        {
+            throw new NotImplementedException();
+        }
         [HttpPost]
         [Route("AddTeacher")]
         //Add teacher in Update

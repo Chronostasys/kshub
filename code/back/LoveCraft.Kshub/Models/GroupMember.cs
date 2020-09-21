@@ -11,8 +11,10 @@ namespace LoveCraft.Kshub.Models
     /// </summary>
     public class GroupMember
     {
-        public string University { get; set; }
-        public string College { get; set; }
+        //When to get infomation in Course Group,return those directly is better
+        //than a few Guids which have to query from db again
+        public string UniversityName { get; set; }
+        public string CollegeName { get; set; }
         public string Major { get; set; }
         public int Grade { get; set; }
         public string Class { get; set; }

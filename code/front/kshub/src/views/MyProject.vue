@@ -62,131 +62,130 @@
         
         <div :style="'float:left;margin-top: 30px;width: 1px; background: darkgray;'+'height:'+windowheight.toString()+'px'"></div>
 
-        <div class="column is-one-quarter is-multiline is-mobile">
-          <div class=" level">
-            <div class="card">
-              <header class="card-header">
-                <p class="card-header-title">
-                  软件工程
-                </p>
-              </header>
-              <div class="card-content">
-                <div class="content">
-                  软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
+        <div class="column is-three-quarters">
+          <div class="tile is-ancestor">
+            <div class="tile is-parent">
+              <div class="card">
+                <header class="card-header">
+                  <p class="card-header-title">
+                    软件工程
+                  </p>
+                </header>
+                <div class="card-content">
+                  <div class="content">
+                    软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
+                  </div>
                 </div>
+                <footer class="card-footer">
+                  <a href="#" class="card-footer-item">添加</a>
+                  <a href="/Courses" class="card-footer-item">关于</a>
+                  <a href="#" class="card-footer-item">删除</a>
+                </footer>
               </div>
-              <footer class="card-footer">
-                <a href="#" class="card-footer-item">添加</a>
-                <a href="/Courses" class="card-footer-item">关于</a>
-                <a href="#" class="card-footer-item">删除</a>
-              </footer>
+            </div>
+            <div class=" tile is-parent">
+              <div class="card">
+                <header class="card-header">
+                  <p class="card-header-title">
+                    软件工程
+                  </p>
+                </header>
+                <div class="card-content">
+                  <div class="content">
+                    软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
+                  </div>
+                </div>
+                <footer class="card-footer">
+                  <a href="#" class="card-footer-item">添加</a>
+                  <a href="/Courses" class="card-footer-item">关于</a>
+                  <a href="#" class="card-footer-item">删除</a>
+                </footer>
+              </div>
+            </div>
+
+            <div class="tile is-parent">
+              <div class="card">
+                <header class="card-header">
+                  <p class="card-header-title">
+                    软件工程
+                  </p>
+                </header>
+                <div class="card-content">
+                  <div class="content">
+                    软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
+                  </div>
+                </div>
+                <footer class="card-footer">
+                  <a href="#" class="card-footer-item">添加</a>
+                  <a href="/Courses" class="card-footer-item">关于</a>
+                  <a href="#" class="card-footer-item">删除</a>
+                </footer>
+              </div>
             </div>
           </div>
 
-          <div class=" level">
-            <div class="card">
-              <header class="card-header">
-                <p class="card-header-title">
-                  软件工程
-                </p>
-              </header>
-              <div class="card-content">
-                <div class="content">
-                  软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
+          <div class="tile is-ancestor">
+            <div class="tile is-parent">
+              <div class="card">
+                <header class="card-header">
+                  <p class="card-header-title">
+                    软件工程
+                  </p>
+                </header>
+                <div class="card-content">
+                  <div class="content">
+                    软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
+                  </div>
                 </div>
+                <footer class="card-footer">
+                  <a href="#" class="card-footer-item">添加</a>
+                  <a href="/Courses" class="card-footer-item">关于</a>
+                  <a href="#" class="card-footer-item">删除</a>
+                </footer>
               </div>
-              <footer class="card-footer">
-                <a href="#" class="card-footer-item">添加</a>
-                <a href="#" class="card-footer-item">关于</a>
-                <a href="#" class="card-footer-item">删除</a>
-              </footer>
+            </div>
+            <div class=" tile is-parent">
+              <div class="card">
+                <header class="card-header">
+                  <p class="card-header-title">
+                    软件工程
+                  </p>
+                </header>
+                <div class="card-content">
+                  <div class="content">
+                    软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
+                  </div>
+                </div>
+                <footer class="card-footer">
+                  <a href="#" class="card-footer-item">添加</a>
+                  <a href="/Courses" class="card-footer-item">关于</a>
+                  <a href="#" class="card-footer-item">删除</a>
+                </footer>
+              </div>
+            </div>
+
+            <div class="tile is-parent">
+              <div class="card">
+                <header class="card-header">
+                  <p class="card-header-title">
+                    软件工程
+                  </p>
+                </header>
+                <div class="card-content">
+                  <div class="content">
+                    软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
+                  </div>
+                </div>
+                <footer class="card-footer">
+                  <a href="#" class="card-footer-item">添加</a>
+                  <a href="/Courses" class="card-footer-item">关于</a>
+                  <a href="#" class="card-footer-item">删除</a>
+                </footer>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="column is-one-quarter is-multiline is-mobile">
-          <div class=" level">
-            <div class="card">
-              <header class="card-header">
-                <p class="card-header-title">
-                  软件工程
-                </p>
-              </header>
-              <div class="card-content">
-                <div class="content">
-                  软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
-                </div>
-              </div>
-              <footer class="card-footer">
-                <a href="#" class="card-footer-item">添加</a>
-                <a href="#" class="card-footer-item">关于</a>
-                <a href="#" class="card-footer-item">删除</a>
-              </footer>
-            </div>
-          </div>
-
-          <div class=" level">
-            <div class="card">
-              <header class="card-header">
-                <p class="card-header-title">
-                  软件工程
-                </p>
-              </header>
-              <div class="card-content">
-                <div class="content">
-                  软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
-                </div>
-              </div>
-              <footer class="card-footer">
-                <a href="#" class="card-footer-item">添加</a>
-                <a href="#" class="card-footer-item">关于</a>
-                <a href="#" class="card-footer-item">删除</a>
-              </footer>
-            </div>
-          </div>
-        </div>
-
-        <div class="column is-one-quarter is-multiline is-mobile">
-          <div class=" level">
-            <div class="card">
-              <header class="card-header">
-                <p class="card-header-title">
-                  软件工程
-                </p>
-              </header>
-              <div class="card-content">
-                <div class="content">
-                  软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
-                </div>
-              </div>
-              <footer class="card-footer">
-                <a href="#" class="card-footer-item">添加</a>
-                <a href="#" class="card-footer-item">关于</a>
-                <a href="#" class="card-footer-item">删除</a>
-              </footer>
-            </div>
-          </div>
-
-          <div class=" level">
-            <div class="card">
-              <header class="card-header">
-                <p class="card-header-title">
-                  软件工程
-                </p>
-              </header>
-              <div class="card-content">
-                <div class="content">
-                  软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
-                </div>
-              </div>
-              <footer class="card-footer">
-                <a href="#" class="card-footer-item">添加</a>
-                <a href="#" class="card-footer-item">关于</a>
-                <a href="#" class="card-footer-item">删除</a>
-              </footer>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 </template>

@@ -60,8 +60,6 @@
             </div>
         </div>
         
-        <div :style="'float:left;margin-top: 30px;width: 1px; background: darkgray;'+'height:'+windowheight.toString()+'px'"></div>
-
         <div class="column is-three-quarters">
           <div class="tile is-ancestor">
             <div class="tile is-parent">

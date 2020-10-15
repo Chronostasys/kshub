@@ -17,8 +17,8 @@
         
         <div :style="'float:left;margin-top: 30px;width: 1px; background: darkgray;'+'height:'+windowheight.toString()+'px'"></div>
 
-        <div class="">
-
+        <div class="column">
+          放学生写的课设列表，暂时不知道是以card，message还是别的形式呈现。
         </div>
       </div>
     </div>

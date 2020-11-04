@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30001.183
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoveCraft.Kshub", "LoveCraft.Kshub.csproj", "{F14DAC7F-452B-4334-9914-0A65384B68BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KshubUnitTest", "..\KshubUnitTest\KshubUnitTest.csproj", "{0545F992-9994-4A4D-A457-1B00A95A5B8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KshubUnitTest", "..\KshubUnitTest\KshubUnitTest.csproj", "{0545F992-9994-4A4D-A457-1B00A95A5B8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -20,7 +20,6 @@ using OpenXmlPowerTools;
 
 namespace LoveCraft.Kshub.Services
 {
-
     public class UserServices : UserService<KshubUser>
     {
         public UserServices(IDatabaseSettings settings)

@@ -44,7 +44,8 @@ namespace LoveCraft.Kshub.Controllers
         public async ValueTask<IEnumerable<KsDetailDto>> GetKsDetailAsync
             (int page=0,int pagesize = 10,bool IsDescending=true)
         {
-            return await _kshubService.KsServices.GetAsync(t => _mapper.Map<KsDetailDto>(t),page,pagesize,"UpdateTime",IsDescending);
+            return await _kshubService.KsServices.GetAsync(t => _mapper.Map<KsDetailDto>(t),
+                page,pagesize,"UpdateTime",IsDescending, filter:null);
         }
 
     }

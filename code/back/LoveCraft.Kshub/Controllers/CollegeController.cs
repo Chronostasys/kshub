@@ -40,7 +40,8 @@ namespace LoveCraft.Kshub.Controllers
 
                 var filter = Builders<College>.Filter.Eq(t => t.Name, name);
                 //t => _mapper.Map<CollegeDetailDto>(t)
-                var r = await _kshubService.CollegeServices.GetAsync(t => _mapper.Map<CollegeDetailDto>(t),0,1,null,true,filter);
+                var r = await _kshubService.CollegeServices.GetAsync(t => _mapper.Map<CollegeDetailDto>(t),
+                    0,1,"",true,filter);
                 return r.FirstOrDefault();
 
         }

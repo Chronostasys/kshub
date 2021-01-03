@@ -20,7 +20,6 @@ using OpenXmlPowerTools;
 
 namespace LoveCraft.Kshub.Services
 {
-
     public class UserServices : UserService<KshubUser>
     {
         public UserServices(IDatabaseSettings settings)
@@ -147,7 +146,7 @@ namespace LoveCraft.Kshub.Services
             }
             if (auth)
             {
-                //这里设置了AuthenticationProperties的
+                //set AuthenticationProperties
                 var authProperties = new AuthenticationProperties
                 {
                     IsPersistent = rememberMe

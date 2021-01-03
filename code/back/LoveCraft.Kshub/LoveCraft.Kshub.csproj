@@ -6,10 +6,10 @@
     <UserSecretsId>6e6ea475-8932-4b5a-a470-706168679cb1</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Content Remove="Designs\Dto.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Designs\Dto.json" />
+    <Compile Remove="Designs\**" />
+    <Content Remove="Designs\**" />
+    <EmbeddedResource Remove="Designs\**" />
+    <None Remove="Designs\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />

@@ -5,11 +5,11 @@
             <figure class="">
                 <img class="is-rounded" src="https://bulma.zcopy.site/images/placeholders/128x128.png">
             </figure>
-            <label class="课程名">课程名</label>
+            <label class="课程名">这里是课程名</label>
             <div class="">
                 <article class="message is-link">
                 <div class="message-body">
-                    课程简介
+                    这里写课程简介
                 </div>
                 </article>
             </div>
@@ -18,7 +18,36 @@
         <div :style="'float:left;margin-top: 30px;width: 1px; background: darkgray;'+'height:'+windowheight.toString()+'px'"></div>
 
         <div class="column">
-          放学生写的课设列表，暂时不知道是以card，message还是别的形式呈现。
+          <div class="table">
+            <thead>
+              <tr>
+                <th><abbr>姓名</abbr></th>
+                <th><abbr>班级</abbr></th>
+                <th><abbr>学号</abbr></th>
+                <th><abbr>课设名称</abbr></th>
+                <th><abbr>课设简介</abbr></th>
+                <th><abbr>上传日期</abbr></th>
+              </tr>
+            </thead>
+              <tbody>
+                <tr>
+                  <td>张三</td>
+                  <td>网络安全1班</td>
+                  <td>123456789</td>
+                  <td><a class="article" @click="gotoarticle()">盗取游戏账号的研究</a></td>
+                  <td>盗号是一门学问...</td>
+                  <td>2020.1.02</td>
+                </tr>
+                <tr>
+                  <td>老八</td>
+                  <td>社会1班</td>
+                  <td>12345678910</td>
+                  <td><a class="article" @click="gotoarticle()">翔的研究</a></td>
+                  <td>吃翔是一种艺术...</td>
+                  <td>2020.1.02</td>
+                </tr>
+              </tbody>
+          </div>
         </div>
       </div>
     </div>
@@ -26,7 +55,6 @@
 
 <script lang="ts">
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 import Login from '../components/Login/Login.vue'
 import NewProject from '../components/New Project/NewProject.vue'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";

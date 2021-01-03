@@ -152,7 +152,8 @@ namespace LoveCraft.Kshub.Controllers
         {
 
             var id =Guid.Parse(HttpContext.User.Identity.Name);
-            var IsUser =(await _kshubService.KshubUserServices.GetAsync(t=>t.Roles.Contains("User"),t=>t.Id==id)).First();
+            var IsUser =(await _kshubService.KshubUserServices.GetAsync(
+                t=>t.Roles.Contains("User"),0,null,t=>t.Id==id)).First();
             if (IsUser)
             {
                 var definition = Builders<KshubUser>.Update
@@ -176,7 +177,8 @@ namespace LoveCraft.Kshub.Controllers
         {
             //sort by Name
             return await _kshubService.KshubUserServices
-                .GetAsync(t => _mapper.Map<UserDetailDto>(t), page, pagesize,"Name",IsDecsending);
+                .GetAsync(t => _mapper.Map<UserDetailDto>(t), page, pagesize,"Name",IsDecsending
+                , filter:null);
         }
     }
 }

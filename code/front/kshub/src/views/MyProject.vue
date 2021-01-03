@@ -9,14 +9,14 @@
                   <span class="tag is-large is-link is-light">学校</span>
                 </div>
                 <div class="column">
-                    <div class="control">
-                        <div class="select">
-                            <select>
-                                <option>华中科技大学</option>
-                                <option>空</option>
-                            </select>
-                        </div>
+                  <div class="control">
+                    <div class="select">
+                      <select>
+                          <option>空</option>
+                          <option>华中科技大学</option>
+                      </select>
                     </div>
+                  </div>
                 </div>
               </div>
 
@@ -25,15 +25,15 @@
                   <span class="tag is-large is-link is-light">院系</span>
                 </div>
                 <div class="column">
-                    <div class="control">
-                        <div class="select">
-                            <select>
-                                <option>空</option>
-                                <option>计算机学院</option>
-                                <option>网络安全学院</option>
-                            </select>
-                        </div>
+                  <div class="control">
+                    <div class="select">
+                      <select>
+                        <option>空</option>
+                        <option>计算机学院</option>
+                        <option>网络安全学院</option>
+                      </select>
                     </div>
+                  </div>
                 </div>
               </div>
 
@@ -42,16 +42,26 @@
                   <span class="tag is-large is-link is-light">专业</span>
                 </div>
                 <div class="column">
-                    <div class="control">
-                        <div class="select">
-                            <select>
-                                <option>网络安全</option>
-                                <option>软件工程</option>
-                                <option>人工智能</option>
-                                <option>空</option>
-                            </select>
-                        </div>
+                  <div class="control">
+                    <div class="select">
+                      <select>
+                        <option>空</option>
+                        <option>软件工程</option>
+                        <option>人工智能</option>
+                        <option>网络安全</option>
+                      </select>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="columns">
+                <div class="column">
+                  <div class="field">
+                    <p class="control">
+                      <input class="input" type="text" placeholder="关键词" >
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -76,7 +86,7 @@
                 </div>
                 <footer class="card-footer">
                   <a href="#" class="card-footer-item">添加</a>
-                  <a href="/Courses" class="card-footer-item">关于</a>
+                  <a href="/Courses" class="card-footer-item">详细</a>
                   <a href="#" class="card-footer-item">删除</a>
                 </footer>
               </div>
@@ -95,7 +105,7 @@
                 </div>
                 <footer class="card-footer">
                   <a href="#" class="card-footer-item">添加</a>
-                  <a href="/Courses" class="card-footer-item">关于</a>
+                  <a href="/Courses" class="card-footer-item">详细</a>
                   <a href="#" class="card-footer-item">删除</a>
                 </footer>
               </div>
@@ -115,7 +125,7 @@
                 </div>
                 <footer class="card-footer">
                   <a href="#" class="card-footer-item">添加</a>
-                  <a href="/Courses" class="card-footer-item">关于</a>
+                  <a href="/Courses" class="card-footer-item">详细</a>
                   <a href="#" class="card-footer-item">删除</a>
                 </footer>
               </div>
@@ -137,7 +147,7 @@
                 </div>
                 <footer class="card-footer">
                   <a href="#" class="card-footer-item">添加</a>
-                  <a href="/Courses" class="card-footer-item">关于</a>
+                  <a href="/Courses" class="card-footer-item">详细</a>
                   <a href="#" class="card-footer-item">删除</a>
                 </footer>
               </div>
@@ -156,7 +166,7 @@
                 </div>
                 <footer class="card-footer">
                   <a href="#" class="card-footer-item">添加</a>
-                  <a href="/Courses" class="card-footer-item">关于</a>
+                  <a href="/Courses" class="card-footer-item">详细</a>
                   <a href="#" class="card-footer-item">删除</a>
                 </footer>
               </div>
@@ -176,7 +186,7 @@
                 </div>
                 <footer class="card-footer">
                   <a href="#" class="card-footer-item">添加</a>
-                  <a href="/Courses" class="card-footer-item">关于</a>
+                  <a href="/Courses" class="card-footer-item">详细</a>
                   <a href="#" class="card-footer-item">删除</a>
                 </footer>
               </div>

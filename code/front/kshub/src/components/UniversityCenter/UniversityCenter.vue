@@ -89,12 +89,11 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator"
 import "bulma/css/bulma.css"
-import HelloWorld from '@/components/HelloWorld.vue'
 import Axios from 'axios';
 
 @Component({
     components:{
-        HelloWorld
+        
     }
 })
 export default class UniversityCenter extends Vue {

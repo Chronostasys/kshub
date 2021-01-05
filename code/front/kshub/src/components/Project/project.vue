@@ -109,14 +109,13 @@
 </template>
 
 <script lang="ts">
-import HelloWorld from '@/components/HelloWorld.vue'
 import "bulma/css/bulma.css";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import Axios from 'axios';
 
 @Component({
     components:{
-        HelloWorld
+        
     }
 })
 export default class Login extends Vue {

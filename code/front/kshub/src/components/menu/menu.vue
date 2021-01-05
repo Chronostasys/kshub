@@ -107,10 +107,32 @@
                         <a v-if="userInfo.roles.indexOf(strs.Roles.anonymous)>-1" class="button is-link" @click="login">
                             Log in
                         </a>
-                        <div v-else class="">
+                        <div v-else class="dropdown-trigger" style="margin-top: 40%">
                             <figure class="image is-32x32 clickable" title="我的主页"  @click="jumpUserPage">
                                 <img style="max-height:32px;overflow:hidden;" class=" is-rounded" src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg" />
                             </figure>
+                            <div class="dropdown-menu">
+                                <div class=" dropdown-content">
+                                    <div class=" dropdown-item">
+                                        <i class="fa fa-history">我的主页</i>
+                                    </div>
+                                    <div class=" dropdown-item">
+                                        
+                                    </div>
+                                    <div class=" dropdown-item">
+                                        
+                                    </div>
+                                    <div class=" dropdown-item">
+                                        
+                                    </div>
+                                    <div class=" dropdown-item">
+                                        
+                                    </div>
+                                    <div class=" dropdown-item">
+                                        
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -122,8 +144,6 @@
 
 <script lang="ts">
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import Login from '@/components/Login/Login.vue'
 import NewProject from '@/components/New Project/NewProject.vue'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator"
 import UserCenter from '@/components/UserCenter/UserCenter.vue'

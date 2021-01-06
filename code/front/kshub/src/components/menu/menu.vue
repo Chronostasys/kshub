@@ -3,7 +3,7 @@
   <NewProject :modalCssClass="cssClass" @close="close"/>
     <Login :modalCssClass="loginClass"
         @close="closeLogin"></Login>
-    <nav class="navbar is-white" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-white" role="navigation" aria-label="main navigation" style="z-index: 999;">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
                 <img src="@/assets/lovecraft.png" style="width: 128px;object-fit: cover;">
@@ -78,9 +78,6 @@
                         <a class="navbar-item" @click="jumpMyCourse">
                             全部课程
                         </a>
-                        <a class="navbar-item" @click="newProj">
-                            新建课设
-                        </a>
                         <hr class="navbar-divider">
                         <a class="navbar-item" @click="jumpCourses">
                             某课程页面（测试用）
@@ -107,29 +104,22 @@
                         <a v-if="userInfo.roles.indexOf(strs.Roles.anonymous)>-1" class="button is-link" @click="login">
                             Log in
                         </a>
-                        <div v-else class="dropdown-trigger" style="margin-top: 40%">
-                            <figure class="image is-32x32 clickable" title="我的主页"  @click="jumpUserPage">
-                                <img style="max-height:32px;overflow:hidden;" class=" is-rounded" src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg" />
-                            </figure>
-                            <div class="dropdown-menu">
-                                <div class=" dropdown-content">
-                                    <div class=" dropdown-item">
-                                        <i class="fa fa-history">我的主页</i>
-                                    </div>
-                                    <div class=" dropdown-item">
-                                        
-                                    </div>
-                                    <div class=" dropdown-item">
-                                        
-                                    </div>
-                                    <div class=" dropdown-item">
-                                        
-                                    </div>
-                                    <div class=" dropdown-item">
-                                        
-                                    </div>
-                                    <div class=" dropdown-item">
-                                        
+                        <div v-else :class="'dropdown is-right ' + dropdown" @mouseenter="dropdownActive()" @mouseleave="dropdownDeactive()">
+                            <div class="dropdown-trigger" style="margin-top: 40%;">
+                                <figure class="image is-32x32 clickable" title="我的主页"  @click="jumpUserPage">
+                                    <img style="max-height:32px;overflow:hidden;" class=" is-rounded" src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg" />
+                                </figure>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-content">
+                                        <a class="dropdown-item" @click="newProj">
+                                            <i class="fa fa-pencil">新建课设</i>
+                                        </a>
+                                        <a class="dropdown-item">
+                                            <i class="fa fa-home">我的主页</i>
+                                        </a>
+                                        <a class="dropdown-item">
+                                            <i class="fa fa-file-text">我的课设</i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -147,6 +137,7 @@
 import NewProject from '@/components/New Project/NewProject.vue'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator"
 import UserCenter from '@/components/UserCenter/UserCenter.vue'
+import Login from '@/components/Login/Login.vue'
 import Axios from 'axios';
 import { UserInfo, STRINGS } from '../../common/STRINGS'
 
@@ -164,6 +155,7 @@ export default class Menu extends Vue {
   cssClass = 'modal';
   loginClass = 'modal'
   MyMenuClass='';
+  dropdown = ''
   strs = STRINGS;
   created(){
       console.log(this.userInfo);
@@ -177,6 +169,12 @@ export default class Menu extends Vue {
       this.MyMenuClass='is-active'
       else
       this.MyMenuClass=''
+  }
+  dropdownActive(){
+      this.dropdown='is-active'
+  }
+  dropdownDeactive(){
+      this.dropdown=''
   }
   login(){
     this.loginClass = 'modal is-active';

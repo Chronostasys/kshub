@@ -1,7 +1,5 @@
 <template>
     <div>
-            
-
         <section class="main-content columns is-fullheight absolute">
         
             <aside class="fix column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile">

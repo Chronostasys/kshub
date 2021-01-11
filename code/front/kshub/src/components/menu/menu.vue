@@ -5,7 +5,7 @@
         @close="closeLogin"></Login>
     <nav class="navbar">
     </nav>
-    <!--解决顶部导航栏遮挡主体部分最上端的问题，该方案为权宜之计，该不够完善-->
+    <!--解决顶部导航栏遮挡主体部分最上端的问题，该方案为权宜之计，还不够完善-->
     <nav class="navbar is-white is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">

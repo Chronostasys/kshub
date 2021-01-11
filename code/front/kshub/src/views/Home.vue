@@ -1,59 +1,126 @@
 <template>
 <div>
-  <div class="tile is-ancestor">
-    <div class="tile is-vertical is-4">
-      <div class="tile is-vertical">
-      <article class="tile is-child box">
-        <p class="title">Middle box</p>
-        <p class="subtitle">With an image</p>
-        <figure class="image is-4by3">
-          <img src="https://bulma.zcopy.site/images/placeholders/640x480.png">
-        </figure>
-      </article>
-      <article class="tile is-child box">
-        <p class="title">Middle box</p>
-        <p class="subtitle">With an image</p>
-        <figure class="image is-4by3">
-          <img src="https://bulma.zcopy.site/images/placeholders/640x480.png">
-        </figure>
-      </article>
+  <div class="columns">
+    <div class="column is-three-quarters">
+      <div class="box">
+        <article class="media">
+          <div class="media-left">
+            <figure class="image is-64x64" style="overflow:hidden">
+              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
+            </figure>
+          </div>
+          <div class="media-content">
+            <div class="content">
+              <p>
+                <strong>Mr.zhou</strong> <small>@Mr.zhou</small>
+                <br>
+                abaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaa
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="box">
+        <article class="media">
+          <div class="media-left">
+            <figure class="image is-64x64" style="overflow:hidden">
+              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
+            </figure>
+          </div>
+          <div class="media-content">
+            <div class="content">
+              <p>
+                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
+                <br>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="box">
+        <article class="media">
+          <div class="media-left">
+            <figure class="image is-64x64" style="overflow:hidden">
+              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
+            </figure>
+          </div>
+          <div class="media-content">
+            <div class="content">
+              <p>
+                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
+                <br>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="box">
+        <article class="media">
+          <div class="media-left">
+            <figure class="image is-64x64" style="overflow:hidden">
+              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
+            </figure>
+          </div>
+          <div class="media-content">
+            <div class="content">
+              <p>
+                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
+                <br>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="box">
+        <article class="media">
+          <div class="media-left">
+            <figure class="image is-64x64" style="overflow:hidden">
+              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
+            </figure>
+          </div>
+          <div class="media-content">
+            <div class="content">
+              <p>
+                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
+                <br>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="box">
+        <article class="media">
+          <div class="media-left">
+            <figure class="image is-64x64" style="overflow:hidden">
+              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
+            </figure>
+          </div>
+          <div class="media-content">
+            <div class="content">
+              <p>
+                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
+                <br>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+              </p>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
-    <div class="tile is-vertical is-4">
-      <div class="tile is-vertical">
-      <article class="tile is-child box">
-        <p class="title">Middle box</p>
-        <p class="subtitle">With an image</p>
-        <figure class="image is-4by3">
-          <img src="https://bulma.zcopy.site/images/placeholders/640x480.png">
-        </figure>
+    <div class="column">
+      <article class="message is-danger">
+        <div class="message-header">
+          <p>阿巴阿巴阿巴阿巴</p>
+          <button class="delete" aria-label="delete"></button>
+        </div>
+        <div class="message-body">
+          不知道拿来干嘛就只好阿巴阿巴阿巴阿巴了
+        </div>
       </article>
-      <article class="tile is-child box">
-        <p class="title">Middle box</p>
-        <p class="subtitle">With an image</p>
-        <figure class="image is-4by3">
-          <img src="https://bulma.zcopy.site/images/placeholders/640x480.png">
-        </figure>
-      </article>
-      </div>
-    </div>
-    <div class="tile is-vertical is-4">
-      <div class="tile is-vertical">
-      <article class="tile is-child box">
-        <p class="title">Middle box</p>
-        <p class="subtitle">With an image</p>
-        <figure class="image is-4by3">
-          <img src="https://bulma.zcopy.site/images/placeholders/640x480.png">
-        </figure>
-      </article>
-      <article class="tile is-child box">
-        <p class="title">Middle box</p>
-        <p class="subtitle">With an image</p>
-        <figure class="image is-4by3">
-          <img src="https://bulma.zcopy.site/images/placeholders/640x480.png">
-        </figure>
-      </article>
-      </div>
     </div>
   </div>
 </div>

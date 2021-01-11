@@ -139,6 +139,8 @@ import UserCenter from '@/components/UserCenter/UserCenter.vue'
 import Login from '@/components/Login/Login.vue'
 import Axios from 'axios';
 import { UserInfo, STRINGS } from '../../common/STRINGS'
+import Router from 'vue-router'
+
 
 @Component({
   components:{

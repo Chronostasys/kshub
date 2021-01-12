@@ -109,14 +109,13 @@
 import "bulma/css/bulma.css";
 // @ is an alias to /src
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import HelloWorld from '@/components/HelloWorld.vue';
 import Axios from 'axios';
 import { RegDto, UserInfo } from '../../common/STRINGS';
 import STRINGS from '../../common/STRINGS';
 
 @Component({
     components:{
-        HelloWorld
+        
     }
 })
 export default class Login extends Vue {

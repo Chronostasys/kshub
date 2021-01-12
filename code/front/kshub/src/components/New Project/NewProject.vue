@@ -3,7 +3,7 @@
         <div class=" modal-background">
         <div class=" max-500px modal-card">
             <div class=" modal-card-head has-icons-right level is-mobile m0 is-gapless is-marginless">
-                <label class=" level-item level-left"> 新建课设</label>
+                <label class=" level-item level-left">新建课设</label>
                 <span class=" level-item level-right clickable icon has-text-right"
                     title="关闭"
                     @click="close">
@@ -17,15 +17,14 @@
                         <input class="input" type="text" placeholder="项目名">
                     </div>
                 </div>
+                <hr>
                 <div class="field">
                     <label class="label">关键词</label>
                     <div class="control">
                         <input class="input" type="text" placeholder="关键词">
                     </div>
                 </div>
-                <hr>
                 <div class="field">
-                    <label class="label has-text-left">所属课程</label>
                     <hr>
                         <div class="columns">
                             <div class="colunm">
@@ -70,8 +69,16 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="">
-                            选择班级，搜索框形式
+                        <div class="field">
+                            <label class="lavel has-text-left">班级</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select>
+                                            <option>一班</option>
+                                            <option>二班</option>
+                                        </select>
+                                    </div>
+                                </div>
                         </div>
                         <hr>
                 </div>
@@ -101,14 +108,13 @@
 </template>
 
 <script lang="ts">
-import HelloWorld from '@/components/HelloWorld.vue'
 import "bulma/css/bulma.css";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import Axios from 'axios';
 
 @Component({
     components:{
-        HelloWorld
+    
     }
 })
 export default class Login extends Vue {

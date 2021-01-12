@@ -19,7 +19,7 @@ jobs:
         dotnet-version: 3.1.301
         
     - name: cd to backend
-      run: cd code\back
+      run: cd code/back
     - name: Restore dependencies
       run: dotnet restore
     - name: Build

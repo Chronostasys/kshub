@@ -16,6 +16,32 @@
             <span class=" fa fa-id-card"></span>
               {{pageUserInfo.userId}}
           </div>
+          <nav style="margin-top:22px;" class="level font_main">
+            <div class="level-item has-text-centered">
+              <div>
+                <p>获赞</p>
+                <p>{{0}}</p><!--information.awesomes-->
+                <p>项目</p>
+                <p>{{0}}</p><!--information.projectNum-->
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p>粉丝</p>
+                <p>{{0}}</p><!--information.followers-->
+                <p>文章</p>
+                <p>{{0}}</p><!--information.articleNum-->
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p>关注</p>
+                <p>{{0}}</p><!--information.follows-->
+                <p>经验</p>
+                <p>{{0}}</p><!--information.exp-->
+              </div>
+            </div>
+          </nav>
         </center>
       </div>
       <div class=" column is-6 hero">
@@ -29,7 +55,35 @@
         </div>
       </div>
     </div>
-        <a v-if="isSelf" class=button  @click="Signout()">退出登录</a>
+    <hr style="margin-top:0%" />
+
+    <div class="columns">
+      <div class="column is-one-third">
+        <center>
+          <p class="font_head_Line">参与课题</p>
+        </center>
+      </div>
+      <div class="column is-two-thirds">
+        <ProjectList :number="3" :src="myProjectSrc" v-if="ifShowMember"></ProjectList>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="columns is-0">
+      <div class="column is-one-third">
+        <center>
+          <p class="font_head_Line">最新文章</p>
+        </center>
+      </div>
+      <div class="column is-two-thirds">
+        <ArticleList :src="articleSrc" page="1" pagesize="3" :enable="false"></ArticleList>
+        <div style="text-align:right"> 
+          <a class="font_main" :href="articleUrl">更多文章</a>
+        </div>
+      </div>
+    </div>
+    <a v-if="isSelf" class=button  @click="Signout()">退出登录</a>
   </div>
 </template>
 

@@ -48,7 +48,7 @@
                         <i class="fa fa-book"></i>
                         新建课设
                     </a>
-                    <a v-if="userInfo.roles.indexOf(strs.Roles.anonymous)>-1" class="dropdown-item " @click="login">
+                    <a v-if="userInfo.roles.indexOf(strs.Roles.anonymous)>-1" class="dropdown-item" @click="login">
                         <i class="fa fa-user"></i>
                         登录
                     </a>

@@ -1,5 +1,5 @@
 <template>
-    <div  :class="modalCssClass">
+    <div :class="modalCssClass">
         <div class="modal-background"></div>
         <div class=" max-500px  modal-card">
             <div class=" modal-card-head field has-icons-right" style="margin:0px">

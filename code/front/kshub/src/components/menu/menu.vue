@@ -3,7 +3,10 @@
   <NewProject :modalCssClass="cssClass" @close="close"/>
     <Login :modalCssClass="loginClass"
         @close="closeLogin"></Login>
-    <nav class="navbar is-white" role="navigation" aria-label="main navigation">
+    <nav class="navbar">
+    </nav>
+    <!--解决顶部导航栏遮挡主体部分最上端的问题，该方案为权宜之计，还不够完善-->
+    <nav class="navbar is-white is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
                 <img src="@/assets/lovecraft.png" style="width: 128px;object-fit: cover;">
@@ -102,15 +105,26 @@
                 />
                 </div>
                 </a>
-                <div class="navbar-item">
-                    <div class="buttons">
-                        <a v-if="userInfo.roles.indexOf(strs.Roles.anonymous)>-1" class="button is-link" @click="login">
-                            Log in
-                        </a>
-                        <div v-else class="">
-                            <figure class="image is-32x32 clickable" title="我的主页"  @click="jumpUserPage">
-                                <img style="max-height:32px;overflow:hidden;" class=" is-rounded" src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg" />
-                            </figure>
+                <a v-if="userInfo.roles.indexOf(strs.Roles.anonymous)>-1" class="button is-link" @click="login">
+                    Log in
+                </a>
+                <div v-else :class="'dropdown is-right ' + dropdown" @mouseenter="dropdownActive()" @mouseleave="dropdownDeactive()">
+                    <div class="dropdown-trigger" style="margin-top: 40%;">
+                        <figure class="image is-32x32 clickable" title="我的主页"  @click="jumpUserPage">
+                            <img style="max-height:32px;overflow:hidden;" class=" is-rounded" src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg" />
+                        </figure>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-content">
+                                <a class="dropdown-item" @click="newProj">
+                                    <i class="fa fa-pencil">新建课设</i>
+                                </a>
+                                <a class="dropdown-item">
+                                    <i class="fa fa-home">我的主页</i>
+                                </a>
+                                <a class="dropdown-item">
+                                    <i class="fa fa-file-text">我的课设</i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -122,13 +136,14 @@
 
 <script lang="ts">
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import Login from '@/components/Login/Login.vue'
 import NewProject from '@/components/New Project/NewProject.vue'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator"
 import UserCenter from '@/components/UserCenter/UserCenter.vue'
+import Login from '@/components/Login/Login.vue'
 import Axios from 'axios';
 import { UserInfo, STRINGS } from '../../common/STRINGS'
+import Router from 'vue-router'
+
 
 @Component({
   components:{
@@ -144,6 +159,7 @@ export default class Menu extends Vue {
   cssClass = 'modal';
   loginClass = 'modal'
   MyMenuClass='';
+  dropdown = ''
   strs = STRINGS;
   created(){
       console.log(this.userInfo);
@@ -157,6 +173,12 @@ export default class Menu extends Vue {
       this.MyMenuClass='is-active'
       else
       this.MyMenuClass=''
+  }
+  dropdownActive(){
+      this.dropdown='is-active'
+  }
+  dropdownDeactive(){
+      this.dropdown=''
   }
   login(){
     this.loginClass = 'modal is-active';

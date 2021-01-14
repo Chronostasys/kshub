@@ -200,7 +200,6 @@
 
 <script lang="ts">
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 import Login from '../components/Login/Login.vue'
 import NewProject from '../components/New Project/NewProject.vue'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";

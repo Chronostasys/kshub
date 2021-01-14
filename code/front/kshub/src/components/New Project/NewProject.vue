@@ -24,7 +24,9 @@
                         <input class="input" type="text" placeholder="关键词">
                     </div>
                 </div>
+                <hr>
                 <div class="field">
+                    <label class="label has-text-left">所属课程</label>
                     <hr>
                         <div class="columns">
                             <div class="colunm">
@@ -69,16 +71,8 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="field">
-                            <label class="lavel has-text-left">班级</label>
-                                <div class="control">
-                                    <div class="select">
-                                        <select>
-                                            <option>一班</option>
-                                            <option>二班</option>
-                                        </select>
-                                    </div>
-                                </div>
+                        <div class="">
+                            选择班级，搜索框形式
                         </div>
                         <hr>
                 </div>

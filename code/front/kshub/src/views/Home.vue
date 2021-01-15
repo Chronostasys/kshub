@@ -6,87 +6,15 @@
         <article class="media">
           <div class="media-left">
             <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
+              <img src="">
             </figure>
           </div>
           <div class="media-content">
             <div class="content">
               <p>
-                <strong>Mr.zhou</strong> <small>@Mr.zhou</small>
+                <strong>{{item.name}}</strong> <small>@{{item.projectManager}}</small>
                 <br>
-                abaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaa
-              </p>
-            </div>
-          </div>
-        </article>
-      </div>
-      <div class="box">
-        <article class="media">
-          <div class="media-left">
-            <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
-            </figure>
-          </div>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-                <br>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
-              </p>
-            </div>
-          </div>
-        </article>
-      </div>
-      <div class="box">
-        <article class="media">
-          <div class="media-left">
-            <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
-            </figure>
-          </div>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-                <br>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
-              </p>
-            </div>
-          </div>
-        </article>
-      </div>
-      <div class="box">
-        <article class="media">
-          <div class="media-left">
-            <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
-            </figure>
-          </div>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-                <br>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
-              </p>
-            </div>
-          </div>
-        </article>
-      </div>
-      <div class="box">
-        <article class="media">
-          <div class="media-left">
-            <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
-            </figure>
-          </div>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-                <br>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+                {{item.description}}
               </p>
             </div>
           </div>
@@ -159,6 +87,17 @@ export default class Home extends Vue {
       }).catch((err)=>{console.log(err);
       alert(err);
       });
+  }
+  getKs(){
+    Axios.get('/api/Ks').then((res)=>{
+      console.log(res.data);
+      Ks=res.data;
+      for(item in Ks){
+        console.log(item)
+      }
+      }).catch((err)=>{console.log(err);
+      alert(err);
+      })
   }
 }
 </script>

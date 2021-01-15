@@ -3,7 +3,7 @@
   <div class="columns">
     <div class="column is-three-quarters">
       <div class="box">
-        <article  v-for="(item,i) in Ks" :key=i  class="media">
+        <article  v-for="(item,i) in this.Ks" :key=i  class="media">
           <div class="media-left">
             <figure class="image is-64x64" style="overflow:hidden">
               <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
@@ -12,7 +12,7 @@
           <div class="media-content">
             <div class="content">
               <p>
-                <strong>{{item.name}}</strong> <small>{{item.projectManager}}</small>
+                <strong>{{item.name}}</strong> <small>@{{item.projectManager}}</small>
                 <br>
                 {{item.description}}
               </p>
@@ -93,12 +93,14 @@ export default class Home extends Vue {
     Axios.get('/api/Ks').then((res)=>{
       console.log(res.data);
       this.Ks=res.data;
-      for(item in Ks){
+      for(item in this.Ks){
         console.log(item)
       }
       }).catch((err)=>{console.log(err);
-      alert(err);
       })
+  }
+  created(){
+    this.getKs()
   }
 }
 </script>

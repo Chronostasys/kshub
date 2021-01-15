@@ -3,16 +3,16 @@
   <div class="columns">
     <div class="column is-three-quarters">
       <div class="box">
-        <article class="media">
+        <article  v-for="(item,i) in Ks" :key=i  class="media">
           <div class="media-left">
             <figure class="image is-64x64" style="overflow:hidden">
-              <img src="">
+              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
             </figure>
           </div>
           <div class="media-content">
             <div class="content">
               <p>
-                <strong>{{item.name}}</strong> <small>@{{item.projectManager}}</small>
+                <strong>{{item.name}}</strong> <small>{{item.projectManager}}</small>
                 <br>
                 {{item.description}}
               </p>
@@ -70,6 +70,7 @@ import Axios from 'axios';
 
 export default class Home extends Vue {
   cssClass = 'modal';
+  Ks=[];
   newProj(){
     this.cssClass = 'modal is-active';
   }
@@ -91,7 +92,7 @@ export default class Home extends Vue {
   getKs(){
     Axios.get('/api/Ks').then((res)=>{
       console.log(res.data);
-      Ks=res.data;
+      this.Ks=res.data;
       for(item in Ks){
         console.log(item)
       }

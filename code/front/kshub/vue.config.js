@@ -47,5 +47,8 @@ module.exports = {
             //     changOrigin: true
             // }
         }
+    },
+    configureWebpack: {
+        devtool: 'source-map'
     }
 };

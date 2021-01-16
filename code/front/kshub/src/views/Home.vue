@@ -6,33 +6,15 @@
         <article  v-for="(item,i) in this.Ks" :key=i  class="media">
           <div class="media-left">
             <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
+              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">{{item.coverUrl}}
             </figure>
           </div>
-          <div class="media-content">
+          <div class="media-content" @click="jumpArticle()">
             <div class="content">
               <p>
-                <strong>{{item.name}}</strong> <small>@{{item.projectManager}}</small>
+                <strong >{{item.name}}</strong> <small>@{{item.projectManager}}</small>
                 <br>
                 {{item.description}}
-              </p>
-            </div>
-          </div>
-        </article>
-      </div>
-      <div class="box">
-        <article class="media">
-          <div class="media-left">
-            <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
-            </figure>
-          </div>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-                <br>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
               </p>
             </div>
           </div>
@@ -98,6 +80,9 @@ export default class Home extends Vue {
       }
       }).catch((err)=>{console.log(err);
       })
+  }
+  jumpArticle(){
+    Axios.get()
   }
   created(){
     this.getKs()

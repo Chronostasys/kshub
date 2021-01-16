@@ -6,7 +6,7 @@
         <article  v-for="(item,i) in this.Ks" :key=i  class="media">
           <div class="media-left">
             <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">{{item.coverUrl}}
+              <img :src="item.coverUrl">
             </figure>
           </div>
           <div class="media-content" @click="jumpArticle()">
@@ -24,11 +24,17 @@
     <div class="column">
       <article class="message is-danger">
         <div class="message-header">
-          <p>阿巴阿巴阿巴阿巴</p>
-          <button class="delete" aria-label="delete"></button>
+          <p>网站公告</p>
         </div>
         <div class="message-body">
-          不知道拿来干嘛就只好阿巴阿巴阿巴阿巴了
+          广告招租中！！！！
+        </div>
+        <div class="level">
+          <div class="level-left">
+          </div>
+          <div class=" level-right">
+            2021/1/16
+          </div>
         </div>
       </article>
     </div>

@@ -74,6 +74,7 @@ export default class Home extends Vue {
   }
   cssClass = 'modal';
   size = 10;
+  course=[];
   courseDetail = {
     "id": "adad0f85-2fea-4ce1-8ca6-5fcc87b0b962",
     "name": "string13",
@@ -93,6 +94,20 @@ export default class Home extends Vue {
         return v;
       });
     })
+  }
+addCourse(){
+    this.getCourses()
+  }
+getCourses(){
+    Axios.get('/api/Course').then((res)=>{
+      console.log(res.data);
+      this.course=res.data;
+      for(item in this.course)
+      {
+        console.log(item);
+      }
+      }).catch((err)=>{console.log(err);
+      });
   }
   newProj(){
     this.cssClass = 'modal is-active';

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,7 +36,7 @@ namespace LoveCraft.Kshub.Controllers
             ks.ProjectManager = managerId;
             ks.Id = Guid.NewGuid();
             var user = await _kshubService.KshubUserServices.FindUserAsync(managerId);
-            ks.BelongCollegeId= user.CollegeId;
+            ks.CollegeId= user.CollegeId;
             await _kshubService.KsServices.AddAsync(ks);
         }
 

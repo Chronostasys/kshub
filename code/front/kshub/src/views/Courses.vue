@@ -45,7 +45,7 @@
     </div>
 </template>
 
-<script lang="ts">
+<script lang="typescript">
 // @ is an alias to /src
 import Login from '../components/Login/Login.vue'
 import NewProject from '../components/New Project/NewProject.vue'

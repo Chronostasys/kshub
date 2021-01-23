@@ -2,17 +2,17 @@
     <div class="container">
       <div class="columns">
         <div class="column is-one-quarter">
-            <figure class="">
-                <img class="is-rounded" src="https://bulma.zcopy.site/images/placeholders/128x128.png">
-            </figure>
-            <label class="课程名">这里是课程名</label>
-            <div class="">
-                <article class="message is-link">
-                <div class="message-body">
-                    这里写课程简介
-                </div>
-                </article>
-            </div>
+          <figure class="">
+            <img class="is-rounded" src="https://bulma.zcopy.site/images/placeholders/128x128.png">
+          </figure>
+          <label class="课程名">{{course.name}}</label>
+          <div class="">
+            <article class="message is-link">
+              <div class="message-body">
+                {{course.description}}
+              </div>
+            </article>
+          </div>
         </div>
         
         <div :style="'float:left;margin-top: 30px;width: 1px; background: darkgray;'+'height:'+windowheight.toString()+'px'"></div>
@@ -29,22 +29,14 @@
                 <th><abbr>上传日期</abbr></th>
               </tr>
             </thead>
-              <tbody>
+              <tbody class="Kstable" v-for="(user,i) in this.Ks" :key=i>
                 <tr>
-                  <td>张三</td>
-                  <td>网络安全1班</td>
-                  <td>123456789</td>
-                  <td><a class="article" @click="gotoarticle()">盗取游戏账号的研究</a></td>
-                  <td>盗号是一门学问...</td>
-                  <td>2020.1.02</td>
-                </tr>
-                <tr>
-                  <td>老八</td>
-                  <td>社会1班</td>
-                  <td>12345678910</td>
-                  <td><a class="article" @click="gotoarticle()">翔的研究</a></td>
-                  <td>吃翔是一种艺术...</td>
-                  <td>2020.1.02</td>
+                  <td>{{user.name}}</td>
+                  <td>{{user.profession}}</td>
+                  <td>{{user.userId}}</td>
+                  <td><a class="article" @click="gotoarticle()">{{Ks.name}}</a></td>
+                  <td>{{Ks.description}}</td>
+                  <td>{{Ks.uploadtime}}</td> 
                 </tr>
               </tbody>
           </div>
@@ -74,6 +66,8 @@ export default class Home extends Vue {
   }
   cssClass = 'modal';
   size = 10;
+  course=[];
+  user=[];
   courseDetail = {
     "id": "adad0f85-2fea-4ce1-8ca6-5fcc87b0b962",
     "name": "string13",
@@ -84,6 +78,7 @@ export default class Home extends Vue {
   };
   page = 0;
   items = [];
+  Ks=[];
   prevHighlightIndex = 0;
   created(){
     Axios.get(`/api/Course/GetCourses?page=${this.page}&pagesize=${this.size}&IsAscending=true`)
@@ -93,6 +88,36 @@ export default class Home extends Vue {
         return v;
       });
     })
+  }
+addCourse(){
+    this.getCourses()
+  }
+getCourses(){
+    Axios.get('/api/Course').then((res)=>{
+      console.log(res.data);
+      this.course=res.data;
+      }).catch((err)=>{console.log(err);
+      });
+  }
+  addUsers(){
+    this.getUsers()
+  }
+  addKs(){
+    this.getKs()
+  }
+  getUsers(){
+    Axios.get('/api/User').then((res)=>{
+      console.log(res.data);
+      this.user=res.data;
+    }).catch((err)=>{console.log(err);
+    });
+  }
+  getKs(){
+    Axios.get('/api/Ks').then((res)=>{
+      console.log(res.data);
+      this.Ks=res.data;
+      }).catch((err)=>{console.log(err);
+      })
   }
   newProj(){
     this.cssClass = 'modal is-active';

@@ -3,108 +3,18 @@
   <div class="columns">
     <div class="column is-three-quarters">
       <div class="box">
-        <article class="media">
+        <article  v-for="(item,i) in this.Ks" :key=i  class="media">
           <div class="media-left">
             <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
+              <img :src="item.coverUrl">
             </figure>
           </div>
-          <div class="media-content">
+          <div class="media-content" @click="jumpArticle()">
             <div class="content">
               <p>
-                <strong>Mr.zhou</strong> <small>@Mr.zhou</small>
+                <strong >{{item.name}}</strong> <small>@{{item.projectManager}}</small>
                 <br>
-                abaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaa
-              </p>
-            </div>
-          </div>
-        </article>
-      </div>
-      <div class="box">
-        <article class="media">
-          <div class="media-left">
-            <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
-            </figure>
-          </div>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-                <br>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
-              </p>
-            </div>
-          </div>
-        </article>
-      </div>
-      <div class="box">
-        <article class="media">
-          <div class="media-left">
-            <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
-            </figure>
-          </div>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-                <br>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
-              </p>
-            </div>
-          </div>
-        </article>
-      </div>
-      <div class="box">
-        <article class="media">
-          <div class="media-left">
-            <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
-            </figure>
-          </div>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-                <br>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
-              </p>
-            </div>
-          </div>
-        </article>
-      </div>
-      <div class="box">
-        <article class="media">
-          <div class="media-left">
-            <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
-            </figure>
-          </div>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-                <br>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
-              </p>
-            </div>
-          </div>
-        </article>
-      </div>
-      <div class="box">
-        <article class="media">
-          <div class="media-left">
-            <figure class="image is-64x64" style="overflow:hidden">
-              <img src="http://img3.cache.netease.com/photo/0031/2017-03-22/CG5RTM5L4UUJ0031.jpg">
-            </figure>
-          </div>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-                <br>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+                {{item.description}}
               </p>
             </div>
           </div>
@@ -114,11 +24,17 @@
     <div class="column">
       <article class="message is-danger">
         <div class="message-header">
-          <p>阿巴阿巴阿巴阿巴</p>
-          <button class="delete" aria-label="delete"></button>
+          <p>网站公告</p>
         </div>
         <div class="message-body">
-          不知道拿来干嘛就只好阿巴阿巴阿巴阿巴了
+          广告招租中！！！！
+        </div>
+        <div class="level">
+          <div class="level-left">
+          </div>
+          <div class=" level-right">
+            2021/1/16
+          </div>
         </div>
       </article>
     </div>
@@ -142,6 +58,7 @@ import Axios from 'axios';
 
 export default class Home extends Vue {
   cssClass = 'modal';
+  Ks=[];
   newProj(){
     this.cssClass = 'modal is-active';
   }
@@ -159,6 +76,22 @@ export default class Home extends Vue {
       }).catch((err)=>{console.log(err);
       alert(err);
       });
+  }
+  getKs(){
+    Axios.get('/api/Ks').then((res)=>{
+      console.log(res.data);
+      this.Ks=res.data;
+      for(item in this.Ks){
+        console.log(item)
+      }
+      }).catch((err)=>{console.log(err);
+      })
+  }
+  jumpArticle(){
+    Axios.get()
+  }
+  created(){
+    this.getKs()
   }
 }
 </script>

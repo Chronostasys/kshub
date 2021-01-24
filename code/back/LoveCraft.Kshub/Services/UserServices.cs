@@ -66,7 +66,7 @@ namespace LoveCraft.Kshub.Services
                 throw new _401Exception("Cannot find this User");
             }
         }
-        public async ValueTask<KshubUser> FindUserAsync(Guid id)
+        public async ValueTask<KshubUser> GetUserById(Guid id)
         {
             try
             {
@@ -186,5 +186,6 @@ namespace LoveCraft.Kshub.Services
                 throw new _403Exception();
             }
         }
+       
     }
 }

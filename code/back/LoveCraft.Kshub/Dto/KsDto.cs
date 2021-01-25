@@ -16,7 +16,8 @@ namespace LoveCraft.Kshub.Dto
 
         public string ProjectUrl { get; set; }
 
-        public Guid BelongCollegeId { get; set; }
+        public Guid CollegeId { get; set; }
+        public Guid CLassId{get;set;}
         public Guid ProjectManager { get; set; }
         public List<Guid> Participants { get; set; }
     }

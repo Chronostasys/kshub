@@ -14,6 +14,11 @@ namespace LoveCraft.Kshub.Dto
         public string Email { get; set; }
         public List<string> Roles { get; set; }
         public string AvatarUrl { get; set; }
+        /// <summary>
+        /// 用户所在学院
+        /// </summary>
+        /// <value>Guid</value>
+        public Guid CollegeId{get;set;}
     }
     public class AddUserDto
     {
@@ -24,7 +29,7 @@ namespace LoveCraft.Kshub.Dto
         public string Introduction { get; set; }
         public string Email { get; set; }
         public string AvatarUrl { get; set; }        
-        public Guid BelongId { get; set; }
+        public Guid CollegeId  { get; set; }
     }
     public class LogInDto
     {

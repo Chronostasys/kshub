@@ -17,10 +17,11 @@ namespace LoveCraft.Kshub.Models
         //附件保存链接还是一个IFormFile对象，我觉得是url
         //文件应该会专门放到某个地方
 
-        public Guid BelongCollegeId { get; set; }
+        public Guid CollegeId { get; set; }
         public Guid ProjectManager { get; set; }
         public List<Guid> Participants { get; set; }
         public string SearchAbleString { get; set; }
+        public Guid ClassId{ get; set; }
 
     }
 }

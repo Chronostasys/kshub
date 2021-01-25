@@ -52,7 +52,7 @@ namespace LoveCraft.Kshub.Controllers
         {
             addUserDto.Email = addUserDto.Email.Trim();
             addUserDto.UserId = addUserDto.UserId.Trim();
-            if (string.IsNullOrEmpty(addUserDto.Email)|| string.IsNullOrEmpty(addUserDto.Email))
+            if (string.IsNullOrEmpty(addUserDto.Email)|| string.IsNullOrEmpty(addUserDto.UserId))
             {
                 throw new _400Exception("Email or UserId cannot be empty!");
             }
@@ -69,7 +69,7 @@ namespace LoveCraft.Kshub.Controllers
         {
             addUserDto.Email = addUserDto.Email.Trim();
             addUserDto.UserId = addUserDto.UserId.Trim();
-            if (string.IsNullOrEmpty(addUserDto.Email) || string.IsNullOrEmpty(addUserDto.Email))
+            if (string.IsNullOrEmpty(addUserDto.Email) || string.IsNullOrEmpty(addUserDto.UserId))
             {
                 throw new _400Exception("Email or TeacherId cannot be empty!");
             }
@@ -85,7 +85,7 @@ namespace LoveCraft.Kshub.Controllers
         {
             addUserDto.Email = addUserDto.Email.Trim();
             addUserDto.UserId = addUserDto.UserId.Trim();
-            if (string.IsNullOrEmpty(addUserDto.Email) || string.IsNullOrEmpty(addUserDto.Email))
+            if (string.IsNullOrEmpty(addUserDto.Email) || string.IsNullOrEmpty(addUserDto.UserId))
             {
                 throw new _400Exception("Email or CollegeAdminId cannot be empty!");
             }

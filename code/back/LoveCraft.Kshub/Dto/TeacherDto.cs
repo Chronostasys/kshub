@@ -14,8 +14,6 @@ namespace LoveCraft.Kshub.Dto
     public class GetTeacherDto
     {
         public Guid CourseId { get; set; }
-        public int Page { get; set; }
-        public int PageSize { get; set; }
-        public bool IsDecsending { get; set; }
+
     }
 }

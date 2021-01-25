@@ -115,7 +115,7 @@ namespace LoveCraft.Kshub.Controllers
                 catch (Exception)
                 {
                     throw new _500Exception();
-                }  
+                }
             }
             else
             {

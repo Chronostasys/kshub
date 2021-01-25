@@ -8,7 +8,7 @@ namespace LoveCraft.Kshub.Dto
     public class UserDetailDto
     {
         public string Name { get; set; }
-        public string Id { get; set; }
+        public string UserId { get; set; }
         public string SchoolName { get; set; }
         public string Introduction { get; set; }
         public string Email { get; set; }

@@ -112,7 +112,7 @@ namespace LoveCraft.Kshub.Controllers
         {
             await _kshubService.KshubUserServices.CheckAuth(HttpContext, KshubRoles.Teacher);
             var filter = Builders<Course>.Filter.Eq(t => t.Id, courseId);
-            var teacherIds = await _kshubService.CourseServices.FindFirstAsync(t=>t.Id==courseId,t=>t.TeachersIds);
+            var teacherIds = await _kshubService.CourseServices.FindFirstAsync(t=>t.Id==courseId,t=>t.TeachersId);
             if (!teacherIds.Contains(Guid.Parse(User.Identity.Name))){
                 throw new _403Exception("You can't set ScoreRating");
             }
@@ -169,23 +169,16 @@ namespace LoveCraft.Kshub.Controllers
         }
         [HttpGet]
         [Route("GetTeachers")]
-        public async ValueTask<IEnumerable<UserDetailDto>> GetTeachersAsync(GetTeacherDto getTeacherDto)
+        public async ValueTask GetTeachersAsync()
         {
-            var teacherIds =await _kshubService.CourseServices.GetTeacherIdsAsync(getTeacherDto.CourseId);
-            List<UserDetailDto> lists = new List<UserDetailDto>();
-            foreach(var item in teacherIds)
-            {
-                var Dto = _mapper.Map<UserDetailDto>(await _kshubService.KshubUserServices.GetUserById(item));
-                lists.Add(Dto);
-            }
-            return lists;
+            throw new NotImplementedException();
         }
         [HttpPost]
         [Route("AddTeacher")]
         //Add teacher in Update
-        public async ValueTask AddTeacherAsync(AddTeacherDto addTeacherDto)
+        public async ValueTask AddTeacherAsync()
         {
-            await _kshubService.CourseServices.CreateTeacher(addTeacherDto.CourseId, addTeacherDto.TeacherId);
+            throw new NotImplementedException();
         }
     }
 }

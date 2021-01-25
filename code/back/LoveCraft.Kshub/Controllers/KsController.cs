@@ -37,7 +37,6 @@ namespace LoveCraft.Kshub.Controllers
             ks.Id = Guid.NewGuid();
             var user = await _kshubService.KshubUserServices.FindUserAsync(managerId);
             ks.CollegeId= user.CollegeId;
-
             await _kshubService.KsServices.AddAsync(ks);
         }
 

@@ -16,13 +16,6 @@ namespace LoveCraft.Kshub.Services
     {
         public CourseServices(IDatabaseSettings databaseSettings)
             : base(databaseSettings, databaseSettings.CourseCollection) { }
-
-
-        /// <summary>
-        /// Add a course which not exist in current college
-        /// </summary>
-        /// <param name="course"></param>
-        /// <returns></returns>
         public async ValueTask<Course> AddCourseWithoutCheckingAsync(Course course)
         {
             await collection.InsertOneAsync(course);
@@ -35,13 +28,25 @@ namespace LoveCraft.Kshub.Services
         }
         public async ValueTask RemoveTeacherAsync(Guid courseId,Guid teacherId)
         {
-            var teachers =await collection.Find(t => t.Id == courseId).FirstAsync();
-            if (!teachers.TeachersId.Remove(teacherId))
+            var course =await collection.Find(t => t.Id == courseId).FirstAsync();
+            if (!course.TeachersIds.Remove(teacherId))
             {
                 throw new _401Exception("No such Teacher in this course");
             }
-            var update = Builders<Course>.Update.Set(t => t,teachers);
+            var update = Builders<Course>.Update.Set(t => t,course);
             await collection.UpdateOneAsync(t => t.Id == courseId,update);
+        }
+        public async ValueTask CreateTeacher(Guid courseId, Guid teacherId)
+        {
+            var course = await collection.Find(t => t.Id == courseId).FirstAsync();
+            course.TeachersIds.Add(teacherId);
+            var update = Builders<Course>.Update.Set(t => t, course);
+            await collection.UpdateOneAsync(t => t.Id == courseId, update);
+        }
+        public async ValueTask<List<Guid>> GetTeacherIdsAsync(Guid courseId)
+        {
+            var course = await collection.Find(t => t.Id == courseId).FirstAsync();
+            return course.TeachersIds;
         }
     }
 }

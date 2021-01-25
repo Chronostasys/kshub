@@ -24,7 +24,7 @@ namespace LoveCraft.Kshub.Models
         //the following prosperies will be removed when Groups finished 
         public Guid BelongedCollegeId { get; set; }
         //All a few teacher to manager the same course 
-        public List<Guid> TeachersIds { get; set; }
+        public List<Guid> TeachersId { get; set; }
         public List<Guid> StudentsID { get; set; }
         //---------------------------------------------------
     }

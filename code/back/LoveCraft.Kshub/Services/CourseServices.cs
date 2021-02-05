@@ -29,7 +29,7 @@ namespace LoveCraft.Kshub.Services
         public async ValueTask RemoveTeacherAsync(Guid courseId,Guid teacherId)
         {
             var course =await collection.Find(t => t.Id == courseId).FirstAsync();
-            if (!course.TeachersIds.Remove(teacherId))
+            if (!course.TeacherIds.Remove(teacherId))
             {
                 throw new _401Exception("No such Teacher in this course");
             }
@@ -39,14 +39,14 @@ namespace LoveCraft.Kshub.Services
         public async ValueTask CreateTeacher(Guid courseId, Guid teacherId)
         {
             var course = await collection.Find(t => t.Id == courseId).FirstAsync();
-            course.TeachersIds.Add(teacherId);
+            course.TeacherIds.Add(teacherId);
             var update = Builders<Course>.Update.Set(t => t, course);
             await collection.UpdateOneAsync(t => t.Id == courseId, update);
         }
         public async ValueTask<List<Guid>> GetTeacherIdsAsync(Guid courseId)
         {
             var course = await collection.Find(t => t.Id == courseId).FirstAsync();
-            return course.TeachersIds;
+            return course.TeacherIds;
         }
     }
 }

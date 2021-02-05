@@ -27,11 +27,12 @@ namespace LoveCraft.Kshub.Controllers
             this.env = env;
         }
         [HttpPost("AddCollege")]
-        public async ValueTask AddCollegeAsync(AddCollegeDto addCollegeDto)
+        public async ValueTask<CollegeDetailDto> AddCollegeAsync(AddCollegeDto addCollegeDto)
         {
             var c = _mapper.Map<College>(addCollegeDto);
             c.Id = Guid.NewGuid();
-            await _kshubService.CollegeServices.AddCollegeWithCheckingAsync(c);
+            return _mapper.Map<CollegeDetailDto>(
+                await _kshubService.CollegeServices.AddCollegeWithCheckingAsync(c));
         }
 
         [HttpGet("GetCollege/{name}")]

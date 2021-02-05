@@ -33,7 +33,7 @@ namespace LoveCraft.Kshub.Controllers
         [HttpPost]
         [Route("AddUniveristy")]
         //[Authorize(Roles =KshubRoles.Admin)]
-        public async ValueTask<UniDetailDto> AddUniAsync(AddUnilDto addUnilDto)
+        public async ValueTask<UniDetailDto> AddUniAsync(AddUniDto addUnilDto)
         {
             var uni = _mapper.Map<University>(addUnilDto);
             uni.Id = Guid.NewGuid();

@@ -7,6 +7,7 @@ namespace LoveCraft.Kshub.Models
 {
     public class Ks : Entity, ISearchAble
     {
+        public Guid CourseId{get;set;}
         public string Name { get; set; }
         public string CoverUrl { get; set; }
         public string Abstract { get; set; }

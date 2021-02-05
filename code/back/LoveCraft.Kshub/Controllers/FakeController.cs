@@ -35,6 +35,7 @@ namespace LoveCraft.Kshub.Controllers
             var uniCtr = new UniversityController(_kshubService,_env,_mapper);
             CollegeController collCtr = new CollegeController(_kshubService,_mapper,_env);
             var ksCtr= new KsController(_kshubService,_env,_mapper);
+            var cCtr = new CourseController(_kshubService,_mapper,_env);
             var de = await uniCtr.AddUniAsync(new AddUniDto
             {
                 Name="周犬是沙雕大学",
@@ -54,17 +55,24 @@ namespace LoveCraft.Kshub.Controllers
                 uids.Add(item.Id);
             }
             var admin = await AddCollegeAdminAsync(college.Id);
+            var cid = await cCtr.AddCourseAsync(new AddCourseDto
+            {
+                Name = "生艹课",
+                TeacherIds = uids,
+                Description = "wowowowowowowowowwwww",
+                CoverUrl="https://th.bing.com/th/id/OIP.zHNUC0rIIK61Kx6lxDqT5gHaEK?w=285&h=180&c=7&o=5&dpr=2&pid=1.7"
+            },admin.Id);
             
             var ks = _mapper.Map<Ks>(new AddKsDto
             {
-                Name = "生艹研究",
+                Name = "生艹课设",
                 Description = "wowowowowowowowowwwww",
                 Abstract = "如何高效生艹",
                 Participants = uids,
                 CoverUrl = "https://th.bing.com/th/id/OIP.zHNUC0rIIK61Kx6lxDqT5gHaEK?w=285&h=180&c=7&o=5&dpr=2&pid=1.7",
                 ProjectUrl = "https://www.limfx.pro",
                 Keywords = new List<string>{"wow","Wow","WoW"},
-
+                CourseId = cid
             });
             var managerId = admin.Id;
             ks.ProjectManager = managerId;
@@ -113,7 +121,7 @@ namespace LoveCraft.Kshub.Controllers
                         Email = (100 + i).ToString() + "@test.com",
                         PassWordHash = "12345678a",
                         IsEmailConfirmed=true,
-                        Roles = new List<string> { "User" },
+                        Roles = new List<string> { "User", KshubRoles.Teacher },
                         CollegeId = collegeId
                     }); 
             }

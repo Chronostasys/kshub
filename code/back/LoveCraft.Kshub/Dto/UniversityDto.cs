@@ -14,7 +14,7 @@ namespace LoveCraft.Kshub.Dto
         public string CoverUrl { get; set; }
 
     }
-    public class AddUnilDto
+    public class AddUniDto
     {
         public string Name { get; set; }
         public string Desciption { get; set; }

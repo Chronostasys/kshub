@@ -26,6 +26,41 @@ namespace LoveCraft.Kshub.Controllers
             _env = env;
             _mapper = mapper;
         }
+        [HttpGet("fakeall")]
+        public async ValueTask FakeAll()
+        {
+            List<Guid> uids = new List<Guid>();
+            await foreach (var item in AddFakeUser())
+            {
+                uids.Add(item.Id);
+            }
+            var uniCtr = new UniversityController(_kshubService,_env,_mapper);
+            CollegeController collCtr = new CollegeController(_kshubService,_mapper,_env);
+            var ksCtr= new KsController(_kshubService,_env,_mapper);
+            var de = await uniCtr.AddUniAsync(new AddUniDto
+            {
+                Name="周犬是沙雕大学",
+                Desciption="周犬是一种神奇的犬类生物，是一种上古神兽",
+                CoverUrl="https://th.bing.com/th/id/OIP.zHNUC0rIIK61Kx6lxDqT5gHaEK?w=285&h=180&c=7&o=5&dpr=2&pid=1.7"
+            });
+            await collCtr.AddCollegeAsync(new AddCollegeDto
+            {
+                Name = "生艹学院",
+                Description = "wowowowowowowowowwwww",
+                BelongUniId = de.Id,
+                CoverUrl="https://th.bing.com/th/id/OIP.zHNUC0rIIK61Kx6lxDqT5gHaEK?w=285&h=180&c=7&o=5&dpr=2&pid=1.7"
+            });
+            await ksCtr.AddKsAsync(new AddKsDto
+            {
+                Name = "生艹研究",
+                Description = "wowowowowowowowowwwww",
+                Abstract = "如何高效生艹",
+                Participants = uids,
+                CoverUrl = "https://th.bing.com/th/id/OIP.zHNUC0rIIK61Kx6lxDqT5gHaEK?w=285&h=180&c=7&o=5&dpr=2&pid=1.7",
+                ProjectUrl = "https://www.limfx.pro",
+                Keywords = new List<string>{"wow","Wow","WoW"}
+            });
+        }
 
         [HttpGet("dropuser")]
         public async ValueTask DropUser()
@@ -35,11 +70,11 @@ namespace LoveCraft.Kshub.Controllers
 
         [HttpPost]
         [Route("AddFakeUser")]
-        public async ValueTask AddFakeUser()
+        public async IAsyncEnumerable<KshubUser> AddFakeUser()
         {
             for (int i = 0; i < 20; i++)
             {
-                await _kshubService.KshubUserServices.AddUserWithCheckAsync(
+                yield return await _kshubService.KshubUserServices.AddUserWithCheckAsync(
                     new KshubUser
                     {
                         Id = Guid.NewGuid(),

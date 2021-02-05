@@ -29,7 +29,7 @@
                 <th><abbr>上传日期</abbr></th>
               </tr>
             </thead>
-              <tbody class="Kstable" v-for="(user,i) in this.Ks" :key=i>
+              <tbody class="Kstable" v-for="(item,i) in this.Ks" :key="i">
                 <tr>
                   <td>{{user.name}}</td>
                   <td>{{user.profession}}</td>
@@ -99,25 +99,12 @@ getCourses(){
       }).catch((err)=>{console.log(err);
       });
   }
-  addUsers(){
-    this.getUsers()
-  }
-  addKs(){
-    this.getKs()
-  }
-  getUsers(){
-    Axios.get('/api/User').then((res)=>{
-      console.log(res.data);
-      this.user=res.data;
-    }).catch((err)=>{console.log(err);
-    });
-  }
   getKs(){
-    Axios.get('/api/Ks').then((res)=>{
+    Axios.get('/api/Ks/6e690336-ee6f-433d-ab76-75ca9b16f92a').then((res)=>{
       console.log(res.data);
       this.Ks=res.data;
-      }).catch((err)=>{console.log(err);
-      })
+    }).catch((err)=>{console.log(err);
+    });
   }
   newProj(){
     this.cssClass = 'modal is-active';

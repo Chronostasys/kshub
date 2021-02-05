@@ -12,6 +12,7 @@ namespace LoveCraft.Kshub.Dto
         public string CoverUrl { get; set; }
         public string Abstract { get; set; }
         public string Description { get; set; }
+        public DateTime CreateTime{ get; set; }
         public List<string> Keywords { get; set; }
 
         public string ProjectUrl { get; set; }

@@ -83,7 +83,7 @@ namespace LoveCraft.Kshub
                 config.CreateMap<KshubUser, UserDetailDto>();
                 config.CreateMap<AddUserDto, KshubUser>();
                 config.CreateMap<LogInDto, KshubUser>();
-                config.CreateMap<AddUnilDto, University>();
+                config.CreateMap<AddUniDto, University>();
                 config.CreateMap<University, UniDetailDto>();
                 config.CreateMap<College, CollegeDetailDto>();
                 config.CreateMap<AddCollegeDto, College>();
@@ -94,7 +94,7 @@ namespace LoveCraft.Kshub
                 config.CreateMap<Ks, KsDetailDto>();
             }, typeof(KshubUser), typeof(UserDetailDto), typeof(LogInDto)
            ,typeof(AddUserDto)
-            ,typeof(AddUnilDto),typeof(University), typeof(UniDetailDto)
+            ,typeof(AddUniDto),typeof(University), typeof(UniDetailDto)
             ,typeof(College),typeof(CollegeDetailDto),typeof(AddCollegeDto)
             ,typeof(Course), typeof(CourseDetailDto),typeof(AddCourseDto)
             ,typeof(Class),typeof(AddClassDto)

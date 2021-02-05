@@ -51,7 +51,7 @@ namespace LoveCraft.Kshub.Controllers
             {
                 var ksids = await _kshubService
                     .CourseServices.FindFirstAsync(c=>c.Id==courseId.Value,p=>p.KsList);
-                filter&=builder.In(Ks=>Ks.Id, ksids);
+                filter&=builder.In(ks=>ks.Id, ksids);
             }
             return await _kshubService.KsServices.GetAsync(t => _mapper.Map<KsDetailDto>(t),
                 page,pagesize,"UpdateTime",IsDescending, filter:filter);

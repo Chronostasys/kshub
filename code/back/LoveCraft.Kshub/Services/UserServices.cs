@@ -123,6 +123,7 @@ namespace LoveCraft.Kshub.Services
             {
                 throw new _401Exception("Password is not strong enough!");
             }
+            user.IsEmailConfirmed = true;
             user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
             await AddAsync(user);
             return user;

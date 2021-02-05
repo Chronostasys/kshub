@@ -20,8 +20,11 @@ namespace LoveCraft.Kshub.Controllers
         private KshubService _kshubService { get;}
         private IHostEnvironment _env { get; }
         private IMapper _mapper { get; }
-        public FakeController(KshubService kshubService,IHostEnvironment env,IMapper mapper)
+        IDatabaseSettings _settings {get;}
+        public FakeController(KshubService kshubService,IHostEnvironment env,
+            IMapper mapper, IDatabaseSettings settings)
         {
+            _settings = settings;
             _kshubService = kshubService;
             _env = env;
             _mapper = mapper;
@@ -60,6 +63,24 @@ namespace LoveCraft.Kshub.Controllers
                 ProjectUrl = "https://www.limfx.pro",
                 Keywords = new List<string>{"wow","Wow","WoW"}
             });
+        }
+        [HttpGet("dropall")]
+        public async ValueTask DropAll()
+        {
+            var type = _settings.GetType();
+            var props = type.GetProperties();
+            var db = _kshubService.KshubUserServices.collection.Database;
+            foreach (var item in props)
+            {
+                try
+                {
+                    await db.DropCollectionAsync(item.GetValue(_settings) as string);
+                }
+                catch (System.Exception)
+                {
+                }
+                
+            }
         }
 
         [HttpGet("dropuser")]

@@ -41,12 +41,20 @@ namespace LoveCraft.Kshub.Controllers
             await _kshubService.KsServices.AddAsync(ks);
         }
 
-        [HttpGet]
+        [HttpGet("/{courseId?}")]
         public async ValueTask<IEnumerable<KsDetailDto>> GetKsDetailAsync
-            (int page=0,int pagesize = 10,bool IsDescending=true)
+            (Guid? courseId, int page=0,int pagesize = 10,bool IsDescending=true)
         {
+            var builder = Builders<Ks>.Filter;
+            var filter = builder.Empty;
+            if (courseId.HasValue)
+            {
+                var ksids = await _kshubService
+                    .CourseServices.FindFirstAsync(c=>c.Id==courseId.Value,p=>p.KsList);
+                filter&=builder.In(Ks=>Ks.Id, ksids);
+            }
             return await _kshubService.KsServices.GetAsync(t => _mapper.Map<KsDetailDto>(t),
-                page,pagesize,"UpdateTime",IsDescending, filter:null);
+                page,pagesize,"UpdateTime",IsDescending, filter:filter);
         }
 
     }

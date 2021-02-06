@@ -41,7 +41,7 @@ namespace LoveCraft.Kshub.Controllers
             await _kshubService.KsServices.AddAsync(ks);
         }
 
-        [HttpGet("/{courseId?}")]
+        [HttpGet("{courseId?}")]
         public async ValueTask<IEnumerable<KsDetailDto>> GetKsDetailAsync
             (string courseId, int page=0,int pagesize = 10,bool IsDescending=true)
         {

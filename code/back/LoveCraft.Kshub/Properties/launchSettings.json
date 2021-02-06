@@ -22,7 +22,7 @@
         "EmailSender": "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",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }

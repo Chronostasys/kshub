@@ -43,10 +43,18 @@ namespace LoveCraft.Kshub.Services
                 user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
                 collection.InsertOne(user);
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }
+            // create indexes
+            List<CreateIndexModel<KshubUser>> indexes = new();
+            var indexBuilder = Builders<KshubUser>.IndexKeys;
+            var uidindex = indexBuilder.Ascending(u=>u.UserId);
+            var op = new CreateIndexOptions<KshubUser>();
+            op.Unique = true;
+            indexes.Add(new(uidindex, op));
+            collection.Indexes.CreateManyAsync(indexes);
         }
         /// <summary>
         /// return certain user or throw an exception if not find
@@ -61,7 +69,7 @@ namespace LoveCraft.Kshub.Services
                 var user = await collection.Find(filter).FirstAsync();
                 return user;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new _401Exception("Cannot find this User");
             }
@@ -85,28 +93,6 @@ namespace LoveCraft.Kshub.Services
             return pwhash.Hash + pwhash.Salt;
         }
 
-        public async ValueTask CheckAvailableAsync(string email, string userId)
-        {
-            bool havaException = false;
-            try
-            {
-                await FindUserAsync(userId);
-                havaException = true;
-            }
-            catch { }
-            if (havaException)
-                throw new _401Exception("This userId has been taken");
-            havaException = false;
-            try
-            {
-                await GetUserByEmailAsync(email);
-                havaException = true;
-            }
-            catch { }
-            if (havaException)
-                throw new _401Exception("This email has been taken");
-
-        }
         /// <summary>
         /// Add an user with checking UserId and email
         /// </summary>
@@ -114,7 +100,6 @@ namespace LoveCraft.Kshub.Services
         /// <returns></returns>
         public async ValueTask<KshubUser> AddUserWithCheckAsync(KshubUser user)
         {
-            await CheckAvailableAsync(user.Email, user.UserId);
             var validater = new PasswordValidator();
             //validater.SetLengthBounds(8, 20);
             //validater.AddCheck(EzPasswordValidator.Checks.CheckTypes.Letters);
@@ -125,7 +110,15 @@ namespace LoveCraft.Kshub.Services
             }
             user.IsEmailConfirmed = true;
             user.PassWordHash = HashPasswordWithSalt(user.PassWordHash);
-            await AddAsync(user);
+            try
+            {
+                await AddAsync(user);
+            }
+            catch (System.Exception)
+            {
+                
+                throw new _401Exception("Email or userId has already been taken!");
+            }
             return user;
         }
 

@@ -29,6 +29,14 @@ namespace LoveCraft.Kshub.Controllers
             _env = env;
             _mapper = mapper;
         }
+
+        [HttpGet("DropAndFake")]
+        public async ValueTask DropAndFake()
+        {
+            await DropAll();
+            await FakeAll();
+        }
+
         [HttpGet("fakeall")]
         public async ValueTask FakeAll()
         {

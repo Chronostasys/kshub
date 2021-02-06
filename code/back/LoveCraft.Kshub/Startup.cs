@@ -51,9 +51,6 @@ namespace LoveCraft.Kshub
                     };
                 };
             });
-            services.AddAuthentication();
-            services.AddAuthorization();
-            services.AddControllers();
             IConfiguration config;
             config = Configuration.GetSection(nameof(MongoDbSettings));
             services.Configure<MongoDbSettings>(config);
@@ -105,6 +102,8 @@ namespace LoveCraft.Kshub
                 {
                     op.Events.OnRedirectToAccessDenied += (o) => throw new Exception("UnAuthorized!");
                 });
+            services.AddAuthorization();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

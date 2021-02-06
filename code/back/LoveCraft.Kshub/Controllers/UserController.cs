@@ -43,8 +43,8 @@ namespace LoveCraft.Kshub.Controllers
         public async ValueTask<IEnumerable<UserDetailDto>> GetUsersAsync([FromQuery]Guid[] id)
         {
             var us = await _kshubService.KshubUserServices
-                    .GetAsync(t => _mapper.Map<UserDetailDto>(t),0,100,
-                    Builders<KshubUser>.Filter.In(u=>u.Id, id));
+                .GetAsync(t => _mapper.Map<UserDetailDto>(t),0,100,
+                Builders<KshubUser>.Filter.In(u=>u.Id, id));
             return  us;
         }
 

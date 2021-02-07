@@ -90,17 +90,18 @@ export default class Home extends Vue {
     })
   }
 addCourse(){
-    this.getCourses()
+    this.getCourse()
   }
-getCourses(){
-    Axios.get('/api/Course').then((res)=>{
+getCourse(){
+    Axios.get('/api/Course/GetCourse?id')
+    .then((res)=>{
       console.log(res.data);
       this.course=res.data;
       }).catch((err)=>{console.log(err);
       });
   }
   getKs(){
-    Axios.get('/api/Ks/6e690336-ee6f-433d-ab76-75ca9b16f92a').then((res)=>{
+    Axios.get('/api/Ks/id').then((res)=>{
       console.log(res.data);
       this.Ks=res.data;
     }).catch((err)=>{console.log(err);

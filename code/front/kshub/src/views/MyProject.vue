@@ -86,7 +86,7 @@
                 </div>
                 <footer class="card-footer">
                   <a href="#" class="card-footer-item">添加</a>
-                  <a href="" class="card-footer-item" @click="jumpCourses()">详细</a>
+                  <a href="" class="card-footer-item" @click="jumpCourses(courses.id)">详细</a>
                   <a href="#" class="card-footer-item">删除</a>
                 </footer>
               </div>
@@ -150,8 +150,9 @@ export default class Home extends Vue {
   close(){
     this.cssClass = 'modal';
   }
-  jumpCourses(){
-    this.$router.push("/Courses")
+  jumpCourses(id:string){
+    // 见../router/index.ts 38行
+    this.$router.push("/Courses/"+id);
     
   }
   @Prop()

@@ -80,7 +80,12 @@ export default class Home extends Vue {
   items = [];
   Ks=[];
   prevHighlightIndex = 0;
+  id:string = "";
   created(){
+    // 从url获取id
+    this.id = this.$route.params['id'];
+
+
     Axios.get(`/api/Course/GetCourses?page=${this.page}&pagesize=${this.size}&IsAscending=true`)
     .then((re)=>{
       this.items = (re.data as any[]).map(v=>{

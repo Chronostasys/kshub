@@ -14,30 +14,23 @@ namespace LoveCraft.Kshub.Services
     public class UniversityServices:DbQueryServices<University>
     {
         public UniversityServices(IDatabaseSettings settings)
-            : base(settings, settings.UniversityCollection) { }
-
-        private async ValueTask CheckUniNameAsync(string name)
+            : base(settings, settings.UniversityCollection)
         {
-            bool exist = false;
-            try
-            {
-                var filter = Builders<University>.Filter.Eq(t => t.Name, name);
-                var re = collection.Find(filter).First();
-                exist = true;
-            }
-            catch
-            {
-
-            }
-            if (exist)
-            {
-                throw new _401Exception("This uni exists!");
-            }
+            List<CreateIndexModel<University>> indexes = new();
+            var indexBuilder = Builders<University>.IndexKeys;
+            indexes.Add(new(indexBuilder.Ascending(u=>u.Name), new(){Unique=true}));
+            collection.Indexes.CreateManyAsync(indexes);
         }
         public async ValueTask<University> AddUniWithCheckAsync(University university)
         {
-            await CheckUniNameAsync(university.Name);
-            await collection.InsertOneAsync(university);
+            try
+            {
+                await collection.InsertOneAsync(university);
+            }
+            catch (System.Exception e)
+            {
+                throw new _401Exception("This uni exists!", e);
+            }
             return university;
         }
 

@@ -30,15 +30,21 @@ namespace LoveCraft.Kshub.Controllers
             _mapper = mapper;
             env = hostEnvironment;
         }
-        
+
         [HttpPost]
         [Route("AddCourse")]
         public async ValueTask<Guid> AddCourseAsync(AddCourseDto addCourseDto)
         {
+            var collegeAdminId=Guid.Parse(User.Identity.Name);
+            return await AddCourseAsync(addCourseDto, collegeAdminId);
+        }
+        
+        internal async ValueTask<Guid> AddCourseAsync(AddCourseDto addCourseDto, Guid collegeAdminId)
+        {
             
             var course = _mapper.Map<Course>(addCourseDto);
             course.Id = Guid.NewGuid();
-            var collegeAdminId=Guid.Parse(User.Identity.Name);
+            
             await _kshubService.KshubUserServices.CheckAuthAsync(KshubRoles.CollegeAdmin, collegeAdminId);
             var collegeId = await _kshubService.KshubUserServices.FindFirstAsync(t => t.Id == collegeAdminId, t => t.CollegeId);
 
@@ -112,7 +118,7 @@ namespace LoveCraft.Kshub.Controllers
         {
             await _kshubService.KshubUserServices.CheckAuth(HttpContext, KshubRoles.Teacher);
             var filter = Builders<Course>.Filter.Eq(t => t.Id, courseId);
-            var teacherIds = await _kshubService.CourseServices.FindFirstAsync(t=>t.Id==courseId,t=>t.TeachersIds);
+            var teacherIds = await _kshubService.CourseServices.FindFirstAsync(t=>t.Id==courseId,t=>t.TeacherIds);
             if (!teacherIds.Contains(Guid.Parse(User.Identity.Name))){
                 throw new _403Exception("You can't set ScoreRating");
             }

@@ -51,9 +51,6 @@ namespace LoveCraft.Kshub
                     };
                 };
             });
-            services.AddAuthentication();
-            services.AddAuthorization();
-            services.AddControllers();
             IConfiguration config;
             config = Configuration.GetSection(nameof(MongoDbSettings));
             services.Configure<MongoDbSettings>(config);
@@ -83,7 +80,7 @@ namespace LoveCraft.Kshub
                 config.CreateMap<KshubUser, UserDetailDto>();
                 config.CreateMap<AddUserDto, KshubUser>();
                 config.CreateMap<LogInDto, KshubUser>();
-                config.CreateMap<AddUnilDto, University>();
+                config.CreateMap<AddUniDto, University>();
                 config.CreateMap<University, UniDetailDto>();
                 config.CreateMap<College, CollegeDetailDto>();
                 config.CreateMap<AddCollegeDto, College>();
@@ -94,7 +91,7 @@ namespace LoveCraft.Kshub
                 config.CreateMap<Ks, KsDetailDto>();
             }, typeof(KshubUser), typeof(UserDetailDto), typeof(LogInDto)
            ,typeof(AddUserDto)
-            ,typeof(AddUnilDto),typeof(University), typeof(UniDetailDto)
+            ,typeof(AddUniDto),typeof(University), typeof(UniDetailDto)
             ,typeof(College),typeof(CollegeDetailDto),typeof(AddCollegeDto)
             ,typeof(Course), typeof(CourseDetailDto),typeof(AddCourseDto)
             ,typeof(Class),typeof(AddClassDto)
@@ -105,6 +102,8 @@ namespace LoveCraft.Kshub
                 {
                     op.Events.OnRedirectToAccessDenied += (o) => throw new Exception("UnAuthorized!");
                 });
+            services.AddAuthorization();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

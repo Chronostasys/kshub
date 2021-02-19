@@ -81,6 +81,9 @@
                         <a class="navbar-item" @click="jumpMyCourse">
                             全部课程
                         </a>
+                        <a class="navbar-item" @click="newProj">
+                            新建课设
+                        </a>
                         <hr class="navbar-divider">
                         <a class="navbar-item" @click="jumpCourses">
                             某课程页面（测试用）

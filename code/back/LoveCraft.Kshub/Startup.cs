@@ -74,8 +74,8 @@ namespace LoveCraft.Kshub
                 op.TemplateDir = "Index.cshtml";
             });
 
-            //添加了IEnumerable会不会有一点小问题？
-            //并没有添加typeof
+            //������IEnumerable�᲻����һ��С���⣿
+            //��û������typeof
             services.AddAutoMapper(config=> {
                 config.CreateMap<KshubUser, UserDetailDto>();
                 config.CreateMap<AddUserDto, KshubUser>();

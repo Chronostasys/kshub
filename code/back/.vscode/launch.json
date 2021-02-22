@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/LoveCraft.Kshub/bin/Debug/netcoreapp3.1/LoveCraft.Kshub.dll",
+            "program": "${workspaceFolder}/LoveCraft.Kshub/bin/Debug/net5.0/LoveCraft.Kshub.dll",
             "args": [],
             "cwd": "${workspaceFolder}/LoveCraft.Kshub",
             "stopAtEntry": false,

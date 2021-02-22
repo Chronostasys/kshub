@@ -29,7 +29,7 @@
                 <th><abbr>上传日期</abbr></th>
               </tr>
             </thead>
-              <tbody class="Kstable" v-for="(user,i) in this.Ks" :key=i>
+              <tbody class="Kstable" v-for="(item,i) in this.Ks" :key="i">
                 <tr>
                   <td>{{user.name}}</td>
                   <td>{{user.profession}}</td>
@@ -80,7 +80,12 @@ export default class Home extends Vue {
   items = [];
   Ks=[];
   prevHighlightIndex = 0;
+  id:string = "";
   created(){
+    // 从url获取id
+    this.id = this.$route.params['id'];
+
+
     Axios.get(`/api/Course/GetCourses?page=${this.page}&pagesize=${this.size}&IsAscending=true`)
     .then((re)=>{
       this.items = (re.data as any[]).map(v=>{
@@ -90,34 +95,22 @@ export default class Home extends Vue {
     })
   }
 addCourse(){
-    this.getCourses()
+    this.getCourse()
   }
-getCourses(){
-    Axios.get('/api/Course').then((res)=>{
+getCourse(){
+    Axios.get('/api/Course/GetCourse?id')
+    .then((res)=>{
       console.log(res.data);
       this.course=res.data;
       }).catch((err)=>{console.log(err);
       });
   }
-  addUsers(){
-    this.getUsers()
-  }
-  addKs(){
-    this.getKs()
-  }
-  getUsers(){
-    Axios.get('/api/User').then((res)=>{
-      console.log(res.data);
-      this.user=res.data;
-    }).catch((err)=>{console.log(err);
-    });
-  }
   getKs(){
-    Axios.get('/api/Ks').then((res)=>{
+    Axios.get('/api/Ks/id').then((res)=>{
       console.log(res.data);
       this.Ks=res.data;
-      }).catch((err)=>{console.log(err);
-      })
+    }).catch((err)=>{console.log(err);
+    });
   }
   newProj(){
     this.cssClass = 'modal is-active';

@@ -72,121 +72,21 @@
         
         <div class="column is-three-quarters">
           <div class="tile is-ancestor">
-            <div class="tile is-parent">
-              <div class="card">
+            <div class="tile is-parent" >
+              <div v-for="(courses,i) in this.courses" :key="i" class="card">
                 <header class="card-header">
                   <p class="card-header-title">
-                    软件工程
+                    {{courses.name}}
                   </p>
                 </header>
                 <div class="card-content">
                   <div class="content">
-                    软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
+                    {{courses.description}}
                   </div>
                 </div>
                 <footer class="card-footer">
                   <a href="#" class="card-footer-item">添加</a>
-                  <a href="/Courses" class="card-footer-item">详细</a>
-                  <a href="#" class="card-footer-item">删除</a>
-                </footer>
-              </div>
-            </div>
-            <div class=" tile is-parent">
-              <div class="card">
-                <header class="card-header">
-                  <p class="card-header-title">
-                    软件工程
-                  </p>
-                </header>
-                <div class="card-content">
-                  <div class="content">
-                    软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
-                  </div>
-                </div>
-                <footer class="card-footer">
-                  <a href="#" class="card-footer-item">添加</a>
-                  <a href="/Courses" class="card-footer-item">详细</a>
-                  <a href="#" class="card-footer-item">删除</a>
-                </footer>
-              </div>
-            </div>
-
-            <div class="tile is-parent">
-              <div class="card">
-                <header class="card-header">
-                  <p class="card-header-title">
-                    软件工程
-                  </p>
-                </header>
-                <div class="card-content">
-                  <div class="content">
-                    软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
-                  </div>
-                </div>
-                <footer class="card-footer">
-                  <a href="#" class="card-footer-item">添加</a>
-                  <a href="/Courses" class="card-footer-item">详细</a>
-                  <a href="#" class="card-footer-item">删除</a>
-                </footer>
-              </div>
-            </div>
-          </div>
-
-          <div class="tile is-ancestor">
-            <div class="tile is-parent">
-              <div class="card">
-                <header class="card-header">
-                  <p class="card-header-title">
-                    软件工程
-                  </p>
-                </header>
-                <div class="card-content">
-                  <div class="content">
-                    软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
-                  </div>
-                </div>
-                <footer class="card-footer">
-                  <a href="#" class="card-footer-item">添加</a>
-                  <a href="/Courses" class="card-footer-item">详细</a>
-                  <a href="#" class="card-footer-item">删除</a>
-                </footer>
-              </div>
-            </div>
-            <div class=" tile is-parent">
-              <div class="card">
-                <header class="card-header">
-                  <p class="card-header-title">
-                    软件工程
-                  </p>
-                </header>
-                <div class="card-content">
-                  <div class="content">
-                    软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
-                  </div>
-                </div>
-                <footer class="card-footer">
-                  <a href="#" class="card-footer-item">添加</a>
-                  <a href="/Courses" class="card-footer-item">详细</a>
-                  <a href="#" class="card-footer-item">删除</a>
-                </footer>
-              </div>
-            </div>
-
-            <div class="tile is-parent">
-              <div class="card">
-                <header class="card-header">
-                  <p class="card-header-title">
-                    软件工程
-                  </p>
-                </header>
-                <div class="card-content">
-                  <div class="content">
-                    软件工程是一门研究用工程化方法构建和维护有效的、实用的和高质量的软件的学科。它涉及程序设计语言、数据库、软件开发工具、系统平台、标准、设计模式等方面。
-                  </div>
-                </div>
-                <footer class="card-footer">
-                  <a href="#" class="card-footer-item">添加</a>
-                  <a href="/Courses" class="card-footer-item">详细</a>
+                  <a href="" class="card-footer-item" @click="jumpCourses(courses.id)">详细</a>
                   <a href="#" class="card-footer-item">删除</a>
                 </footer>
               </div>
@@ -204,6 +104,7 @@ import Login from '../components/Login/Login.vue'
 import NewProject from '../components/New Project/NewProject.vue'
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import Axios from 'axios';
+import axios from 'axios';
 
 
 
@@ -229,14 +130,18 @@ export default class Home extends Vue {
   };
   page = 0;
   items = [];
+  courses=[];
+  item=[];
   prevHighlightIndex = 0;
   created(){
-    Axios.get(`/api/Course/GetCourses?page=${this.page}&pagesize=${this.size}&IsAscending=true`)
-    .then((re)=>{
-      this.items = (re.data as any[]).map(v=>{
-        v.ishighlight = false;
-        return v;
-      });
+    this.getCourses()
+  }
+  getCourses(){
+    axios.get(`/api/Course/GetCourses?page=${this.page}&pagesize=${this.size}&IsAscending=true`)
+    .then((res)=>{
+      console.log(res.data);
+      this.courses=res.data;
+    }).catch((err)=>{console.log(err);
     })
   }
   newProj(){
@@ -244,6 +149,11 @@ export default class Home extends Vue {
   }
   close(){
     this.cssClass = 'modal';
+  }
+  jumpCourses(id:string){
+    // 见../router/index.ts 38行
+    this.$router.push("/Courses/"+id);
+    
   }
   @Prop()
   highLight='highlight'

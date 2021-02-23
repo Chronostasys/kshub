@@ -33,7 +33,7 @@
                                 <div class="field">
                                     <label class="label has-text-left">学校</label>
                                         <div class="control">
-                                            <div class="select" @onchange="getCourses(University.id)" v-for="(University,i) in this.University" :key="i">
+                                            <div class="select" @onchange="getCourses(Universities.id)" v-for="(Universities,i) in this.Universities" :key="i">
                                                 <select>
                                                     <option>{{Universities.name}}</option>
                                                 </select>
@@ -134,7 +134,7 @@ export default class Login extends Vue {
             alert(err);
         })
     }
-    University=[];
+    Universities=[];
     College=[];
     uniid='';
     page=0;
@@ -143,8 +143,8 @@ export default class Login extends Vue {
     getUniversities(){
         Axios.get('/api/University/GetUniversities').then((res)=>{
             console.log(res.data);
-            this.University=res.data;
-            let ids =this.University.map((Universities,i,l)=>Universities.id) as string[];
+            this.Universities=res.data;
+            let ids =this.Universities.map((Universities,i,l)=>Universities.id) as string[];
             let s=ids.join('&id=');
             this.getUniColleges(s);
         }).catch((err)=>{console.log(err);

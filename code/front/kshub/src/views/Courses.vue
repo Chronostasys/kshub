@@ -68,14 +68,6 @@ export default class Home extends Vue {
   size = 10;
   course=[];
   user=[];
-  courseDetail = {
-    "id": "adad0f85-2fea-4ce1-8ca6-5fcc87b0b962",
-    "name": "string13",
-    "coverUrl": "string",
-    "description": "string",
-    "teacherIds": [],
-    "scoreRating": {}
-  };
   page = 0;
   items = [];
   Ks=[];
@@ -140,16 +132,6 @@ getCourse(){
   }
   @Prop()
   highLight='highlight'
-  highlight(item:any, index:number){
-    const element = this.items[this.prevHighlightIndex];
-    element.ishighlight=false;
-    this.prevHighlightIndex = index;
-    item.ishighlight=true;
-    Axios.get('/api/Course/GetCourse?id='+item.id)
-      .then(re=>{
-        this.courseDetail = re.data;
-      })
-  }
 }
 
 </script>

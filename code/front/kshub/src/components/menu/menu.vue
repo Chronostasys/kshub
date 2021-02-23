@@ -1,6 +1,7 @@
 <template>
 <div>
   <NewProject :modalCssClass="cssClass" @close="close"/>
+  <NewCourse :modalCssClass="newCourseClass" @close="close1"/>
     <Login :modalCssClass="loginClass"
         @close="closeLogin"></Login>
     <nav class="navbar">
@@ -84,6 +85,9 @@
                         <a class="navbar-item" @click="newProj">
                             新建课设
                         </a>
+                        <a class="navbar-item" @click="newCourse">
+                            新建课程
+                        </a>
                     </div>
                 </div>
             </div>
@@ -139,13 +143,15 @@ import Login from '@/components/Login/Login.vue'
 import Axios from 'axios';
 import { UserInfo, STRINGS } from '../../common/STRINGS'
 import Router from 'vue-router'
+import NewCourse from '@/components/New Course/NewCourse.vue'
 
 
 @Component({
   components:{
     NewProject,
     Login,
-    UserCenter
+    UserCenter,
+    NewCourse
   }
 })
 
@@ -153,7 +159,8 @@ export default class Menu extends Vue {
   @Prop()
   userInfo:UserInfo;
   cssClass = 'modal';
-  loginClass = 'modal'
+  newCourseClass='modal';
+  loginClass = 'modal';
   MyMenuClass='';
   dropdown = ''
   strs = STRINGS;
@@ -182,8 +189,14 @@ export default class Menu extends Vue {
   closeLogin(){
     this.loginClass = 'modal';
   }
+  newCourse(){
+    this.newCourseClass= 'modal is-active';
+  }
   newProj(){
     this.cssClass = 'modal is-active';
+  }
+  close1(){
+    this.newCourseClass='modal';
   }
   close(){
     this.cssClass = 'modal';
@@ -199,9 +212,6 @@ export default class Menu extends Vue {
   }
   jumpUserPage(){
       this.$router.push("/user/"+this.userInfo.userId);
-  }
-  jumpCourses(){
-      this.$router.push("/Courses")
   }
   signout(){
       Axios.post(STRINGS.signoutApi,).then((params)=>{

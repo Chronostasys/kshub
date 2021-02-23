@@ -10,10 +10,10 @@
                 </div>
                 <div class="column">
                   <div class="control">
-                    <div class="select">
+                    <div class="select" v-for="(Universities,i) in this.Universities" :key="i">
                       <select>
                           <option>空</option>
-                          <option>华中科技大学</option>
+                          <option>{{Universities.name}}</option>
                       </select>
                     </div>
                   </div>
@@ -133,9 +133,19 @@ export default class Home extends Vue {
   courses=[];
   item=[];
   prevHighlightIndex = 0;
+  Universities=[];
   created(){
-    this.getCourses()
+    this.getCourses();
+    this.getUniversities();
   }
+  getUniversities(){
+    Axios.get('/api/University/GetUniversities')
+    .then((ress)=>{
+        console.log(ress.data);
+        this.Universities=ress.data;
+    }).catch((err)=>{console.log(err);
+    });
+    }
   getCourses(){
     axios.get(`/api/Course/GetCourses?page=${this.page}&pagesize=${this.size}&IsAscending=true`)
     .then((res)=>{

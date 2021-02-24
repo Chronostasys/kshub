@@ -33,9 +33,9 @@
                                 <div class="field">
                                     <label class="label has-text-left">学校</label>
                                         <div class="control">
-                                            <div class="select">
+                                            <div class="select" @onchange="getCourses(University.id)" v-for="(University,i) in this.University" :key="i">
                                                 <select>
-                                                    <option>华中科技大学</option>
+                                                    <option>{{Universities.name}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -46,10 +46,9 @@
                                 <div class="field">
                                     <label class="label has-text-left">院系</label>
                                         <div class="control">
-                                            <div class="select">
+                                            <div class="select" v-for="(College,i) in this.College" :key="i">
                                                 <select>
-                                                    <option>网络安全学院</option>
-                                                    <option>计算机学院</option>
+                                                    <option>{{College.name}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -122,14 +121,42 @@ export default class Login extends Vue {
     close(){
         this.$emit('close')
     }
+    created(){
+        this.getUniversities();
+    }
     login(){
-        
+      +   
         Axios.post('/api/User/LogIn',this.userdata).then((params)=>{
             var id = params.data.id;
             this.userdata.id=id;
         }).catch((err)=>{
             console.log(err);
             alert(err);
+        })
+    }
+    University=[];
+    College=[];
+    uniid='';
+    page=0;
+    size=10;
+
+    getUniversities(){
+        Axios.get('/api/University/GetUniversities').then((res)=>{
+            console.log(res.data);
+            this.University=res.data;
+            let ids =this.University.map((Universities,i,l)=>Universities.id) as string[];
+            let s=ids.join('&id=');
+            this.getUniColleges(s);
+        }).catch((err)=>{console.log(err);
+        });
+    }
+    getUniColleges(uniid){
+        Axios.get(`api/College/GetUniColleges?id=`+uniid+`&page=${this.page}&pagesize=${this.size}&isAscending=true`)
+        .then((res)=>{
+            console.log(res.data);
+            this.College=res.data;
+        }).catch((err)=>{
+            console.log(err);
         })
     }
 }

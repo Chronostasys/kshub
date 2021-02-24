@@ -35,7 +35,7 @@ Vue.use(VueRouter)
       component: () => import(/* webpackChunkName: "about" */ '../views/UserPage.vue')
   },
   {
-    path: '/Courses',
+    path: '/Courses/:id',
     name: 'Courses',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -50,14 +50,6 @@ Vue.use(VueRouter)
     // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ '../views/Article.vue')
   },
-  {
-    path: '/Courses',
-    name: 'Courses',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ '../views/Courses.vue')
-  }
 ]
 
 const router = new VueRouter({

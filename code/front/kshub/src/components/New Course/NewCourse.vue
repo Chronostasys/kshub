@@ -4,10 +4,9 @@
             <div class="max-500px modal-card">
                 <div class="modal-card-head has-icons-right level is-mobile m0 is-gapless is-marginless">
                     <label class="level-item level-left">新建课程</label>
-                    <span class="level-item level-right clickabel icon has-text-right"
-                        title="关闭"
+                    <span title="关闭" class="level-item level-right clickable icon has-text-right"
                         @click="close">
-                        <i class=" fa-fa-close"></i>
+                        <i class=" fa fa-close"></i>
                     </span>
                 </div>
                 <div class="modal-card-body">

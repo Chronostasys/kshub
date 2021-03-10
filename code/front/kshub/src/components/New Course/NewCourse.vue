@@ -18,7 +18,7 @@
                     </div>
                 <hr>
                     <div class="field">
-                        <label class="label has-text-left">选择课程隶属的学校院系</label>
+                        <label class="label has-text-left">选择课程隶属的学校院系专业</label>
                         <hr>
                         <div class="columns">
                             <div class="column">
